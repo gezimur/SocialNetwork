@@ -7,7 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SocialNetworkApplication{
 
 	public static void main(String[] args) {
-
-		SpringApplication.run(SocialNetworkApplication.class, args);
+		String message = new Preparer().preparer();
+		if (message != null){
+			SpringApplication.run(SocialNetworkApplication.class, args);
+		}else{
+			System.out.println(message);
+		}
 	}
 }

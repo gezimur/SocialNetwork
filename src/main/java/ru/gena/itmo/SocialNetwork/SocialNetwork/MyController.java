@@ -47,10 +47,14 @@ public class MyController {
         String password = request.getParameter("password");
         if (login != null){
             User user = MySource.getInstance().getUser(login, password);
-            String id = (user != null)? user.getId().toString() : "000002";
-            //session = request.getSession();
-            //session.setAttribute("id", id);
-            return  "redirect:" + nameOfSite + "/profile/id" + id;
+            if (user != null){
+                String id = user.getId().toString();
+                session = request.getSession();
+                session.setAttribute("id", id);
+                return  "redirect:" + nameOfSite + "/profile/id" + id;
+            }else{
+                return "redirect:" + nameOfSite +"/login";
+            }
         }
         return "redirect:" + nameOfSite + "/login";
     }
@@ -59,7 +63,7 @@ public class MyController {
     public String profile(HttpServletRequest request, Model model){
         String thisPath = request.getRequestURI();
         String name = thisPath.substring(thisPath.lastIndexOf('/') + 3);
-        model.addAttribute("name", name);//В html странице ищет атрибут с именем name и подставляет вместо него значение name
+        model.addAttribute("name", name);
         return "htmlPatterns/Profile";
     }
 
