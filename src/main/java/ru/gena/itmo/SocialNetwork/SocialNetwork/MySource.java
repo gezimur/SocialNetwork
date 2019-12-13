@@ -18,7 +18,7 @@ public class MySource {
         try{
             con = DriverManager
                     .getConnection(DB_URL, "gena","76odarom");
-            //stat.execute();
+            //admin la-la-la
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -45,9 +45,58 @@ public class MySource {
         }
     }
 
-    public ResultSet getResultSet(String sqlQuery) {
+    public User getInformationOfUser(String id) {
         try {
-            return con.createStatement().executeQuery(sqlQuery);
+            String sqlQuery = "SELECT * FROM USERS WHERE ID = " +
+                    "'" + id + "'";
+            ResultSet rs = con.createStatement().executeQuery(sqlQuery);
+            rs.next();
+            return new User(
+                    rs.getInt("id"),
+                    "",
+                    "",
+                    rs.getString("firstname"),
+                    rs.getString("lastname"));
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public boolean findUser(String login){
+        try{
+            String sqlQuery = "SELECT 1 FROM USERS WHERE USERNAME = '" +
+                    login +
+                    "' LIMIT 1;";
+            ResultSet rs = con.createStatement().executeQuery(sqlQuery);
+            return rs.next();
+        }catch(SQLException e){
+            return false;
+        }
+    }
+
+    public boolean addUser(User newUser){
+        int id = 0;
+        try{
+            id = getResultSet("SELECT MAX(ID) AS ID FROM USERS")
+                    .getInt("ID") + 1;
+        }catch (SQLException e){ e.printStackTrace(); }
+        if (id != 0) {
+            return executeQuery("INSERT INTO USERS VALUES(" +
+                    id + ", " +
+                    "'" + newUser.getLogin() + "', " +
+                    "'" + newUser.getPassword() + "', " +
+                    "'" + newUser.getFirstname() + "', " +
+                    "'" + newUser.getLastname() + "');");
+        }
+        return false;
+    }
+
+    private ResultSet getResultSet(String sqlQuery) {
+        try {
+            ResultSet rs = con.createStatement().executeQuery(sqlQuery);
+            rs.next();
+            return rs;
         }catch (SQLException e){
             return null;
         }

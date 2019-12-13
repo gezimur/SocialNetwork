@@ -1,0 +1,42 @@
+@charset "windows-1251";
+.body{
+    background-color:#ddddcc;
+}
+.blockWithLinks{
+	background-color:#aabbdd;
+	float: left;
+	margin-top: 40px;
+	width: 150px;
+    height: 300px;
+	font-size: 20px;
+}
+.mainBlock{
+	--m-width: 500px;
+	background-color: #000000;
+	float: left;
+	margin: 40px 0 0 20px;
+	padding: 0;
+	width: 60%;
+	max-width: 900px;
+	min-width: var(--m-width);
+	min-height: var(--m-width);
+}
+.name{
+	display: block;
+    background-color:#aabbdd;
+	margin: 0 auto;
+    width: 80%;
+    height: 50px;
+	text-align: center;
+	font-size: 20px;
+}
+.patternsTree{
+	display: block;
+    background-color:#dd9999;
+	margin-top: 5px;
+	margin-bottom: 5px;
+    width: 100%;
+    min-height: 600px;
+	text-align: center;
+	font-size: 20px;
+}
