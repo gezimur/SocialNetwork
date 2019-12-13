@@ -1,0 +1,45 @@
+@charset "windows-1251";
+.body{
+    background-color:#ddddcc;
+}
+.mainBlock{
+	--f-width: 300px;
+	--l-width: 500px;
+	background-color: #000000;
+	margin: 40px auto;
+	max-width: 900px;
+	min-width: var(--l-width);
+	min-height: var(--l-width);
+}
+.logo{
+	display: inline-block;
+	float: left;
+    background-color:#66bb66;
+	width: var(--l-width);
+    height:var(--l-width);
+	margin-right: 100px;
+}
+.forms{
+	text-align: center;
+	background-color:#66bb66;
+	display: inline-block;
+	float: none;
+	width: var(--f-width);
+}
+.login{
+    background-color:#aabbdd;
+	display: block;
+}
+.register{
+    background-color:#aabbdd;
+	display: block;
+	margin-top: 100px;
+}
+.title{
+	font-size: 20px;
+}
+input{
+	width: 80%;
+	height: 25px;
+	margin-top: 15px;
+}

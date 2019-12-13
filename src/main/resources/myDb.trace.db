@@ -1,0 +1,26 @@
+2019-12-12 22:01:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-200]
+2019-12-12 22:07:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-200]
+2019-12-12 22:08:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-200]
+2019-12-12 22:15:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "INSERT INTO USERS(100000[*], 'gezimur', 'lol','lol','lol');"; ожидалось "identifier"
+Syntax error in SQL statement "INSERT INTO USERS(100000[*], 'gezimur', 'lol','lol','lol');"; expected "identifier"; SQL statement:
+INSERT INTO USERS(100000, 'gezimur', 'lol','lol','lol'); [42001-200]
+2019-12-12 22:15:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-200]
+2019-12-12 22:16:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "CREATE TABLE IF NOT EXISTS USERS VALUES[*] (ID INTEGER, USERNAME VARCHAR(20), PASSWORD VARCHAR(20),FIRSTNAME VARCHAR(20),LASTNAME VARCHAR(20));"
+Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS USERS VALUES[*] (ID INTEGER, USERNAME VARCHAR(20), PASSWORD VARCHAR(20),FIRSTNAME VARCHAR(20),LASTNAME VARCHAR(20));"; SQL statement:
+CREATE TABLE IF NOT EXISTS USERS values (ID INTEGER, USERNAME VARCHAR(20), PASSWORD VARCHAR(20),FIRSTNAME VARCHAR(20),LASTNAME VARCHAR(20)); [42000-200]
+2019-12-12 22:16:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-200]
+2019-12-12 22:17:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-200]

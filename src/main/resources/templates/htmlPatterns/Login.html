@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>JugglersSocialNetwork</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="../css/logincss.css">
+</head>
+<body class="body">
+	<p class="mainBlock">
+    <span class="logo"></span>
+	<span class="forms">
+		<span class="login">
+		<span class="title">Login<br></span>
+		<input type="text" name="username" form="login" placeholder="login"><br>
+		<input type="password" name="password" form="login" placeholder="password"><br>
+		<input type="submit" form="login">
+		</span>
+		<span class="register">
+		<span class="title">Register<br></span>
+		
+        <input type="text" name="username" form="register" placeholder="login"><br>
+        
+		<input type="password" name="password" form="register" placeholder="password"><br>
+       
+		<input type="text" name="firstname" form="register" placeholder="firstname"><br>
+        
+		<input type="text" name="lastname" form="register" placeholder="lastname"><br>
+        <input type="submit" form="register">
+		</span>
+	</span>
+	</p>
+<form id="login" action="/authorization"></form>
+<form id="register" action="/register"></form>
+
+</body>
+</html>
