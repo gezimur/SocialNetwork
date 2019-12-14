@@ -1,5 +1,6 @@
 package ru.gena.itmo.SocialNetwork.SocialNetwork;
 
+import ru.gena.itmo.SocialNetwork.SocialNetwork.content.PatternsTree;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
 
 import java.sql.*;
@@ -92,6 +93,29 @@ public class MySource {
         return false;
     }
 
+    public PatternsTree getPatternsTree(){
+        try {
+            String sqlQuery = "SELECT T.PATTERN, T.DESCENDANTS, P.PATTERNSNAME" +
+                    " FROM PATTERNSTREE T INNER JOIN PATTERNS P ON T.DESCENDANTS = P.ID" +
+            " ORDER BY T.PATTERN";
+            ResultSet rs = con.createStatement().executeQuery(sqlQuery);
+            PatternsTree newTree = new PatternsTree();
+            while (rs.next()){//сделать реализацию для Map(PATTERN, DESCENDANTS)
+                int line = rs.getInt("PATTERN");
+                if (line == newTree.getNumberOfLines()){
+                    newTree.addLine();
+                }
+                newTree.addValueInLine(line,
+                        rs.getInt("DESCENDANTS"),
+                        rs.getString("PATTERNSNAME"));
+            }
+            return newTree;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private ResultSet getResultSet(String sqlQuery) {
         try {
             ResultSet rs = con.createStatement().executeQuery(sqlQuery);
@@ -108,6 +132,7 @@ public class MySource {
                     .execute(sqlQuery);
             return true;
         }catch (SQLException e){
+            e.printStackTrace();
             return false;
         }
     }

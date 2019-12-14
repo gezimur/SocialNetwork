@@ -8,7 +8,7 @@ public class SocialNetworkApplication{
 
 	public static void main(String[] args) {
 		String message = new Preparer().preparer();
-		if (message != null){
+		if (message == null){
 			SpringApplication.run(SocialNetworkApplication.class, args);
 		}else{
 			System.out.println(message);

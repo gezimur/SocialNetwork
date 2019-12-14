@@ -89,11 +89,15 @@ public class MyController {
     public String profile(HttpServletRequest request, Model model){
         String thisPath = request.getRequestURI();
         String id = thisPath.substring(thisPath.lastIndexOf('/') + 3);
-        User thisUser = MySource.getInstance().getInformationOfUser(id);
+        MySource instance = MySource.getInstance();
+        User thisUser = instance.getInformationOfUser(id);
         model.addAttribute("name",
                 thisUser.getFirstname()
                 + " "
                 + thisUser.getLastname());
+
+        model.addAttribute("patternsTree",
+                new Designer().createSVGtoPatternsTree(instance.getPatternsTree()));
         return "htmlPatterns/Profile";
     }
 
@@ -112,7 +116,7 @@ public class MyController {
         return "htmlPatterns/Conversation";
     }
 
-    @RequestMapping("/pattern/id??????")
+    @RequestMapping("/pattern")// /pattern/id??????
     public String pattern(HttpServletRequest request, Model model){
         return "htmlPatterns/Pattern";
     }

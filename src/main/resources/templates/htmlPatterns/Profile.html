@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>JugglersSocialNetwork</title>
-	<link rel="stylesheet" type="text/css" href="../../css/maincss.css">
+	<link rel="stylesheet" type="text/css" href="../css/maincss.css">
 </head>
 <body class="body">
 	<span class="blockWithLinks">
@@ -14,10 +14,15 @@
 		<a href="/singOut">sing out</a><br>
 	</span>
 	<p class="mainBlock">
-		<span>
-			<span class="name" th:text="'Juggler ' + ${name}" />
+		<span class="name" th:utext="'Juggler ' + ${name}"></span>
+		<span class="patternsTree" th:utext="${patternsTree}">
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+				 viewBox="0 0 500 500" preserveAspectRatio="xMaxYMax none">
+				<line x1="50%" y1="0" x2="20" y2="20" stroke="black"></line>
+				<text x="10" y="30"><a href="/login">lol lol</a></text>
+			</svg>
 		</span>
-		<span class="patternsTree"></span>
 	</p>
+	
 </body>
 </html>
