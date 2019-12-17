@@ -14,10 +14,16 @@
 		<a href="/singOut">sing out</a><br>
 	</span>
 <p class="mainBlock">
+	<span class="name">Search</span>
+    <span class="bigBlock">
 		<span>
-            <span class="name">Search</span>
-		</span>
-    <span class="patternsTree"></span>
+			<input type="text" name="name" form="search" placeholder="name">
+			<input type="text" name="surname" form="search" placeholder="surname">
+			<input type="submit" form="search">
+		</span><br>
+		<span th:utext="${list_of_users}"></span>
+	</span>
 </p>
+<form id="search" action="/search"></form>
 </body>
 </html>

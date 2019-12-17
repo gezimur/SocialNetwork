@@ -129,6 +129,13 @@ public class MyController {
 
     @RequestMapping("/conversations")
     public String conversations(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        if (session == null){
+            return "redirect:" + nameOfSite + "/login";
+        }
+        String id = session.getAttribute("id").toString();
+        String list = MySource.getInstance().getPagingOfUsersConversations(id, 0, 10);
+        model.addAttribute("list_of_conv", list);
         return "htmlPatterns/Conversations";
     }
 
@@ -152,12 +159,16 @@ public class MyController {
 
     @RequestMapping("/search")
     public String search(HttpServletRequest request, Model model){
+        String name = request.getParameter("name");
+        String surname = request.getParameter("surname");
+        model.addAttribute("list_of_users",
+                MySource.getInstance().getPagingOfUsers(name,surname,0, 10));
         return "htmlPatterns/Search";
     }
 
     @RequestMapping("/help")
     public String help(HttpServletRequest request, Model model){
-        return "htmlPatterns/Search";
+        return "htmlPatterns/Help";
     }
 
     @RequestMapping("/singOut")

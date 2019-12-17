@@ -64,18 +64,58 @@ public class MySource {
         }
     }
 
-    public boolean changeInformationOfUser(String newName, String newSurname, String id){
+    public void changeInformationOfUser(String newName, String newSurname, String id){
         String sqlQuery = "UPDATE USERS SET FIRSTNAME = '" + newName + "'" +
                 ", LASTNAME = '" + newSurname + "'" +
                 " WHERE ID = " + id;
-        return executeQuery(sqlQuery);
+        executeQuery(sqlQuery);
+    }
+
+    public String getPagingOfUsersConversations(String userId, int page, int itemPerPage){
+        String sqlQuery = "SELECT C.NAME AS NAME, C.ID AS ID" +
+                " FROM CONVERSATIONS C INNER JOIN USER_CONVERSATIONS U ON C.ID = U.CONVERSATION" +
+                " WHERE U.USER = " + userId;
+        return getPaging("conversation", sqlQuery, page, itemPerPage);
+    }
+
+    public String getPagingOfUsers(String name, String surname, int page, int itemPerPage){
+        String sqlQuery = "SELECT CONCAT(FIRSTNAME, ' ', LASTNAME) AS NAME, ID" +
+                " FROM USERS" +
+                " WHERE FIRSTNAME = '" + name + "' OR" +
+                " LASTNAME = '" + surname + "';";
+        return getPaging("profile" ,sqlQuery, page, itemPerPage);
+    }
+
+    private String getPaging(String objects, String sqlQuery, int page, int itemPerPage){
+        ResultSet rs = getResultSet(sqlQuery);
+        if (rs != null){
+            StringBuilder sb = new StringBuilder();
+            Designer d = new Designer();
+            try{
+                int p = (page * itemPerPage - 1 > 0)? page * itemPerPage - 1 : 0;
+                rs.absolute(p);
+                while(rs.next()){
+                    sb.append("<a href=\"/");
+                    sb.append(objects);
+                    sb.append("/id");
+                    sb.append( d.toNeddedForm("" + rs.getInt("id")) );
+                    sb.append("\">");
+                    sb.append(rs.getString("name"));
+                    sb.append("</a><br>\n");
+                }
+                return sb.toString();
+            }catch (SQLException e){
+                e.printStackTrace();
+                return "Problems with ResultSet";
+            }
+        }else{
+            return "Problems with getResultSet";
+        }
     }
 
     public boolean findUser(String login){
         try{
-            String sqlQuery = "SELECT 1 FROM USERS WHERE USERNAME = '" +
-                    login +
-                    "' LIMIT 1;";
+            String sqlQuery = "SELECT 1 FROM USERS WHERE USERNAME = '" + login + "' LIMIT 1;";
             ResultSet rs = con.createStatement().executeQuery(sqlQuery);
             return rs.next();
         }catch(SQLException e){
@@ -144,10 +184,13 @@ public class MySource {
 
     private ResultSet getResultSet(String sqlQuery) {
         try {
-            ResultSet rs = con.createStatement().executeQuery(sqlQuery);
+            ResultSet rs = con
+                    .createStatement(ResultSet.TYPE_SCROLL_SENSITIVE , ResultSet.CONCUR_READ_ONLY)
+                    .executeQuery(sqlQuery);
             rs.next();
             return rs;
         }catch (SQLException e){
+            e.printStackTrace();
             return null;
         }
     }
