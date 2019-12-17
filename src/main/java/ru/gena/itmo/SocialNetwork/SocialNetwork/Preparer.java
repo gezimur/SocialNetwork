@@ -98,6 +98,13 @@ public class Preparer {
                         "'just do it');");
         if (!isTryingSuccess) { return "problem with insert values3"; }
         isTryingSuccess = instance
+                .executeQuery("INSERT INTO PATTERNS VALUES(" +
+                        "4, " +
+                        "'441', " +
+                        "'441', " +
+                        "'just do it');");
+        if (!isTryingSuccess) { return "problem with insert values3"; }
+        isTryingSuccess = instance
                 .executeQuery("INSERT INTO PATTERNSTREE VALUES(" +
                         "0, " +
                         "1);");
@@ -112,6 +119,11 @@ public class Preparer {
                         "1, " +
                         "2);");
         if (!isTryingSuccess) { return "problem with insert values6"; }
+        isTryingSuccess = instance
+                .executeQuery("INSERT INTO PATTERNSTREE VALUES(" +
+                        "3, " +
+                        "4);");
+        if (!isTryingSuccess) { return "problem with insert values7"; }
 
         return null;
     }

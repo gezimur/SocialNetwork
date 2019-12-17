@@ -1,5 +1,6 @@
 package ru.gena.itmo.SocialNetwork.SocialNetwork;
 
+import ru.gena.itmo.SocialNetwork.SocialNetwork.content.Pattern;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.PatternsTree;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
 
@@ -48,8 +49,7 @@ public class MySource {
 
     public User getInformationOfUser(String id) {
         try {
-            String sqlQuery = "SELECT * FROM USERS WHERE ID = " +
-                    "'" + id + "'";
+            String sqlQuery = "SELECT * FROM USERS WHERE ID = " + id;
             ResultSet rs = con.createStatement().executeQuery(sqlQuery);
             rs.next();
             return new User(
@@ -62,6 +62,13 @@ public class MySource {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public boolean changeInformationOfUser(String newName, String newSurname, String id){
+        String sqlQuery = "UPDATE USERS SET FIRSTNAME = '" + newName + "'" +
+                ", LASTNAME = '" + newSurname + "'" +
+                " WHERE ID = " + id;
+        return executeQuery(sqlQuery);
     }
 
     public boolean findUser(String login){
@@ -101,15 +108,34 @@ public class MySource {
             ResultSet rs = con.createStatement().executeQuery(sqlQuery);
             PatternsTree newTree = new PatternsTree();
             while (rs.next()){//сделать реализацию для Map(PATTERN, DESCENDANTS)
-                int line = rs.getInt("PATTERN");
-                if (line == newTree.getNumberOfLines()){
-                    newTree.addLine();
+                int pattern = rs.getInt("PATTERN");
+                int descendants = rs.getInt("DESCENDANTS");
+                if (!newTree.isThereThisP(pattern)){
+                    newTree.addLine(pattern);
                 }
-                newTree.addValueInLine(line,
-                        rs.getInt("DESCENDANTS"),
+                if (!newTree.isThereThisP(descendants)){
+                    newTree.addLine(descendants);
+                }
+                newTree.addValueInLine(pattern,
+                        descendants,
                         rs.getString("PATTERNSNAME"));
             }
             return newTree;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Pattern getPattern(int id){
+        try {
+            String sqlQuery = "SELECT * FROM PATTERNS WHERE ID = " + id;
+            ResultSet rs = con.createStatement().executeQuery(sqlQuery);
+            rs.next();
+            return new Pattern(id,
+                    rs.getString("PATTERNSNAME"),
+                    rs.getString("SITESWAP"),
+                    rs.getString("DESCRIPTION"));
         }catch(SQLException e){
             e.printStackTrace();
             return null;

@@ -5,6 +5,27 @@
     <title>JugglersSocialNetwork</title>
 	<link rel="stylesheet" type="text/css" href="../css/maincss.css">
 </head>
+<style>
+.editingProfile{
+	display: none;
+	float: right;
+	width: 100px;
+	margin-right: -110px;
+}
+.smalBlock{
+	display: block;
+	float: right;
+	height: 10px;
+	width: 10px;
+	background-color: green;
+}
+.smalBlock:hover + .editingProfile{
+	display: block;
+}
+.editingProfile:hover{
+	display: block;
+}
+</style>
 <body class="body">
 	<span class="blockWithLinks">
 		<a href="/authorization">my profile</a><br>
@@ -15,14 +36,11 @@
 	</span>
 	<p class="mainBlock">
 		<span class="name" th:utext="'Juggler ' + ${name}"></span>
-		<span class="patternsTree" th:utext="${patternsTree}">
-			<svg xmlns="http://www.w3.org/2000/svg" version="1.1"
-				 viewBox="0 0 500 500" preserveAspectRatio="xMaxYMax none">
-				<line x1="50%" y1="0" x2="20" y2="20" stroke="black"></line>
-				<text x="10" y="30"><a href="/login">lol lol</a></text>
-			</svg>
+		<span th:utext="${changeFunction}">
 		</span>
-	</p>
+		<span class="patternsTree" th:utext="${patternsTree}"></span>
+	</span>
 	
+<form id="editing" action="/editing"></form>
 </body>
 </html>

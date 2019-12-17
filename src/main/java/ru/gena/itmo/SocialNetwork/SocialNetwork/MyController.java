@@ -3,6 +3,7 @@ package ru.gena.itmo.SocialNetwork.SocialNetwork;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.gena.itmo.SocialNetwork.SocialNetwork.content.Pattern;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
 
 
@@ -59,6 +60,7 @@ public class MyController {
     public String check(HttpServletRequest request){
         HttpSession session = request.getSession(false);
         //если авторизирован, то переправить на страницу его профиля
+
         if (session != null){
             String id = session.getAttribute("id").toString();
             if (!"".equals(id)){
@@ -73,7 +75,7 @@ public class MyController {
         if (login != null && !"".equals(login)){
             User user = MySource.getInstance().getUser(login, password);
             if (user != null){
-                String id = user.getId().toString();
+                String id = new Designer().toNeddedForm(user.getId().toString());
                 session = request.getSession();
                 session.setAttribute("id", id);
                 return  "redirect:" + nameOfSite + "/profile/id" + id;
@@ -95,15 +97,34 @@ public class MyController {
                 thisUser.getFirstname()
                 + " "
                 + thisUser.getLastname());
-
+        Designer d = new Designer();
+        if (request.getSession() != null) {
+            if (!id.equals(request.getSession().getAttribute("id"))) {
+                model.addAttribute("changeFunction", "");
+            } else {
+                model.addAttribute("changeFunction",
+                        "<span class=\"smalBlock\"></span>\n" +
+                                "<span class=\"editingProfile\">" +
+                                "<input type=\"text\" name=\"name\" form=\"editing\" placeholder=\"new name\"><br>" +
+                                "<input type=\"text\" name=\"surname\" form=\"editing\" placeholder=\"new surname\"><br>" +
+                                "<input type=\"submit\" form=\"editing\" placeholder=\"change\">" +
+                                "</span>\n");
+            }
+        }else{
+            model.addAttribute("changeFunction", "");
+        }
         model.addAttribute("patternsTree",
-                new Designer().createSVGtoPatternsTree(instance.getPatternsTree()));
+                d.createSVGtoPatternsTree(instance.getPatternsTree()));
         return "htmlPatterns/Profile";
     }
 
     @RequestMapping("/editing")
     public String editing(HttpServletRequest request, Model model){
-        return "htmlPatterns/EditingProfile";
+        String name = request.getParameter("name");
+        String surname = request.getParameter("surname");
+        String id = (String)request.getSession().getAttribute("id");
+        MySource.getInstance().changeInformationOfUser(name, surname, id);
+        return  "redirect:" + nameOfSite + "/profile/id" + id;
     }
 
     @RequestMapping("/conversations")
@@ -116,8 +137,16 @@ public class MyController {
         return "htmlPatterns/Conversation";
     }
 
-    @RequestMapping("/pattern")// /pattern/id??????
+    @RequestMapping("/pattern/id??????")//
     public String pattern(HttpServletRequest request, Model model){
+        String thisPath = request.getRequestURI();
+        String id = thisPath.substring(thisPath.lastIndexOf('/') + 3);
+        Pattern p = MySource.getInstance()
+                .getPattern(Integer.parseInt(id.replaceFirst("0", "")));
+        model.addAttribute("nameOfPattern", p.getPatternsName());
+        model.addAttribute("siteswap",
+                 new Designer().textAnalysis("&" + p.getSiteswap() + "&"));
+        model.addAttribute("description", p.getDescription());
         return "htmlPatterns/Pattern";
     }
 

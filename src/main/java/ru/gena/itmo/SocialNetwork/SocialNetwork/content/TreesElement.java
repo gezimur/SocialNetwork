@@ -12,4 +12,8 @@ public class TreesElement {
         x = newX;
         y = newY;
     }
+    public void newCoordinate(int newX, int newY){
+        x = newX;
+        y = newY;
+    }
 }
