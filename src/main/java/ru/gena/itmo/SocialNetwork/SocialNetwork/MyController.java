@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class MyController {
 
-    private String nameOfSite = "http://localhost:8080";
+    private String nameOfSite = "https://jugglersocialnetwork.herokuapp.com";
 
     @RequestMapping("/css/logincss.css")
     public String style(){
