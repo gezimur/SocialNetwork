@@ -89,6 +89,9 @@ public class MyController {
 
     @RequestMapping("/profile/id??????")
     public String profile(HttpServletRequest request, Model model){
+        if (request.getSession() == null){
+            return "redirect:" + nameOfSite +"/login?message=please print your login";
+        }
         String thisPath = request.getRequestURI();
         String id = thisPath.substring(thisPath.lastIndexOf('/') + 3);
         MySource instance = MySource.getInstance();
@@ -98,20 +101,16 @@ public class MyController {
                 + " "
                 + thisUser.getLastname());
         Designer d = new Designer();
-        if (request.getSession() != null) {
-            if (!id.equals(request.getSession().getAttribute("id"))) {
-                model.addAttribute("changeFunction", "");
-            } else {
-                model.addAttribute("changeFunction",
-                        "<span class=\"smalBlock\"></span>\n" +
-                                "<span class=\"editingProfile\">" +
-                                "<input type=\"text\" name=\"name\" form=\"editing\" placeholder=\"new name\"><br>" +
-                                "<input type=\"text\" name=\"surname\" form=\"editing\" placeholder=\"new surname\"><br>" +
-                                "<input type=\"submit\" form=\"editing\" placeholder=\"change\">" +
-                                "</span>\n");
-            }
-        }else{
+        if (!id.equals(request.getSession().getAttribute("id"))) {
             model.addAttribute("changeFunction", "");
+        } else {
+            model.addAttribute("changeFunction",
+                    "<span class=\"smalBlock\"></span>\n" +
+                            "<span class=\"editingProfile\">" +
+                            "<input type=\"text\" name=\"name\" form=\"editing\" placeholder=\"new name\"><br>" +
+                            "<input type=\"text\" name=\"surname\" form=\"editing\" placeholder=\"new surname\"><br>" +
+                            "<input type=\"submit\" form=\"editing\" placeholder=\"change\">" +
+                            "</span>\n");
         }
         model.addAttribute("patternsTree",
                 d.createSVGtoPatternsTree(instance.getPatternsTree()));
@@ -120,6 +119,9 @@ public class MyController {
 
     @RequestMapping("/editing")
     public String editing(HttpServletRequest request, Model model){
+        if (request.getSession() == null){
+            return "redirect:" + nameOfSite +"/login?message=please print your login";
+        }
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
         String id = (String)request.getSession().getAttribute("id");
@@ -129,6 +131,9 @@ public class MyController {
 
     @RequestMapping("/conversations")
     public String conversations(HttpServletRequest request, Model model){
+        if (request.getSession() == null){
+            return "redirect:" + nameOfSite +"/login?message=please print your login";
+        }
         HttpSession session = request.getSession();
         if (session == null){
             return "redirect:" + nameOfSite + "/login";
@@ -141,11 +146,17 @@ public class MyController {
 
     @RequestMapping("/conversation/id??????")
     public String conversation(HttpServletRequest request, Model model){
+        if (request.getSession() == null){
+            return "redirect:" + nameOfSite +"/login?message=please print your login";
+        }
         return "htmlPatterns/Conversation";
     }
 
     @RequestMapping("/pattern/id??????")//
     public String pattern(HttpServletRequest request, Model model){
+        if (request.getSession() == null){
+            return "redirect:" + nameOfSite +"/login?message=please print your login";
+        }
         String thisPath = request.getRequestURI();
         String id = thisPath.substring(thisPath.lastIndexOf('/') + 3);
         Pattern p = MySource.getInstance()
@@ -159,6 +170,9 @@ public class MyController {
 
     @RequestMapping("/search")
     public String search(HttpServletRequest request, Model model){
+        if (request.getSession() == null){
+            return "redirect:" + nameOfSite +"/login?message=please print your login";
+        }
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
         model.addAttribute("list_of_users",
@@ -168,11 +182,17 @@ public class MyController {
 
     @RequestMapping("/help")
     public String help(HttpServletRequest request, Model model){
+        if (request.getSession() == null){
+            return "redirect:" + nameOfSite +"/login?message=please print your login";
+        }
         return "htmlPatterns/Help";
     }
 
     @RequestMapping("/singOut")
     public String singOut(HttpServletRequest request){
+        if (request.getSession() == null){
+            return "redirect:" + nameOfSite +"/login?message=please print your login";
+        }
         request.getSession().setAttribute("id","");
         return "redirect:" + nameOfSite + "/login";
     }
