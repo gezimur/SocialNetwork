@@ -10,7 +10,6 @@ import java.sql.*;
 public class MySource {
 
     private Connection con = null;
-    private static DataSource mydatasourse;
     private static final MySource instance = new MySource();
 
     public static MySource getInstance(){
@@ -19,7 +18,7 @@ public class MySource {
 
     private MySource(){
         try{
-            con = mydatasourse.getConnection();
+            con = SocialNetworkApplication.getDataSource().getConnection();
             new Preparer().preparer();
             //admin la-la-la
         }catch (SQLException e){
@@ -27,10 +26,6 @@ public class MySource {
         }catch (NullPointerException e){
             e.getStackTrace();
         }
-    }
-
-    public MySource(DataSource dataSource){
-        mydatasourse = dataSource;
     }
 
     public User getUser(String login, String password) {

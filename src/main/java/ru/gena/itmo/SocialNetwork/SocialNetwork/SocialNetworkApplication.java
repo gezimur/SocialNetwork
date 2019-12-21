@@ -22,7 +22,6 @@ public class SocialNetworkApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(SocialNetworkApplication.class, args);
-		new MySource(dataSource);
 	}
 
 	@Bean
@@ -34,5 +33,9 @@ public class SocialNetworkApplication{
 			config.setJdbcUrl(dbUrl);
 			return new HikariDataSource(config);
 		}
+	}
+
+	public static DataSource getDataSource() {
+		return dataSource;
 	}
 }
