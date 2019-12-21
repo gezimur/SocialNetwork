@@ -25,8 +25,6 @@ public class MySource {
             //admin la-la-la
         }catch (SQLException e){
             e.printStackTrace();
-        }catch (NullPointerException e){
-            e.getStackTrace();
         }
     }
 
