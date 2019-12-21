@@ -7,7 +7,6 @@ import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
 import java.sql.*;
 
 public class MySource {
-    private static final String DB_URL = "jdbc:h2:./src/main/resources\\myDb";
 
     private Connection con = null;
     private static final MySource instance = new MySource();
@@ -18,8 +17,8 @@ public class MySource {
 
     private MySource(){
         try{
-            con = DriverManager
-                    .getConnection(DB_URL, "gena","76odarom");
+            con = SocialNetworkApplication.getDataSource().getConnection();
+            new Preparer().preparer();
             //admin la-la-la
         }catch (SQLException e){
             e.printStackTrace();
