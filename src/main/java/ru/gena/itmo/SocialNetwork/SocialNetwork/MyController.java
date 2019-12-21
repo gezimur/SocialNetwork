@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class MyController {
 
-    private String nameOfSite = "https://jugglersocialnetwork.herokuapp.com";
+    private String nameOfMySite = "https://jugglersocialnetwork.herokuapp.com";
 /*
     @RequestMapping("/css/logincss.css")
     public String style(){
@@ -27,7 +27,7 @@ public class MyController {
 */
     @RequestMapping("/")
     public String root(){
-        return "redirect:" + nameOfSite +"/authorization";
+        return "redirect:" + nameOfMySite +"/authorization";
     }
 
     @RequestMapping("/login")
@@ -53,7 +53,7 @@ public class MyController {
                     request.getParameter("lastname")));
             message = (check)? "everything is Ok" : "some problems!";
         }
-        return "redirect:" + nameOfSite + "/login?message=" + message;
+        return "redirect:" + nameOfMySite + "/login?message=" + message;
     }
 
     @RequestMapping("/authorization")
@@ -64,7 +64,7 @@ public class MyController {
         if (session != null){
             String id = session.getAttribute("id").toString();
             if (!"".equals(id)){
-                return "redirect:" + nameOfSite + "/profile/id" + id;
+                return "redirect:" + nameOfMySite + "/profile/id" + id;
             }
         }
         //Проверка на наличие записи с переданным логином и паролем. Если такая есть авторизировать
@@ -78,19 +78,19 @@ public class MyController {
                 String id = new Designer().toNeddedForm(user.getId().toString());
                 session = request.getSession();
                 session.setAttribute("id", id);
-                return  "redirect:" + nameOfSite + "/profile/id" + id;
+                return  "redirect:" + nameOfMySite + "/profile/id" + id;
             }else{
                 message = "wrong login or password";
             }
         }
         message = ("".equals(message) )? "please print your login" : message;
-        return "redirect:" + nameOfSite +"/login?message=" + message;
+        return "redirect:" + nameOfMySite +"/login?message=" + message;
     }
 
     @RequestMapping("/profile/id??????")
     public String profile(HttpServletRequest request, Model model){
         if (request.getSession(false) == null){
-            return "redirect:" + nameOfSite +"/login";
+            return "redirect:" + nameOfMySite +"/login";
         }
         String thisPath = request.getRequestURI();
         String id = thisPath.substring(thisPath.lastIndexOf('/') + 3);
@@ -124,19 +124,19 @@ public class MyController {
     @RequestMapping("/editing")
     public String editing(HttpServletRequest request, Model model){
         if (request.getSession(false) == null){
-            return "redirect:" + nameOfSite +"/login";
+            return "redirect:" + nameOfMySite +"/login";
         }
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
         String id = (String)request.getSession().getAttribute("id");
         MySource.getInstance().changeInformationOfUser(name, surname, id);
-        return  "redirect:" + nameOfSite + "/profile/id" + id;
+        return  "redirect:" + nameOfMySite + "/profile/id" + id;
     }
 
     @RequestMapping("/conversations")
     public String conversations(HttpServletRequest request, Model model){
         if (request.getSession(false) == null){
-            return "redirect:" + nameOfSite +"/login";
+            return "redirect:" + nameOfMySite +"/login";
         }
         HttpSession session = request.getSession();
         String id = session.getAttribute("id").toString();
@@ -148,7 +148,7 @@ public class MyController {
     @RequestMapping("/conversation/id??????")
     public String conversation(HttpServletRequest request, Model model){
         if (request.getSession(false) == null){
-            return "redirect:" + nameOfSite +"/login";
+            return "redirect:" + nameOfMySite +"/login";
         }
         return "htmlPatterns/Conversation";
     }
@@ -156,7 +156,7 @@ public class MyController {
     @RequestMapping("/pattern/id??????")//
     public String pattern(HttpServletRequest request, Model model){
         if (request.getSession(false) == null){
-            return "redirect:" + nameOfSite +"/login";
+            return "redirect:" + nameOfMySite +"/login";
         }
         String thisPath = request.getRequestURI();
         String id = thisPath.substring(thisPath.lastIndexOf('/') + 3);
@@ -172,7 +172,7 @@ public class MyController {
     @RequestMapping("/search")
     public String search(HttpServletRequest request, Model model){
         if (request.getSession(false) == null){
-            return "redirect:" + nameOfSite +"/login";
+            return "redirect:" + nameOfMySite +"/login";
         }
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
@@ -184,7 +184,7 @@ public class MyController {
     @RequestMapping("/help")
     public String help(HttpServletRequest request, Model model){
         if (request.getSession(false) == null){
-            return "redirect:" + nameOfSite +"/login";
+            return "redirect:" + nameOfMySite +"/login";
         }
         return "htmlPatterns/Help";
     }
@@ -192,6 +192,6 @@ public class MyController {
     @RequestMapping("/singOut")
     public String singOut(HttpServletRequest request){
         request.getSession().setAttribute("id","");
-        return "redirect:" + nameOfSite + "/login";
+        return "redirect:" + nameOfMySite + "/login";
     }
 }
