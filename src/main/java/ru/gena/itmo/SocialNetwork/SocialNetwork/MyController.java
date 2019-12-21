@@ -83,7 +83,7 @@ public class MyController {
                 message = "wrong login or password";
             }
         }
-        message = ("".equals(message) )? "please print your login" : message;
+        message = ("".equals(message) )? SocialNetworkApplication.getDataSource().toString() : message;
         return "redirect:" + nameOfMySite +"/login?message=" + message;
     }
 
