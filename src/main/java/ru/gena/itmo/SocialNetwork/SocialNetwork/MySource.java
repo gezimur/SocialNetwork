@@ -18,7 +18,9 @@ public class MySource {
 
     private MySource(){
         try{
-            con = SocialNetworkApplication.getDataSource().getConnection();
+            con = SocialNetworkApplication
+                    .getDataSource()
+                    .getConnection();
             new Preparer().preparer();
             //admin la-la-la
         }catch (SQLException e){
