@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 public class MyController {
 
     private String nameOfSite = "https://jugglersocialnetwork.herokuapp.com";
-
+/*
     @RequestMapping("/css/logincss.css")
     public String style(){
         return "/css/logincss.css";
@@ -24,7 +24,7 @@ public class MyController {
     public String mainStyle(){
         return "/css/maincss.css";
     }
-
+*/
     @RequestMapping("/")
     public String root(){
         return "redirect:" + nameOfSite +"/authorization";
