@@ -33,7 +33,8 @@ public class MyController {
     @RequestMapping("/login")
     public String login(HttpServletRequest request, Model model){
         String error = request.getParameter("message");
-        model.addAttribute("error", error);
+        model.addAttribute("error", MySource.getInstance().toString());
+
         return "htmlPatterns/Login";
     }
 
