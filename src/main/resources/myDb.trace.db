@@ -24,3 +24,11 @@ No data is available [2000-200]
 2019-12-12 22:17:29 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
 No data is available [2000-200]
+2019-12-20 16:49:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "INSERT INTO USERS PATTERNS[*](0, 'rootPattern', '', '');"; ожидалось "., (, DIRECT, SORTED, DEFAULT, VALUES, SET, (, WITH, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "INSERT INTO USERS PATTERNS[*](0, 'rootPattern', '', '');"; expected "., (, DIRECT, SORTED, DEFAULT, VALUES, SET, (, WITH, SELECT, TABLE, VALUES"; SQL statement:
+INSERT INTO USERS PATTERNS(0, 'rootPattern', '', ''); [42001-200]
+2019-12-20 16:50:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "INSERT INTO PATTERNS(0[*], 'rootPattern', '', '');"; ожидалось "identifier"
+Syntax error in SQL statement "INSERT INTO PATTERNS(0[*], 'rootPattern', '', '');"; expected "identifier"; SQL statement:
+INSERT INTO PATTERNS(0, 'rootPattern', '', ''); [42001-200]

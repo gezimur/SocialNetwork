@@ -51,7 +51,7 @@ public class MyController {
                     request.getParameter("password"),
                     request.getParameter("firstname"),
                     request.getParameter("lastname")));
-            message = (check)? "everything is Ok" : "some problems";
+            message = (check)? "everything is Ok" : "some problems!";
         }
         return "redirect:" + nameOfSite + "/login?message=" + message;
     }
