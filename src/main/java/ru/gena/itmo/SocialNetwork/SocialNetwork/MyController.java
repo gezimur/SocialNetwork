@@ -84,7 +84,7 @@ public class MyController {
                 message = "wrong login or password";
             }
         }
-        message = ("".equals(message) )? "please print your login" : message;
+        message = ("".equals(message) )? "please print your login and password" : message;
         return "redirect:" + nameOfMySite +"/login?message=" + message;
     }
 
