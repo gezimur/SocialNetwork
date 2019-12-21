@@ -31,6 +31,7 @@ public class SocialNetworkApplication{
 		} else {
 			HikariConfig config = new HikariConfig();
 			config.setJdbcUrl(dbUrl);
+			System.out.println(dbUrl);
 			return new HikariDataSource(config);
 		}
 	}
