@@ -17,12 +17,12 @@ public class MyController {
 
     @RequestMapping("/css/logincss.css")
     public String style(){
-        return "/css/logincss.css";
+        return "css/logincss.css";
     }
 
     @RequestMapping("/css/maincss.css")
     public String mainStyle(){
-        return "/css/maincss.css";
+        return "css/maincss.css";
     }
 
     @RequestMapping("/")
