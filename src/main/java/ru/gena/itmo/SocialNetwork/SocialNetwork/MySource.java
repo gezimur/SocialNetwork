@@ -1,14 +1,17 @@
 package ru.gena.itmo.SocialNetwork.SocialNetwork;
 
+import org.springframework.beans.factory.annotation.Value;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.Pattern;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.PatternsTree;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
 
-import javax.sql.DataSource;
+
 import java.sql.*;
 
 public class MySource {
 
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
     private Connection con = null;
     private static final MySource instance = new MySource();
 
@@ -18,9 +21,7 @@ public class MySource {
 
     private MySource(){
         try{
-            con = SocialNetworkApplication
-                    .getDataSource()
-                    .getConnection();
+            con = DriverManager.getConnection(dbUrl, "", "");
             new Preparer().preparer();
             //admin la-la-la
         }catch (SQLException e){
