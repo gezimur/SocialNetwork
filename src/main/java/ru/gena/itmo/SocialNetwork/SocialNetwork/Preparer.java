@@ -32,13 +32,6 @@ public class Preparer {
                         "NAME VARCHAR(20));");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with conversations"; }
         isTryingSuccess = instance
-                .executeQuery("CREATE TABLE IF NOT EXISTS USER_CONVERSATIONS (" +
-                        "USER INTEGER, " +
-                        "CONVERSATION INTEGER, " +
-                        "FOREIGN KEY (USER) REFERENCES USERS (ID), " +
-                        "FOREIGN KEY (CONVERSATION) REFERENCES CONVERSATIONS (ID));");
-        if (!isTryingSuccess) { return "\n\n\n\nproblem with user_conversation"; }
-        isTryingSuccess = instance
                 .executeQuery("CREATE TABLE IF NOT EXISTS MESSAGES (" +
                         "ID INTEGER PRIMARY KEY, " +
                         "CONVERSATION INTEGER, " +
@@ -48,6 +41,13 @@ public class Preparer {
                         "FOREIGN KEY (SENDER) REFERENCES USERS (ID), " +
                         "FOREIGN KEY (CONVERSATION) REFERENCES CONVERSATIONS (ID));");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with messages"; }
+        isTryingSuccess = instance
+                .executeQuery("CREATE TABLE IF NOT EXISTS USER_CONVERSATIONS (" +
+                        "USER INTEGER, " +
+                        "CONVERSATION INTEGER, " +
+                        "FOREIGN KEY (USER) REFERENCES USERS (ID), " +
+                        "FOREIGN KEY (CONVERSATION) REFERENCES CONVERSATIONS (ID));");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with user_conversation"; }
         isTryingSuccess = instance
                 .executeQuery("INSERT INTO USERS VALUES (" +
                         "100000, " +
