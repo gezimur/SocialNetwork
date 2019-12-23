@@ -40,8 +40,14 @@ public class Preparer {
                         "TEXT VARCHAR(20), " +
                         "FOREIGN KEY (SENDER) REFERENCES USERS (ID), " +
                         "FOREIGN KEY (CONVERSATION) REFERENCES CONVERSATIONS (ID));");
-        if (!isTryingSuccess) { return "\n\n\n\nproblem with messages"; }
-
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with messages"; }/*
+        isTryingSuccess = instance
+                .executeQuery("CREATE TABLE IF NOT EXISTS USER_CONVERSATIONS (" +
+                        "USER INTEGER, " +
+                        "CONVERSATION INTEGER, " +
+                        "FOREIGN KEY (USER) REFERENCES USERS (ID), " +
+                        "FOREIGN KEY (CONVERSATION) REFERENCES CONVERSATIONS (ID));");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with user_conversation"; }*/
         isTryingSuccess = instance
                 .executeQuery("INSERT INTO USERS VALUES (" +
                         "100000, " +
@@ -54,19 +60,12 @@ public class Preparer {
                 .executeQuery("INSERT INTO CONVERSATIONS VALUES (" +
                         "1, " +
                         "'testConversation');");
-        if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values1"; }
-        isTryingSuccess = instance
-                .executeQuery("CREATE TABLE IF NOT EXISTS USER_CONVERSATIONS (" +
-                        "USER INTEGER, " +
-                        "CONVERSATION INTEGER, " +
-                        "FOREIGN KEY (USER) REFERENCES USERS (ID), " +
-                        "FOREIGN KEY (CONVERSATION) REFERENCES CONVERSATIONS (ID));");
-        if (!isTryingSuccess) { return "\n\n\n\nproblem with user_conversation"; }
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values1"; }/*
         isTryingSuccess = instance
                 .executeQuery("INSERT INTO USER_CONVERSATIONS VALUES (" +
                         "100000, " +
                         "1);");
-        if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values2"; }
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values2"; }*/
         //===========================================================================
         isTryingSuccess = instance
                 .executeQuery("DROP TABLE IF EXISTS PATTERNSTREE;");
