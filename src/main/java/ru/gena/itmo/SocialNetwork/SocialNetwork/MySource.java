@@ -11,7 +11,7 @@ import java.sql.*;
 public class MySource {
 
     //@Value("${spring.datasource.url}")
-    private String dbUrl = "jdbc:postgresql:ec2-107-22-234-204.compute-1.amazonaws.com:5432/d2kohhhgqe3rso";
+    private String dbUrl = "jdbc:postgresql://ec2-107-22-234-204.compute-1.amazonaws.com:5432/d2kohhhgqe3rso";
 
     private Connection con = null;
     private static final MySource instance = new MySource();
