@@ -20,11 +20,11 @@ public class Preparer {
         if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping users"; }
         isTryingSuccess = instance
                 .executeQuery("CREATE TABLE IF NOT EXISTS USERS (" +
-                "ID INTEGER PRIMARY KEY, " +
-                "USERNAME VARCHAR(20), " +
-                "PASSWORD VARCHAR(20), " +
-                "FIRSTNAME VARCHAR(20), " +
-                "LASTNAME VARCHAR(20));");
+                        "ID INTEGER PRIMARY KEY, " +
+                        "USERNAME VARCHAR(20), " +
+                        "PASSWORD VARCHAR(20), " +
+                        "FIRSTNAME VARCHAR(20), " +
+                        "LASTNAME VARCHAR(20));");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with users"; }
         isTryingSuccess = instance
                 .executeQuery("CREATE TABLE IF NOT EXISTS CONVERSATIONS (" +
@@ -35,8 +35,8 @@ public class Preparer {
                 .executeQuery("CREATE TABLE IF NOT EXISTS USER_CONVERSATIONS (" +
                         "USER INTEGER, " +
                         "CONVERSATION INTEGER, " +
-                        "CONSTRAINT FK_USER FOREIGN KEY (USER) REFERENCES USERS (ID), " +
-                        "CONSTRAINT FK_CONV FOREIGN KEY (CONVERSATION) REFERENCES CONVERSATIONS (ID));");
+                        "FOREIGN KEY (USER) REFERENCES USERS (ID), " +
+                        "FOREIGN KEY (CONVERSATION) REFERENCES CONVERSATIONS (ID));");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with user_conversation"; }
         isTryingSuccess = instance
                 .executeQuery("CREATE TABLE IF NOT EXISTS MESSAGES (" +
@@ -45,8 +45,8 @@ public class Preparer {
                         "SENDER INTEGER, " +
                         "SENDING DATE, " +
                         "TEXT VARCHAR(20), " +
-                        "CONSTRAINT FK_SENDER FOREIGN KEY (SENDER) REFERENCES USERS (ID), " +
-                        "CONSTRAINT FK_CONVER FOREIGN KEY (CONVERSATION) REFERENCES CONVERSATIONS (ID));");
+                        "FOREIGN KEY (SENDER) REFERENCES USERS (ID), " +
+                        "FOREIGN KEY (CONVERSATION) REFERENCES CONVERSATIONS (ID));");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with messages"; }
         isTryingSuccess = instance
                 .executeQuery("INSERT INTO USERS VALUES (" +
@@ -84,8 +84,8 @@ public class Preparer {
                 .executeQuery("CREATE TABLE IF NOT EXISTS PATTERNSTREE (" +
                         "PATTERN INTEGER, " +
                         "DESCENDANTS INTEGER, " +
-                        "CONSTRAINT FK_PATTERN FOREIGN KEY (PATTERN) REFERENCES PATTERNS (ID), " +
-                        "CONSTRAINT FK_DESCENDANT FOREIGN KEY (DESCENDANTS) REFERENCES PATTERNS (ID));");
+                        "FOREIGN KEY (PATTERN) REFERENCES PATTERNS (ID), " +
+                        "FOREIGN KEY (DESCENDANTS) REFERENCES PATTERNS (ID));");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with patternsTree"; }
         isTryingSuccess = instance
                 .executeQuery("INSERT INTO PATTERNS VALUES (" +
