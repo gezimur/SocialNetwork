@@ -12,6 +12,7 @@ public class MySource {
 
     @Value("${spring.datasource.url}")
     private String dbUrl;
+
     private Connection con = null;
     private static final MySource instance = new MySource();
 
