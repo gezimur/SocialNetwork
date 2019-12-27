@@ -10,7 +10,7 @@ public class Preparer {
                 .executeQuery("DROP TABLE IF EXISTS MESSAGES;");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping users"; }
         isTryingSuccess = instance
-                .executeQuery("DROP TABLE IF EXISTS USER_CONVERSATIONS;");
+                .executeQuery("DROP TABLE IF EXISTS USERS_CONVERSATIONS;");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping users"; }
         isTryingSuccess = instance
                 .executeQuery("DROP TABLE IF EXISTS USERS;");
@@ -42,10 +42,10 @@ public class Preparer {
                         "FOREIGN KEY (CONVERSATION) REFERENCES CONVERSATIONS (ID));");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with messages"; }
         isTryingSuccess = instance
-                .executeQuery("CREATE TABLE IF NOT EXISTS USER_CONVERSATIONS (" +
+                .executeQuery("CREATE TABLE IF NOT EXISTS USERS_CONVERSATIONS (" +
                         "MEMBER INTEGER, " +
                         "CONVERSATION INTEGER, " +
-                        "FOREIGN KEY (USER) REFERENCES USERS (ID), " +
+                        "FOREIGN KEY (MEMBER) REFERENCES USERS (ID), " +
                         "FOREIGN KEY (CONVERSATION) REFERENCES CONVERSATIONS (ID));");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with user_conversation"; }
         isTryingSuccess = instance
@@ -62,7 +62,7 @@ public class Preparer {
                         "'testConversation');");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values1"; }
         isTryingSuccess = instance
-                .executeQuery("INSERT INTO USER_CONVERSATIONS VALUES (" +
+                .executeQuery("INSERT INTO USERS_CONVERSATIONS VALUES (" +
                         "100000, " +
                         "1);");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values2"; }
