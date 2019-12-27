@@ -185,7 +185,8 @@ public class Designer {
                                int ballNumber,
                                List<Integer> siteswap,
                                int maxThrow){
-        anim.append("@keyframes ball"); anim.append(ballNumber);
+        anim.append(siteswap.toString());
+        anim.append("\n@keyframes ball"); anim.append(ballNumber);
         anim.append(" {\n");
         int keyframe = 0;
         double step = 100 / (2 * siteswap.get(0));
