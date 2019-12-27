@@ -111,7 +111,7 @@ public class Designer {
         int neededTime = siteswap.get(2);
         animationBall(animation,
                 1,
-                siteswap.subList(2, siteswap.size()),
+                siteswap,
                 maxThrow);
         animation.append("</style>\n");/*
         animation.append("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n" +
