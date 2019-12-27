@@ -5,6 +5,7 @@ import ru.gena.itmo.SocialNetwork.SocialNetwork.content.TreesElement;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Designer {
 
@@ -106,15 +107,13 @@ public class Designer {
     private String visualize(ArrayList<Integer> siteswap){
         StringBuilder animation = new StringBuilder("<style>\n");
         int maxThrow = siteswap.get(0);
-        int numberOfThrows = siteswap.get(1);
-        int i = 2;
-        int pos = i;
-        while(i < numberOfThrows + pos){
-            animation.append(animationThrow(siteswap.get(i), maxThrow, 'l'));
-            animation.append(animationThrow(siteswap.get(i), maxThrow, 'r'));
-            i++;
-        }
-        animation.append("</style>\n");
+        int numberOfBalls = siteswap.get(1);
+        int neededTime = siteswap.get(2);
+        animationBall(animation,
+                1,
+                siteswap.subList(2, siteswap.size()),
+                maxThrow);
+        animation.append("</style>\n");/*
         animation.append("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n" +
                 "viewBox=\"0 0 500 500\" preserveAspectRatio=\"xMaxYMax none\">\n");
         int ballNumber = 0;
@@ -135,7 +134,7 @@ public class Designer {
             animation.append("\"></circle>\n");
             ballNumber++;
         }
-        animation.append("</svg>\n");
+        animation.append("</svg>\n");//*/
         return animation.toString();
     }
 
@@ -156,7 +155,7 @@ public class Designer {
 
         return animation.toString();
     }
-
+/*
     private String animationThrow(int typeOfThrow, int maxThrow, char side){
         StringBuilder animation = new StringBuilder((side == 'l')? "@keyframes throwL" : "@keyframes throwR");
         int startX = (side == 'l')? 100 : 400;
@@ -180,9 +179,42 @@ public class Designer {
         animation.append(startY);
         animation.append(";\n}\n}\n");
         return animation.toString();
+    }//*/
+
+    private void animationBall(StringBuilder anim,
+                               int ballNumber,
+                               List<Integer> siteswap,
+                               int maxThrow){
+        anim.append("@keyframes ball"); anim.append(ballNumber);
+        anim.append(" {\n");
+        int keyframe = 0;
+        double step = 100 / (2 * siteswap.get(0));
+        int throwNumber = 1;
+        int x = (ballNumber % 2 == 0)? 100 : 400;
+        int y = 450;
+        int time = 0;
+        while (time < siteswap.get(0)){
+            anim.append(keyframe);
+            anim.append("% {");
+            anim.append("\ncx:"); anim.append(x);
+            anim.append(";\ncy:"); anim.append(y);
+            anim.append(";\nanimation-timing-function: ease-out;\n}\n");
+            y = 450 - 400 / maxThrow * siteswap.get(throwNumber);
+            keyframe += (int)(step * siteswap.get(throwNumber));
+            anim.append(keyframe);
+            anim.append("% {");
+            anim.append("\ncy:"); anim.append(y);
+            anim.append(";\nanimation-timing-function: ease-out;\n}\n");
+            y = 450;
+            x = (siteswap.get(throwNumber) % 2 == 0)? x : 500 - x;
+            keyframe += (int)(step * siteswap.get(throwNumber));
+            time += siteswap.get(throwNumber);
+            throwNumber++;
+        }
+        anim.append("}\n");
     }
 
-//возвращает (макс. бросок; кол-во типов бр. ; типы бр. ; кол-во бросков мяча 1; бр. мяча; ...; кол-во мячей)
+//возвращает (макс. бросок; кол-во мячей; врямя цикла для мяча1; бр. мяча; ...; кол-во мячей)
     private ArrayList<Integer> analysisSiteswap(String siteswap){
         int siteswapLength = siteswap.length();
         if (siteswapLength > 25) { //проверка длины
@@ -190,27 +222,30 @@ public class Designer {
         }
         int[] siteswapN = stringToNumerals(siteswap);
         if (checkSiteswap(siteswapN, siteswapLength)){
-            ArrayList<Integer> ans = new ArrayList<>(getListOfThrows(siteswapN, siteswapLength));
+            ArrayList<Integer> ans = new ArrayList<>(getMaxThrow(siteswapN, siteswapLength));
             int numberOfBalls = getNumberOfBalls(siteswapN, siteswapLength);
+            ans.add(numberOfBalls);
             for (int i = 0; i < numberOfBalls; i++){
                 int ball = i % siteswapLength;
-                ans.addAll(doSiteswapForBal(siteswapN, siteswapLength, ball) );
+                ans.addAll(doSiteswapForBall(siteswapN, siteswapLength, ball) );
             }
             return ans;
         }
         return null;
     }
 
-    private ArrayList<Integer> doSiteswapForBal(int[] siteswap, int siteswapLength, int i){
+    private ArrayList<Integer> doSiteswapForBall(int[] siteswap, int siteswapLength, int i){
         ArrayList<Integer> ans = new ArrayList<>();
         ans.add(0);
         ans.add(siteswap[i]);
+        int neededTime = siteswap[i];
         int position = (i + siteswap[i]) % siteswapLength;
         while(position != i){
             ans.add(siteswap[position]);
+            neededTime += siteswap[position];
             position = (position + siteswap[position]) % siteswapLength;
         }
-        ans.set(0, ans.size() - 1);
+        ans.set(0, neededTime);
         return ans;
     }
 
@@ -237,20 +272,12 @@ public class Designer {
         return nomberOfBalls;
     }
 
-    private ArrayList<Integer> getListOfThrows(int[] siteswap, int siteswapLength){
-        ArrayList<Integer> ans = new ArrayList<>();
-        ans.add(0);
-        ans.add(0);
+    private Integer getMaxThrow(int[] siteswap, int siteswapLength){
         int maxThrow = 0;
         for (int i = 0; i < siteswapLength; i++){
-            if (!ans.contains(siteswap[i])){
-                ans.add(siteswap[i]);
-                maxThrow = (maxThrow < siteswap[i])? siteswap[i] : maxThrow;
-            }
+            maxThrow = (maxThrow < siteswap[i])? siteswap[i] : maxThrow;
         }
-        ans.set(0, maxThrow);
-        ans.set(1, ans.size() - 2);
-        return ans;
+        return maxThrow;
     }
 
     private boolean checkSiteswap(int[] siteswap, int siteswapLength){
