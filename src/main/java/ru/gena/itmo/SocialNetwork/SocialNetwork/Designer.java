@@ -128,7 +128,7 @@ public class Designer {
             animation.append(" ");
             animation.append(neededTime.get(ballNumber));
             animation.append("s ");
-            animation.append(ballNumber);
+            animation.append(ballNumber / 2.0);
             animation.append("s infinite;\"></circle>\n");
             ballNumber++;
         }//*/
@@ -160,8 +160,7 @@ public class Designer {
                     maxThrow);
             x = 500 - x;
         }
-        anim.append(x);
-        anim.append("% {");
+        anim.append("100% {");
         anim.append("\ncx:"); anim.append(x);
         anim.append(";\ncy:"); anim.append(450);
         anim.append(";\n}\n}\n");

@@ -196,6 +196,10 @@ public class MySource {
         }
     }
 
+    public Pattern editingPattern(String name, String siteswap, String description){
+        return null;
+    }
+
     private ResultSet getResultSet(String sqlQuery) {
         try {
             ResultSet rs = con

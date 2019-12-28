@@ -33,18 +33,19 @@ public class MyController {
     }
 
     @RequestMapping("/login")
-    public String login(@RequestParam String message,
+    public String login(@RequestParam(required = false) String message,
                         Model model){
+        message = (message == null)? "" : message;
         model.addAttribute("error", message);
 
         return "htmlPatterns/Login";
     }
 
     @RequestMapping("/register")
-    public String register(@RequestParam String username,
-                           @RequestParam String password,
-                           @RequestParam String firstname,
-                           @RequestParam String lastname){
+    public String register(@RequestParam(required = false) String username,
+                           @RequestParam(required = false) String password,
+                           @RequestParam(required = false) String firstname,
+                           @RequestParam(required = false) String lastname){
         MySource instance = MySource.getInstance();
         String message;
         if (instance.findUser(username)){
@@ -97,11 +98,62 @@ public class MyController {
     }
 
     @RequestMapping("/admin_workspace")
-    public String adminWorkspace(Model model){
+    public String adminWorkspace(
+            HttpSession session,
+            Model model){
+        if (checkUser(session)){
+            return "redirect:" + nameOfMySite +"/login";
+        }
         model.addAttribute("patternsTree", Designer.createSVGtoPatternsTree(MySource.getInstance().getPatternsTree()));
         return "htmlPatterns/AdminWorkspace";
     }
-    //admin_work_space
+
+    @RequestMapping("/addPattern")
+    public String addPattern(
+            HttpSession session,
+            @RequestParam(required = false) String id,
+            @RequestParam(required = false) String descendants,
+            @RequestParam(required = false) String ancestors){
+        if (checkUser(session)){
+            return "redirect:" + nameOfMySite +"/login";
+        }
+        return  "redirect:" + nameOfMySite + "/admin_workspace";
+    }
+
+    @RequestMapping("/editingPattern/id{id}")
+    public String editingPattern(
+            HttpSession session,
+            @PathVariable String id,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String siteswap,
+            @RequestParam(required = false) String description,
+            Model model){
+        if (checkUser(session)){
+            return "redirect:" + nameOfMySite +"/login";
+        }
+        Pattern p;
+        if (name != null || siteswap != null || description != null){
+            p = MySource.getInstance().editingPattern(name, siteswap, description);
+        }else{
+            p = MySource.getInstance()
+                    .getPattern(Integer.parseInt(id.replaceFirst("0", "")));
+        }
+        model.addAttribute("nameOfPattern", p.getPatternsName());
+        model.addAttribute("siteswap",
+                Designer.textAnalysis("&" + p.getSiteswap() + "&"));
+        model.addAttribute("description", p.getDescription());
+        return  "htmlPatterns/EditingPattern";
+    }
+
+    @RequestMapping("/deletePattern")
+    public String deletePattern(
+            HttpSession session,
+            @RequestParam(required = false) String id){
+        if (checkUser(session)){
+            return "redirect:" + nameOfMySite +"/login";
+        }
+        return  "redirect:" + nameOfMySite + "/admin_workspace";
+    }
 
     @RequestMapping("/profile/id{id}")
     public String profile(HttpSession session,
@@ -134,8 +186,8 @@ public class MyController {
 
     @RequestMapping("/editing")
     public String editing(HttpSession session,
-                          @RequestParam String name,
-                          @RequestParam String surname){
+                          @RequestParam(required = false) String name,
+                          @RequestParam(required = false) String surname){
         if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
@@ -153,10 +205,7 @@ public class MyController {
     }
 
     @RequestMapping("/conversation/id??????")
-    public String conversation(HttpSession session//,
-                               //@PathVariable String id,
-                               //Model model
-    ){
+    public String conversation(HttpSession session){
         if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
@@ -181,8 +230,8 @@ public class MyController {
 
     @RequestMapping("/search")
     public String search(HttpSession session,
-                         @RequestParam String name,
-                         @RequestParam String surname,
+                         @RequestParam(required = false) String name,
+                         @RequestParam(required = false) String surname,
                          Model model){
         if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
