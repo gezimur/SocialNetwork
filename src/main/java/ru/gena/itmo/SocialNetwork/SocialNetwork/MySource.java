@@ -1,6 +1,5 @@
 package ru.gena.itmo.SocialNetwork.SocialNetwork;
 
-import org.springframework.beans.factory.annotation.Value;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.Pattern;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.PatternsTree;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
@@ -29,11 +28,14 @@ public class MySource {
             new Preparer().preparer();
             //admin la-la-la
         }catch (SQLException e){
-            System.out.println("LOl\n\n\n\n\nLOL");
+            System.out.println("LOl\n\n");
             e.printStackTrace();
+            System.out.println("\n\n");
         }catch (NullPointerException e){
-            System.out.println("LO2\n\n\n\n\nLOL");
-        }
+            System.out.println("LO2\n\n");
+            e.printStackTrace();
+            System.out.println("\n\n");
+        }//*/
     }
 
     public User getUser(String login, String password) {
