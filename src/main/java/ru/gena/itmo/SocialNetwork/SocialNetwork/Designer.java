@@ -127,9 +127,9 @@ public class Designer {
         while (ballNumber < numberOfBalls) {
             animation.append("<circle cx=\"50%\" cy=\"90\" r=\"10\" fill=\"red\" style=\"\n animation: ball");
             animation.append(ballNumber);
-            animation.append(", ");
+            animation.append(" ");
             animation.append(neededTime.get(ballNumber));
-            animation.append("s, ");
+            animation.append("s ");
             animation.append(ballNumber);
             animation.append("s\"></circle>\n");
             ballNumber++;
