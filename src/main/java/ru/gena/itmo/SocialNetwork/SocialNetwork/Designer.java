@@ -108,34 +108,25 @@ public class Designer {
         StringBuilder animation = new StringBuilder("<style>\n");
         int maxThrow = siteswap.get(0);
         int numberOfBalls = siteswap.get(1);
-        int neededTime = siteswap.get(2);
-        int pos = 2;
-        animationBall(animation,
-                1,
-                siteswap,
-                pos,
-                maxThrow);
-        animation.append("</style>\n");/*
-        animation.append("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n" +
-                "viewBox=\"0 0 500 500\" preserveAspectRatio=\"xMaxYMax none\">\n");
         int ballNumber = 0;
-        while (i < siteswap.size()) {
-            animation.append("<circle cx=\"50%\" cy=\"90\" r=\"10\" fill=\"red\" style=\"\n animation: ");
-            int aDelay = ballNumber;
-            int thisBallN = ballNumber;
-            int ballsThrows = siteswap.get(i);
-            i++;
-            pos = i;
-            while (i < ballsThrows + pos) {
-                animation.append(addAnimationToBall(siteswap.get(i), thisBallN, aDelay));
-                aDelay += siteswap.get(i);
-                thisBallN += siteswap.get(i) % 2;
-                i++;
-                if (i < ballsThrows + pos) animation.append(", ");
-            }
-            animation.append("\"></circle>\n");
+        int pos = 2;
+        while (ballNumber < numberOfBalls) {
+            pos = addBallAnimationAndReturnNewPos(animation,
+                    ballNumber,
+                    siteswap,
+                    pos,
+                    maxThrow);
             ballNumber++;
         }
+        animation.append("</style>\n");
+        animation.append("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n" +
+                "viewBox=\"0 0 500 500\" preserveAspectRatio=\"xMaxYMax none\">\n");
+        /*
+        while (ballNumber < numberOfBalls) {
+            animation.append("<circle cx=\"50%\" cy=\"90\" r=\"10\" fill=\"red\" style=\"\n animation: ");
+            animation.append("\"></circle>\n");
+            ballNumber++;
+        }//*/
         animation.append("</svg>\n");//*/
         return animation.toString();
     }
@@ -183,7 +174,7 @@ public class Designer {
         return animation.toString();
     }//*/
 
-    private void animationBall(StringBuilder anim,
+    private int addBallAnimationAndReturnNewPos(StringBuilder anim,
                                int ballNumber,
                                List<Integer> siteswap,
                                int pos,
@@ -191,17 +182,16 @@ public class Designer {
         anim.append(siteswap.toString());
         anim.append("\n@keyframes ball"); anim.append(ballNumber);
         anim.append(" {\n");
-        int keyframe = 0;
         int x = (ballNumber % 2 == 0)? 100 : 400;
-        addKeyframesForOneCircle(anim,
-                keyframe,
+        int newPos = addKeyframesForOneCircle(anim,
+                0,
                 x,
                 siteswap,
                 pos,
                 maxThrow);
         if (siteswap.get(pos) % 2 != 0){
             addKeyframesForOneCircle(anim,
-                    keyframe,
+                    50,
                     x,
                     siteswap,
                     pos,
@@ -211,9 +201,10 @@ public class Designer {
         anim.append("\ncx:"); anim.append(x);
         anim.append(";\ncy:"); anim.append(450);
         anim.append(";\n}\n}\n");
+        return newPos;
     }
 
-    private void addKeyframesForOneCircle(StringBuilder anim,
+    private int addKeyframesForOneCircle(StringBuilder anim,
                                           int keyframe,
                                           int x,
                                           List<Integer> siteswap,
@@ -230,6 +221,7 @@ public class Designer {
             time += siteswap.get(pos);
             pos++;
         }
+        return pos;
     }
 
     private void addKeyframesToOneThrow(StringBuilder anim,
