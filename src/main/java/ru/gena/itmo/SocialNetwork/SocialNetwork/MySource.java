@@ -25,7 +25,7 @@ public class MySource {
                     dbUrl,
                     "rergtqommbarxw",
                     "cd5ee47b2176482b064ea9f7d236d9b2abde303fadabc470d64566d16e9716d2");
-            new Preparer().preparer();
+            //new Preparer().preparer();
             //admin la-la-la
         }catch (SQLException e){
             System.out.println("LOl\n\n");
