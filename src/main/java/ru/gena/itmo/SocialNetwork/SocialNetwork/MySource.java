@@ -48,8 +48,9 @@ public class MySource {
                     rs.getInt("id"),
                     rs.getString("username"),
                     rs.getString("password"),
-                    rs.getString("firstname"),
-                    rs.getString("lastname"));
+                    rs.getString("usersStatus"),
+                    rs.getString("firstName"),
+                    rs.getString("lastName"));
         }catch (SQLException e){
             e.printStackTrace();
             return null;
@@ -63,6 +64,7 @@ public class MySource {
             rs.next();
             return new User(
                     rs.getInt("id"),
+                    "",
                     "",
                     "",
                     rs.getString("firstname"),
@@ -143,6 +145,7 @@ public class MySource {
                     id + ", " +
                     "'" + newUser.getLogin() + "', " +
                     "'" + newUser.getPassword() + "', " +
+                    "'" + newUser.getUsersStatus() + "', " +
                     "'" + newUser.getFirstname() + "', " +
                     "'" + newUser.getLastname() + "');");
         }

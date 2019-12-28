@@ -4,6 +4,7 @@ public class User {
     private Integer id;
     private String login;
     private String password;
+    private String usersStatus;
     private String firstname;
     private String lastname;
 
@@ -11,13 +12,20 @@ public class User {
         id = null;
         login = null;
         password = null;
+        usersStatus = null;
         firstname = null;
         lastname = null;
     }
-    public User(Integer newId, String newLogin, String newPassword, String newFirstname, String newLastname){
+    public User(Integer newId,
+                String newLogin,
+                String newPassword,
+                String newStatus,
+                String newFirstname,
+                String newLastname){
         id = newId;
         login = newLogin;
         password = newPassword;
+        usersStatus = newStatus;
         firstname = newFirstname;
         lastname = newLastname;
     }
@@ -30,6 +38,7 @@ public class User {
     public String getPassword(){
         return password;
     }
+    public String getUsersStatus() { return usersStatus; }
     public String getFirstname(){
         return firstname;
     }

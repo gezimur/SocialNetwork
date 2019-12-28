@@ -2,7 +2,9 @@ package ru.gena.itmo.SocialNetwork.SocialNetwork;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.Pattern;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
 
@@ -31,27 +33,30 @@ public class MyController {
     }
 
     @RequestMapping("/login")
-    public String login(HttpServletRequest request, Model model){
-        String error = request.getParameter("message");
-        model.addAttribute("error", error);
+    public String login(@RequestParam String message,
+                        Model model){
+        model.addAttribute("error", message);
 
         return "htmlPatterns/Login";
     }
 
     @RequestMapping("/register")
-    public String register(HttpServletRequest request){
-        String login = request.getParameter("username");
+    public String register(@RequestParam String username,
+                           @RequestParam String password,
+                           @RequestParam String firstname,
+                           @RequestParam String lastname){
         MySource instance = MySource.getInstance();
         String message;
-        if (instance.findUser(login)){
+        if (instance.findUser(username)){
             message = " this username is already in use";
         }else{
             boolean check = instance.addUser(new User(
                     0,
-                    login,
-                    request.getParameter("password"),
-                    request.getParameter("firstname"),
-                    request.getParameter("lastname")));
+                    username,
+                    password,
+                    "user",
+                    firstname,
+                    lastname));
             message = (check)? "everything is Ok" : "some problems!";
         }
         return "redirect:" + nameOfMySite + "/login?message=" + message;
@@ -76,9 +81,12 @@ public class MyController {
         if (login != null && !"".equals(login)){
             User user = MySource.getInstance().getUser(login, password);
             if (user != null){
-                String id = new Designer().toNeddedForm(user.getId().toString());
+                String id = Designer.toNeddedForm(user.getId().toString());
                 session = request.getSession();
                 session.setAttribute("id", id);
+                if ( "admin".equals(user.getUsersStatus()) ){
+                    return  "redirect:" + nameOfMySite + "/admin_workspace";
+                }
                 return  "redirect:" + nameOfMySite + "/profile/id" + id;
             }else{
                 message = "wrong login or password";
@@ -88,60 +96,56 @@ public class MyController {
         return "redirect:" + nameOfMySite +"/login?message=" + message;
     }
 
-    @RequestMapping("/profile/id??????")
-    public String profile(HttpServletRequest request, Model model){
-        if (request.getSession(false) == null){
+    @RequestMapping("/admin_workspace")
+    public String adminWorkspace(Model model){
+        model.addAttribute("patternsTree", Designer.createSVGtoPatternsTree(MySource.getInstance().getPatternsTree()));
+        return "htmlPatterns/AdminWorkspace";
+    }
+    //admin_work_space
+
+    @RequestMapping("/profile/id{id}")
+    public String profile(HttpSession session,
+                          @PathVariable String id,
+                          Model model){
+        if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
-        String thisPath = request.getRequestURI();
-        String id = thisPath.substring(thisPath.lastIndexOf('/') + 3);
         MySource instance = MySource.getInstance();
         User thisUser = instance.getInformationOfUser(id);
         model.addAttribute("name",
                 thisUser.getFirstname()
                 + " "
                 + thisUser.getLastname());
-        Designer d = new Designer();
-        if (request.getSession() != null) {
-            if (!id.equals(request.getSession().getAttribute("id"))) {
-                model.addAttribute("changeFunction", "");
-            } else {
-                model.addAttribute("changeFunction",
-                        "<span class=\"smalBlock\"></span>\n" +
-                                "<span class=\"editingProfile\">" +
-                                "<input type=\"text\" name=\"name\" form=\"editing\" placeholder=\"new name\"><br>" +
-                                "<input type=\"text\" name=\"surname\" form=\"editing\" placeholder=\"new surname\"><br>" +
-                                "<input type=\"submit\" form=\"editing\" placeholder=\"change\">" +
-                                "</span>\n");
-            }
-        }else{
+        if (!id.equals(session.getAttribute("id"))) {
             model.addAttribute("changeFunction", "");
+        } else {
+            model.addAttribute("changeFunction",
+                    "<span class=\"smalBlock\"></span>\n" +
+                            "<span class=\"editingProfile\">" +
+                            "<input type=\"text\" name=\"name\" form=\"editing\" placeholder=\"new name\"><br>" +
+                            "<input type=\"text\" name=\"surname\" form=\"editing\" placeholder=\"new surname\"><br>" +
+                            "<input type=\"submit\" form=\"editing\" placeholder=\"change\">" +
+                            "</span>\n");
         }
         model.addAttribute("patternsTree",
-                d.createSVGtoPatternsTree(instance.getPatternsTree()));
+                Designer.createSVGtoPatternsTree(instance.getPatternsTree()));
         return "htmlPatterns/Profile";
     }
 
     @RequestMapping("/editing")
-    public String editing(HttpServletRequest request, Model model){
-        if (request.getSession(false) == null){
+    public String editing(HttpSession session,
+                          @RequestParam String name,
+                          @RequestParam String surname){
+        if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
-        String name = request.getParameter("name");
-        String surname = request.getParameter("surname");
-        String id = (String)request.getSession().getAttribute("id");
+        String id = (String)session.getAttribute("id");
         MySource.getInstance().changeInformationOfUser(name, surname, id);
         return  "redirect:" + nameOfMySite + "/profile/id" + id;
     }
 
     @RequestMapping("/conversations")
-    public String conversations(HttpServletRequest request, Model model){
-        if (request.getSession(false) == null){
-            return "redirect:" + nameOfMySite +"/login";
-        }else if ("".equals(request.getSession(false).getAttribute("id").toString())){
-            return "redirect:" + nameOfMySite +"/login";
-        }
-        HttpSession session = request.getSession();
+    public String conversations(HttpSession session, Model model){
         String id = session.getAttribute("id").toString();
         String list = MySource.getInstance().getPagingOfUsersConversations(id, 0, 10);
         model.addAttribute("list_of_conv", list);
@@ -149,44 +153,50 @@ public class MyController {
     }
 
     @RequestMapping("/conversation/id??????")
-    public String conversation(HttpServletRequest request, Model model){
-        if (request.getSession(false) == null){
+    public String conversation(HttpSession session//,
+                               //@PathVariable String id,
+                               //Model model
+    ){
+        if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
         return "htmlPatterns/Conversation";
     }
 
-    @RequestMapping("/pattern/id??????")//
-    public String pattern(HttpServletRequest request, Model model){
-        if (request.getSession(false) == null){
+    @RequestMapping("/pattern/id{id}")//
+    public String pattern(HttpSession session,
+                          @PathVariable String id,
+                          Model model){
+        if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
-        String thisPath = request.getRequestURI();
-        String id = thisPath.substring(thisPath.lastIndexOf('/') + 3);
         Pattern p = MySource.getInstance()
                 .getPattern(Integer.parseInt(id.replaceFirst("0", "")));
         model.addAttribute("nameOfPattern", p.getPatternsName());
         model.addAttribute("siteswap",
-                 new Designer().textAnalysis("&" + p.getSiteswap() + "&"));
+                 Designer.textAnalysis("&" + p.getSiteswap() + "&"));
         model.addAttribute("description", p.getDescription());
         return "htmlPatterns/Pattern";
     }
 
     @RequestMapping("/search")
-    public String search(HttpServletRequest request, Model model){
-        if (request.getSession(false) == null){
+    public String search(HttpSession session,
+                         @RequestParam String name,
+                         @RequestParam String surname,
+                         Model model){
+        if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
-        String name = request.getParameter("name");
-        String surname = request.getParameter("surname");
+        name = (name == null)? "" : name;
+        surname = (surname == null)? "" : surname;
         model.addAttribute("list_of_users",
                 MySource.getInstance().getPagingOfUsers(name,surname,0, 10));
         return "htmlPatterns/Search";
     }
 
     @RequestMapping("/help")
-    public String help(HttpServletRequest request, Model model){
-        if (request.getSession(false) == null){
+    public String help(HttpSession session){
+        if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
         return "htmlPatterns/Help";
@@ -196,5 +206,11 @@ public class MyController {
     public String singOut(HttpServletRequest request){
         request.getSession().setAttribute("id","");
         return "redirect:" + nameOfMySite + "/login";
+    }
+
+    private boolean checkUser(HttpSession session) {
+        if (session == null) {
+            return true;
+        } else return "".equals(session.getAttribute("id").toString());
     }
 }

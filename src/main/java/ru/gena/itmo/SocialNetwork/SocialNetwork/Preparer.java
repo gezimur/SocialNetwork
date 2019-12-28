@@ -23,6 +23,7 @@ public class Preparer {
                         "ID INTEGER PRIMARY KEY, " +
                         "USERNAME VARCHAR(20), " +
                         "PASSWORD VARCHAR(20), " +
+                        "USERSSTATUS VARCHAR(10), " +
                         "FIRSTNAME VARCHAR(20), " +
                         "LASTNAME VARCHAR(20));");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with users"; }
@@ -53,9 +54,19 @@ public class Preparer {
                         "100000, " +
                         "'admin', " +
                         "'la-la-la', " +
+                        "'admin', " +
                         "'not', " +
                         "'not');");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values"; }
+        isTryingSuccess = instance
+                .executeQuery("INSERT INTO USERS VALUES (" +
+                        "100001, " +
+                        "'user', " +
+                        "'1', " +
+                        "'user', " +
+                        "'name', " +
+                        "'surname');");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values 2"; }
         isTryingSuccess = instance
                 .executeQuery("INSERT INTO CONVERSATIONS VALUES (" +
                         "1, " +

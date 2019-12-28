@@ -9,9 +9,7 @@ import java.util.List;
 
 public class Designer {
 
-    public Designer(){}
-
-    public String createSVGtoPatternsTree(PatternsTree tree){
+    public static String createSVGtoPatternsTree(PatternsTree tree){
         StringBuilder svg = new StringBuilder("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n" +
                 "viewBox=\"0 0 500 500\" preserveAspectRatio=\"xMaxYMax none\">\n");
 
@@ -80,7 +78,7 @@ public class Designer {
         return svg.toString();
     }
 
-    public String toNeddedForm(String i){
+    public static String toNeddedForm(String i){
         int id = Integer.parseInt(i);
         int useFullId = Integer.parseInt(i);
         int numberOfNumerals = 0;
@@ -91,7 +89,7 @@ public class Designer {
         return "00000".substring(numberOfNumerals) + useFullId;
     }
 
-    public String textAnalysis(String text){
+    public static String textAnalysis(String text){
         int siteswapStart = text.indexOf('&');
         int siteswapEnd = text.indexOf('&', siteswapStart + 1);
         if (siteswapStart != -1 && siteswapEnd != -1){
@@ -104,7 +102,7 @@ public class Designer {
         return text;
     }
 
-    private String visualize(ArrayList<Integer> siteswap){
+    private static String visualize(ArrayList<Integer> siteswap){
         StringBuilder animation = new StringBuilder("<style>\n");
         int maxThrow = siteswap.get(0);
         int numberOfBalls = siteswap.get(1);
@@ -138,7 +136,7 @@ public class Designer {
         return animation.toString();
     }
 
-    private int addBallAnimationAndReturnNewPos(StringBuilder anim,
+    private static int addBallAnimationAndReturnNewPos(StringBuilder anim,
                                int ballNumber,
                                List<Integer> siteswap,
                                int pos,
@@ -160,15 +158,17 @@ public class Designer {
                     siteswap,
                     pos,
                     maxThrow);
+            x = 500 - x;
         }
-        anim.append("100% {");
+        anim.append(x);
+        anim.append("% {");
         anim.append("\ncx:"); anim.append(x);
         anim.append(";\ncy:"); anim.append(450);
         anim.append(";\n}\n}\n");
         return newPos;
     }
 
-    private int addKeyframesForOneCircle(StringBuilder anim,
+    private static int addKeyframesForOneCircle(StringBuilder anim,
                                           int keyframe,
                                           int x,
                                           List<Integer> siteswap,
@@ -188,7 +188,7 @@ public class Designer {
         return pos;
     }
 
-    private void addKeyframesToOneThrow(StringBuilder anim,
+    private static void addKeyframesToOneThrow(StringBuilder anim,
                              int keyframe,
                              double step,
                              int x,
@@ -209,7 +209,7 @@ public class Designer {
     }
 
 //возвращает (макс. бросок; кол-во мячей; врямя цикла для мяча1; бр. мяча; ...; кол-во мячей)
-    private ArrayList<Integer> analysisSiteswap(String siteswap){
+    private static ArrayList<Integer> analysisSiteswap(String siteswap){
         int siteswapLength = siteswap.length();
         if (siteswapLength > 25) { //проверка длины
             return null;
@@ -229,7 +229,7 @@ public class Designer {
         return null;
     }
 
-    private ArrayList<Integer> doSiteswapForBall(int[] siteswap, int siteswapLength, int i){
+    private static ArrayList<Integer> doSiteswapForBall(int[] siteswap, int siteswapLength, int i){
         ArrayList<Integer> ans = new ArrayList<>();
         ans.add(0);//время требуемое для одного чикла
         ans.add(siteswap[i]);
@@ -244,7 +244,7 @@ public class Designer {
         return ans;
     }
 
-    private int getNumberOfBalls(int[] siteswap, int siteswapLength){
+    private static int getNumberOfBalls(int[] siteswap, int siteswapLength){
         int[] coordLine = new int[siteswapLength];
         int minCoord = siteswap[0];
         for(int i = 0; i < siteswapLength; i++){
@@ -267,7 +267,7 @@ public class Designer {
         return nomberOfBalls;
     }
 
-    private Integer getMaxThrow(int[] siteswap, int siteswapLength){
+    private static Integer getMaxThrow(int[] siteswap, int siteswapLength){
         int maxThrow = 0;
         for (int i = 0; i < siteswapLength; i++){
             maxThrow = (maxThrow < siteswap[i])? siteswap[i] : maxThrow;
@@ -275,7 +275,7 @@ public class Designer {
         return maxThrow;
     }
 
-    private boolean checkSiteswap(int[] siteswap, int siteswapLength){
+    private static boolean checkSiteswap(int[] siteswap, int siteswapLength){
         boolean[] checkLine = new boolean[siteswapLength];
         for(int i = 0; i < siteswapLength; i++){
             int value = siteswap[i];
@@ -289,7 +289,7 @@ public class Designer {
         return true;
     }
 
-    private int[] stringToNumerals(String siteswap){
+    private static int[] stringToNumerals(String siteswap){
         int l = siteswap.length();
         int[] ans = new int[l];
         for(int i = 0; i < l; i++){
@@ -300,7 +300,7 @@ public class Designer {
         return ans;
     }
 
-    private int charToNumber(char c){
+    private static int charToNumber(char c){
         if (c >= 'a' && c <= 'z'){
             return (int)c - (int)'a' + 1;
         }else if (c >= '0' && c <= '9'){
