@@ -131,7 +131,7 @@ public class Designer {
             animation.append(neededTime.get(ballNumber));
             animation.append("s ");
             animation.append(ballNumber);
-            animation.append("s\"></circle>\n");
+            animation.append("s infinity\"></circle>\n");
             ballNumber++;
         }//*/
         animation.append("</svg>\n");//*/
