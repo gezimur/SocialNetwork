@@ -32,7 +32,7 @@ public class MySource {
             System.out.println("LOl\n\n\n\n\nLOL");
             e.printStackTrace();
         }catch (NullPointerException e){
-            System.out.println("LOl\n\n\n\n\nLOL");
+            System.out.println("LO2\n\n\n\n\nLOL");
         }
     }
 
