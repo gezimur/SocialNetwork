@@ -143,7 +143,6 @@ public class Designer {
                                List<Integer> siteswap,
                                int pos,
                                int maxThrow){
-        anim.append(siteswap.toString());
         anim.append("\n@keyframes ball"); anim.append(ballNumber);
         anim.append(" {\n");
         int x = (ballNumber % 2 == 0)? 100 : 400;
