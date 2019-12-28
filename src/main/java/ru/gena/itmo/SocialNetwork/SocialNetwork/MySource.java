@@ -82,7 +82,7 @@ public class MySource {
 
     public String getPagingOfUsersConversations(String userId, int page, int itemPerPage){
         String sqlQuery = "SELECT C.NAME AS NAME, C.ID AS ID" +
-                " FROM CONVERSATIONS C INNER JOIN USER_CONVERSATIONS U ON C.ID = U.CONVERSATION" +
+                " FROM CONVERSATIONS C INNER JOIN USERS_CONVERSATIONS U ON C.ID = U.CONVERSATION" +
                 " WHERE U.MEMBER = " + userId;
         return getPaging("conversation", sqlQuery, page, itemPerPage);
     }

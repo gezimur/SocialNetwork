@@ -138,6 +138,8 @@ public class MyController {
     public String conversations(HttpServletRequest request, Model model){
         if (request.getSession(false) == null){
             return "redirect:" + nameOfMySite +"/login";
+        }else if ("".equals(request.getSession(false).getAttribute("id").toString())){
+            return "redirect:" + nameOfMySite +"/login";
         }
         HttpSession session = request.getSession();
         String id = session.getAttribute("id").toString();

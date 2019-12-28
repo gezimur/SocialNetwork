@@ -108,9 +108,11 @@ public class Designer {
         StringBuilder animation = new StringBuilder("<style>\n");
         int maxThrow = siteswap.get(0);
         int numberOfBalls = siteswap.get(1);
+        ArrayList<Integer> neededTime = new ArrayList<>();
         int ballNumber = 0;
         int pos = 2;
         while (ballNumber < numberOfBalls) {
+            neededTime.add(siteswap.get(pos));
             pos = addBallAnimationAndReturnNewPos(animation,
                     ballNumber,
                     siteswap,
@@ -121,58 +123,20 @@ public class Designer {
         animation.append("</style>\n");
         animation.append("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n" +
                 "viewBox=\"0 0 500 500\" preserveAspectRatio=\"xMaxYMax none\">\n");
-        /*
+        ballNumber = 0;
         while (ballNumber < numberOfBalls) {
-            animation.append("<circle cx=\"50%\" cy=\"90\" r=\"10\" fill=\"red\" style=\"\n animation: ");
-            animation.append("\"></circle>\n");
+            animation.append("<circle cx=\"50%\" cy=\"90\" r=\"10\" fill=\"red\" style=\"\n animation: ball");
+            animation.append(ballNumber);
+            animation.append(", ");
+            animation.append(neededTime.get(ballNumber));
+            animation.append("s, ");
+            animation.append(ballNumber);
+            animation.append("s\"></circle>\n");
             ballNumber++;
         }//*/
         animation.append("</svg>\n");//*/
         return animation.toString();
     }
-
-    private String addAnimationToBall(int typeOfThrow, int ballNumber, int aDelay){
-        StringBuilder animation = new StringBuilder();
-        if (ballNumber % 2 == 0){
-            animation.append("throwR");
-        }else{
-            animation.append("throwL");
-        }
-        animation.append(typeOfThrow);
-        animation.append(" ");
-        animation.append(typeOfThrow);
-        animation.append("s");
-        animation.append(" ");
-        animation.append(aDelay);
-        animation.append("s");
-
-        return animation.toString();
-    }
-/*
-    private String animationThrow(int typeOfThrow, int maxThrow, char side){
-        StringBuilder animation = new StringBuilder((side == 'l')? "@keyframes throwL" : "@keyframes throwR");
-        int startX = (side == 'l')? 100 : 400;
-        int startY = 450;
-        animation.append(typeOfThrow);
-        animation.append(" {\nfrom {\ncx: ");//========================== from
-        animation.append(startX);
-        animation.append(";\ncy: ");
-        animation.append(startY);
-        animation.append(";\nanimation-timing-function: ease-out;\n}\n");
-        animation.append("50% {\ncy: ");//================================ 50%
-        animation.append(startY - 400 / maxThrow * typeOfThrow);
-        animation.append(";\nanimation-timing-function: ease-in;\n}\n");
-        animation.append("to {\ncx: ");//======================= to
-        if (typeOfThrow % 2 == 0){
-            animation.append(startX);
-        }else{
-            animation.append(500 - startX);
-        }
-        animation.append(";\ncy: ");
-        animation.append(startY);
-        animation.append(";\n}\n}\n");
-        return animation.toString();
-    }//*/
 
     private int addBallAnimationAndReturnNewPos(StringBuilder anim,
                                int ballNumber,
