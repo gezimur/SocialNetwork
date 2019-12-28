@@ -131,7 +131,7 @@ public class Designer {
             animation.append(neededTime.get(ballNumber));
             animation.append("s ");
             animation.append(ballNumber);
-            animation.append("s infinity\"></circle>\n");
+            animation.append("s infinite;\"></circle>\n");
             ballNumber++;
         }//*/
         animation.append("</svg>\n");//*/
@@ -153,6 +153,7 @@ public class Designer {
                 pos,
                 maxThrow);
         if (siteswap.get(pos) % 2 != 0){
+            x = 500 - x;
             addKeyframesForOneCircle(anim,
                     50,
                     x,
