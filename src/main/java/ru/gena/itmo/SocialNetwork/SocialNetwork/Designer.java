@@ -109,9 +109,11 @@ public class Designer {
         int maxThrow = siteswap.get(0);
         int numberOfBalls = siteswap.get(1);
         int neededTime = siteswap.get(2);
+        int pos = 2;
         animationBall(animation,
                 1,
                 siteswap,
+                pos,
                 maxThrow);
         animation.append("</style>\n");/*
         animation.append("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n" +
@@ -184,35 +186,70 @@ public class Designer {
     private void animationBall(StringBuilder anim,
                                int ballNumber,
                                List<Integer> siteswap,
+                               int pos,
                                int maxThrow){
         anim.append(siteswap.toString());
         anim.append("\n@keyframes ball"); anim.append(ballNumber);
         anim.append(" {\n");
         int keyframe = 0;
-        double step = 100 / (2 * siteswap.get(0));
-        int throwNumber = 1;
         int x = (ballNumber % 2 == 0)? 100 : 400;
-        int y = 450;
-        int time = 0;
-        while (time < siteswap.get(0)){
-            anim.append(keyframe);
-            anim.append("% {");
-            anim.append("\ncx:"); anim.append(x);
-            anim.append(";\ncy:"); anim.append(y);
-            anim.append(";\nanimation-timing-function: ease-out;\n}\n");
-            y = 450 - 400 / maxThrow * siteswap.get(throwNumber);
-            keyframe += (int)(step * siteswap.get(throwNumber));
-            anim.append(keyframe);
-            anim.append("% {");
-            anim.append("\ncy:"); anim.append(y);
-            anim.append(";\nanimation-timing-function: ease-out;\n}\n");
-            y = 450;
-            x = (siteswap.get(throwNumber) % 2 == 0)? x : 500 - x;
-            keyframe += (int)(step * siteswap.get(throwNumber));
-            time += siteswap.get(throwNumber);
-            throwNumber++;
+        addKeyframesForOneCircle(anim,
+                keyframe,
+                x,
+                siteswap,
+                pos,
+                maxThrow);
+        if (siteswap.get(pos) % 2 != 0){
+            addKeyframesForOneCircle(anim,
+                    keyframe,
+                    x,
+                    siteswap,
+                    pos,
+                    maxThrow);
         }
-        anim.append("}\n");
+        anim.append("100% {");
+        anim.append("\ncx:"); anim.append(x);
+        anim.append(";\ncy:"); anim.append(450);
+        anim.append(";\n}\n}\n");
+    }
+
+    private void addKeyframesForOneCircle(StringBuilder anim,
+                                          int keyframe,
+                                          int x,
+                                          List<Integer> siteswap,
+                                          int pos,
+                                          int maxThrow){
+        double step = (siteswap.get(pos) % 2 == 0)? 100.0 / (2 * siteswap.get(pos)) : 100.0 / (4 * siteswap.get(pos));
+        int neededTime = siteswap.get(pos);
+        int time = 0;
+        pos++;
+        while (time < neededTime){//еще нужен последний кадр и повтор если не возвращается в исходную руку
+            addKeyframesToOneThrow(anim, keyframe, step, x, siteswap.get(pos), maxThrow);
+            x = (siteswap.get(pos) % 2 == 0)? x : 500 - x;
+            keyframe += (int)(2* step * siteswap.get(pos));
+            time += siteswap.get(pos);
+            pos++;
+        }
+    }
+
+    private void addKeyframesToOneThrow(StringBuilder anim,
+                             int keyframe,
+                             double step,
+                             int x,
+                             int throwType,
+                             int maxThrow){
+        int y = 450;
+        anim.append(keyframe);
+        anim.append("% {");
+        anim.append("\ncx:"); anim.append(x);
+        anim.append(";\ncy:"); anim.append(y);
+        anim.append(";\nanimation-timing-function: ease-out;\n}\n");
+        y = 450 - 400 / maxThrow * throwType;
+        keyframe += (int)(step * throwType);
+        anim.append(keyframe);
+        anim.append("% {");
+        anim.append("\ncy:"); anim.append(y);
+        anim.append(";\nanimation-timing-function: ease-in;\n}\n");
     }
 
 //возвращает (макс. бросок; кол-во мячей; врямя цикла для мяча1; бр. мяча; ...; кол-во мячей)
@@ -223,7 +260,8 @@ public class Designer {
         }
         int[] siteswapN = stringToNumerals(siteswap);
         if (checkSiteswap(siteswapN, siteswapLength)){
-            ArrayList<Integer> ans = new ArrayList<>(getMaxThrow(siteswapN, siteswapLength));
+            ArrayList<Integer> ans = new ArrayList<>();
+            ans.add(getMaxThrow(siteswapN, siteswapLength));
             int numberOfBalls = getNumberOfBalls(siteswapN, siteswapLength);
             ans.add(numberOfBalls);
             for (int i = 0; i < numberOfBalls; i++){
@@ -237,7 +275,7 @@ public class Designer {
 
     private ArrayList<Integer> doSiteswapForBall(int[] siteswap, int siteswapLength, int i){
         ArrayList<Integer> ans = new ArrayList<>();
-        ans.add(0);
+        ans.add(0);//время требуемое для одного чикла
         ans.add(siteswap[i]);
         int neededTime = siteswap[i];
         int position = (i + siteswap[i]) % siteswapLength;
