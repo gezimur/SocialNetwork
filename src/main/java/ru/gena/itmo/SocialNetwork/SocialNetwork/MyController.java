@@ -71,6 +71,9 @@ public class MyController {
         if (session != null){
             String id = session.getAttribute("id").toString();
             if (!"".equals(id)){
+                if ( "admin".equals(session.getAttribute("userStatus").toString()) ){
+                    return  "redirect:" + nameOfMySite + "/admin_workspace";
+                }
                 return "redirect:" + nameOfMySite + "/profile/id" + id;
             }
         }
@@ -83,9 +86,11 @@ public class MyController {
             User user = MySource.getInstance().getUser(login, password);
             if (user != null){
                 String id = Designer.toNeddedForm(user.getId().toString());
+                String status = user.getUsersStatus();
                 session = request.getSession();
                 session.setAttribute("id", id);
-                if ( "admin".equals(user.getUsersStatus()) ){
+                session.setAttribute("userStatus", status);
+                if ( "admin".equals(status) ){
                     return  "redirect:" + nameOfMySite + "/admin_workspace";
                 }
                 return  "redirect:" + nameOfMySite + "/profile/id" + id;
@@ -107,16 +112,17 @@ public class MyController {
         model.addAttribute("patternsTree", Designer.createSVGtoPatternsTree(MySource.getInstance().getPatternsTree()));
         return "htmlPatterns/AdminWorkspace";
     }
-
+//доделать
     @RequestMapping("/addPattern")
     public String addPattern(
             HttpSession session,
-            @RequestParam(required = false) String id,
+            @RequestParam(required = false) String name,
             @RequestParam(required = false) String descendants,
             @RequestParam(required = false) String ancestors){
         if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
+        MySource.getInstance().addPattern(name, descendants, ancestors);
         return  "redirect:" + nameOfMySite + "/admin_workspace";
     }
 
@@ -131,13 +137,12 @@ public class MyController {
         if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
-        Pattern p;
         if (name != null || siteswap != null || description != null){
-            p = MySource.getInstance().editingPattern(name, siteswap, description);
-        }else{
-            p = MySource.getInstance()
-                    .getPattern(Integer.parseInt(id.replaceFirst("0", "")));
+            MySource.getInstance().editingPattern(id, name, siteswap, description);
         }
+
+        Pattern p = MySource.getInstance().getPattern(Integer.parseInt(id.replaceFirst("0", "")));
+
         model.addAttribute("nameOfPattern", p.getPatternsName());
         model.addAttribute("siteswap",
                 Designer.textAnalysis("&" + p.getSiteswap() + "&"));
@@ -218,6 +223,9 @@ public class MyController {
                           Model model){
         if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
+        }
+        if ("admin".equals(session.getAttribute("status"))){
+            return "redirect:" + nameOfMySite + "/editingPattern/id" + id;
         }
         Pattern p = MySource.getInstance()
                 .getPattern(Integer.parseInt(id.replaceFirst("0", "")));

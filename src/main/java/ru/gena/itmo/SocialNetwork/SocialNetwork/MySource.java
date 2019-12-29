@@ -1,5 +1,6 @@
 package ru.gena.itmo.SocialNetwork.SocialNetwork;
 
+import javafx.util.Pair;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.Pattern;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.PatternsTree;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
@@ -195,9 +196,58 @@ public class MySource {
             return null;
         }
     }
+//доделать editingPattern и сделать addPattern, deletePattern
+    public void editingPattern(String id, String name, String siteswap, String description){
+        //Integer.parseInt(id.replaceFirst("0", ""));
+        StringBuilder sqlQuery = new StringBuilder("UPDATE PATTERNS SET ");
+        boolean add = false;
+        if (name != null)if ( "".equals(name) ){
+            add = true;
+            sqlQuery.append("PATTERNSNAME = '"); sqlQuery.append(name); sqlQuery.append("' ");
+        }
+        if (siteswap != null)if ( "".equals(siteswap) ){
+            if (add) sqlQuery.append(", ");
+            add = true;
+            sqlQuery.append("SITESWAP = '"); sqlQuery.append(siteswap); sqlQuery.append("' ");
+        }
+        if (description != null)if ( "".equals(description) ){
+            if (add) sqlQuery.append(", ");
+            sqlQuery.append("DESCRIPTION = '"); sqlQuery.append(description); sqlQuery.append("' ");
+        }
+        sqlQuery.append("WHERE ID = ");
+        sqlQuery.append(id);
+        executeQuery(sqlQuery.toString());
+    }
 
-    public Pattern editingPattern(String name, String siteswap, String description){
-        return null;
+    public void addPattern(String name, String descendants, String ancestors){
+        int id = -1;
+        try{
+            id = getResultSet("SELECT MAX(ID) AS ID FROM PATTERNS")
+                    .getInt("ID") + 1;
+        }catch (SQLException e){ e.printStackTrace(); }
+        if (id != -1) {
+            boolean ans = executeQuery("INSERT INTO PATTERNS VALUES(" +
+                    id + ", " +
+                    "'" + name + "', " +
+                    "'', " +
+                    "'');");
+            if (ans) {
+                if (ancestors == null) ancestors = "0";
+                if (descendants == null) descendants = "";
+                String[] ancestorsArr = ancestors.split(" ");
+                String[] descendantsArr = descendants.split(" ");
+                for (String i : ancestorsArr){
+                    if (ans) ans = executeQuery("INSERT INTO PATTERNSTREE VALUES( " +
+                            i + "," +
+                            id + ");");
+                }
+                for (String i : descendantsArr){
+                    if (ans) ans = executeQuery("INSERT INTO PATTERNSTREE VALUES( " +
+                            id + "," +
+                            i + ");");
+                }
+            }
+        }
     }
 
     private ResultSet getResultSet(String sqlQuery) {
