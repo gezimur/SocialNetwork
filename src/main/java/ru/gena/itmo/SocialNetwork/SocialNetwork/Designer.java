@@ -58,7 +58,7 @@ public class Designer {
                     //пишем его название
                     svg.append("<text id=\"");
                     svg.append(w);
-                    svg.append("\" x=\"");
+                    svg.append("\" onclick=\"rgst(this)\" x=\"");
                     svg.append(x2 - name.length() / 2);
                     svg.append("%\" y=\"");
                     svg.append(y2 + ySpace / 2);

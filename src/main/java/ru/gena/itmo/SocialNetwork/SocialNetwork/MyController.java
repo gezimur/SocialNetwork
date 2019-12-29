@@ -186,17 +186,27 @@ public class MyController {
                             "<input type=\"text\" name=\"surname\" form=\"editing\" placeholder=\"new surname\"><br>" +
                             "<input type=\"submit\" form=\"editing\" placeholder=\"change\">" +
                             "</span>\n");
+            model.addAttribute("script", "rgst(e){ e.style.backgroundColor = \"yellow\";}");
         }
         model.addAttribute("patternsTree",
                 Designer.createSVGtoPatternsTree(instance.getPatternsTree()));
         List<Integer> ll = MySource.getInstance().getPatterns(Integer.valueOf(id), "LEARNEDPATTERNS");
-        if (ll != null){
-            model.addAttribute("patterns", ll.toString());
-        }
-        //List<Integer> lp = MySource.getInstance().getPatterns(Integer.valueOf(id), "PATTERNSINPROCESS");
+        ll.addAll(MySource.getInstance().getPatterns(Integer.valueOf(id), "PATTERNSINPROCESS"));
+        model.addAttribute("patterns", ll.toString());
         return "htmlPatterns/Profile";
     }
+    /*
 
+    rgst(e){
+        e.style.backgroundColor = "yellow";
+        //var f = "?id=" + id + "&pattern?=" + pattern;
+        //var url = "/addUsersPattern";
+        //var req = new XMLHttpRequest();
+        //req.open('POST', url, true);
+        //req.send(f);
+    }
+     */
+    //*/
     @RequestMapping("/editing")
     public String editing(HttpSession session,
                           @RequestParam(required = false) String name,
