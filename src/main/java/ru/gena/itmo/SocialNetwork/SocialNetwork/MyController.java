@@ -68,7 +68,7 @@ public class MyController {
         HttpSession session = request.getSession(false);
         //если авторизирован, то переправить на страницу его профиля
 
-        if (session != null){
+        if (session != null && session.getAttribute("id") != null){
             String id = session.getAttribute("id").toString();
             if (!"".equals(id)){
                 if ( "admin".equals(session.getAttribute("userStatus").toString()) ){
@@ -269,6 +269,10 @@ public class MyController {
     private boolean checkUser(HttpSession session) {
         if (session == null) {
             return true;
-        } else return "".equals(session.getAttribute("id").toString());
+        } else if (session.getAttribute("id") != null){
+            return "".equals(session.getAttribute("id").toString());
+        }else{
+            return true;
+        }
     }
 }

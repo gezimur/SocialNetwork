@@ -249,15 +249,23 @@ public class MySource {
         }
     }
 
-    public void deletePattern(int id){
-        String sqlQuery = "DELETE FROM PATTERNS WHERE ID = " + id;
-        boolean ans = executeQuery(sqlQuery);
-        if (ans){
-            sqlQuery = "DELETE FROM PATTERNSTREE WHERE PATTERN = " + id;
-            ans = executeQuery(sqlQuery);
+    public void deletePattern(int id) {
+        String sqlQuery = "SELECT 1 FROM PATTERNSTREE WHERE PATTERN = '" + id + "' LIMIT 1;";
+        boolean ans;
+        ResultSet rs;
+        try{
+            rs = con.createStatement().executeQuery(sqlQuery);
+            ans = !rs.next();
+        }catch (SQLException e){
+            e.printStackTrace();
+            ans = false;
         }
         if (ans){
             sqlQuery = "DELETE FROM PATTERNSTREE WHERE DESCENDANTS = " + id;
+            ans = executeQuery(sqlQuery);
+        }
+        if (ans){
+            sqlQuery = "DELETE FROM PATTERNS WHERE ID = " + id;
             executeQuery(sqlQuery);
         }
     }
