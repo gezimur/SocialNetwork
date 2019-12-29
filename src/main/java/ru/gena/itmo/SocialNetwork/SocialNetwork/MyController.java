@@ -146,7 +146,7 @@ public class MyController {
         model.addAttribute("nameOfPattern", p.getPatternsName());
         model.addAttribute("siteswapText", p.getSiteswap());
         model.addAttribute("siteswapAnim",
-                Designer.textAnalysis("&" + p.getSiteswap()) + "&");
+                Designer.textAnalysis("&" + p.getSiteswap() + "&"));
         model.addAttribute("description", p.getDescription());
         return  "htmlPatterns/EditingPattern";
     }
