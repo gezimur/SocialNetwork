@@ -13,6 +13,12 @@ public class Preparer {
                 .executeQuery("DROP TABLE IF EXISTS USERS_CONVERSATIONS;");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping users"; }
         isTryingSuccess = instance
+                .executeQuery("DROP TABLE IF EXISTS LEARNEDPATTERNS;");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping learnedPatterns"; }
+        isTryingSuccess = instance
+                .executeQuery("DROP TABLE IF EXISTS PATTERNSINPROCESS;");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping patternsInProcess"; }
+        isTryingSuccess = instance
                 .executeQuery("DROP TABLE IF EXISTS USERS;");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping users"; }
         isTryingSuccess = instance
@@ -155,9 +161,7 @@ public class Preparer {
                         "4);");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values24 into patternsTree"; }
         //===========================================================================
-        isTryingSuccess = instance
-                .executeQuery("DROP TABLE IF EXISTS LEARNEDPATTERNS;");
-        if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping learnedPatterns"; }
+
         isTryingSuccess = instance
                 .executeQuery("CREATE TABLE IF NOT EXISTS LEARNEDPATTERNS (" +
                         "JUGGLER INTEGER, " +
@@ -170,9 +174,6 @@ public class Preparer {
                         "100001, " +
                         "1);");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values_100001_1 into learnedPatterns"; }
-        isTryingSuccess = instance
-                .executeQuery("DROP TABLE IF EXISTS PATTERNSINPROCESS;");
-        if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping patternsInProcess"; }
         isTryingSuccess = instance
                 .executeQuery("CREATE TABLE IF NOT EXISTS PATTERNSINPROCESS (" +
                         "JUGGLER INTEGER, " +
