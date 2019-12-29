@@ -144,8 +144,9 @@ public class MyController {
         Pattern p = MySource.getInstance().getPattern(Integer.parseInt(id.replaceFirst("0", "")));
         model.addAttribute("id", id);
         model.addAttribute("nameOfPattern", p.getPatternsName());
-        model.addAttribute("siteswap",
-                Designer.textAnalysis("&" + p.getSiteswap() + "&"));
+        model.addAttribute("siteswapText", p.getSiteswap());
+        model.addAttribute("siteswapAnim",
+                Designer.textAnalysis("&" + p.getSiteswap()) + "&");
         model.addAttribute("description", p.getDescription());
         return  "htmlPatterns/EditingPattern";
     }

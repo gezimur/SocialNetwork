@@ -200,22 +200,25 @@ public class MySource {
         //Integer.parseInt(id.replaceFirst("0", ""));
         StringBuilder sqlQuery = new StringBuilder("UPDATE PATTERNS SET ");
         boolean add = false;
-        if (name != null)if ( "".equals(name) ){
+        if (name != null)if ( !"".equals(name) ){
             add = true;
             sqlQuery.append("PATTERNSNAME = '"); sqlQuery.append(name); sqlQuery.append("' ");
         }
-        if (siteswap != null)if ( "".equals(siteswap) ){
+        if (siteswap != null)if ( !"".equals(siteswap) ){
             if (add) sqlQuery.append(", ");
             add = true;
             sqlQuery.append("SITESWAP = '"); sqlQuery.append(siteswap); sqlQuery.append("' ");
         }
-        if (description != null)if ( "".equals(description) ){
+        if (description != null)if ( !"".equals(description) ){
             if (add) sqlQuery.append(", ");
             sqlQuery.append("DESCRIPTION = '"); sqlQuery.append(description); sqlQuery.append("' ");
+            add = true;
         }
-        sqlQuery.append("WHERE ID = ");
-        sqlQuery.append(id);
-        executeQuery(sqlQuery.toString());
+        if (add){
+            sqlQuery.append("WHERE ID = ");
+            sqlQuery.append(id);
+            executeQuery(sqlQuery.toString());
+        }
     }
 
     public void addPattern(String name, String descendants, String ancestors){

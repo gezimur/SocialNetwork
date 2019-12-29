@@ -99,6 +99,8 @@ public class Designer {
             ArrayList<Integer> siteswap = analysisSiteswap(str);
             if (siteswap != null){
                 return visualize(siteswap);
+            }else{
+                return "bad siteswap";
             }
         }
         return text;
@@ -280,6 +282,9 @@ public class Designer {
         boolean[] checkLine = new boolean[siteswapLength];
         for(int i = 0; i < siteswapLength; i++){
             int value = siteswap[i];
+            if (value == -1){
+                return false;
+            }
             int coordInLine = (i + value) % siteswapLength;
             if (checkLine[coordInLine]){
                 return false;
