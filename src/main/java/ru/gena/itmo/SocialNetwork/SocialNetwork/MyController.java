@@ -11,6 +11,7 @@ import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class MyController {
@@ -188,6 +189,11 @@ public class MyController {
         }
         model.addAttribute("patternsTree",
                 Designer.createSVGtoPatternsTree(instance.getPatternsTree()));
+        List<Integer> ll = MySource.getInstance().getPatterns(Integer.valueOf(id), "LEARNEDPATTERNS");
+        if (ll != null){
+            model.addAttribute("patterns", ll.toString());
+        }
+        //List<Integer> lp = MySource.getInstance().getPatterns(Integer.valueOf(id), "PATTERNSINPROCESS");
         return "htmlPatterns/Profile";
     }
 

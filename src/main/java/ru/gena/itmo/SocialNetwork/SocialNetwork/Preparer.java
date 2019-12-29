@@ -154,6 +154,37 @@ public class Preparer {
                         "2, " +
                         "4);");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values24 into patternsTree"; }
+        //===========================================================================
+        isTryingSuccess = instance
+                .executeQuery("DROP TABLE IF EXISTS LEARNEDPATTERNS;");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping learnedPatterns"; }
+        isTryingSuccess = instance
+                .executeQuery("CREATE TABLE IF NOT EXISTS LEARNEDPATTERNS (" +
+                        "JUGGLER INTEGER, " +
+                        "PATTERN INTEGER, " +
+                        "FOREIGN KEY (JUGGLER) REFERENCES USERS (ID), " +
+                        "FOREIGN KEY (PATTERN) REFERENCES PATTERNS (ID));");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with learnedPatterns"; }
+        isTryingSuccess = instance
+                .executeQuery("INSERT INTO LEARNEDPATTERNS VALUES (" +
+                        "100001, " +
+                        "1);");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values_100001_1 into learnedPatterns"; }
+        isTryingSuccess = instance
+                .executeQuery("DROP TABLE IF EXISTS PATTERNSINPROCESS;");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping patternsInProcess"; }
+        isTryingSuccess = instance
+                .executeQuery("CREATE TABLE IF NOT EXISTS PATTERNSINPROCESS (" +
+                        "JUGGLER INTEGER, " +
+                        "PATTERN INTEGER, " +
+                        "FOREIGN KEY (JUGGLER) REFERENCES USERS (ID), " +
+                        "FOREIGN KEY (PATTERN) REFERENCES PATTERNS (ID));");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with patternsInProcess"; }
+        isTryingSuccess = instance
+                .executeQuery("INSERT INTO PATTERNSINPROCESS VALUES (" +
+                        "100001, " +
+                        "2);");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values_100001_2 into patternsInProcess"; }
         return null;
     }
 }

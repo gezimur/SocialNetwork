@@ -6,6 +6,8 @@ import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
 
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MySource {
 
@@ -177,6 +179,22 @@ public class MySource {
             return newTree;
         }catch(SQLException e){
             e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Integer> getPatterns(int id, String patternType){
+        String sqlQuery = "SELECT * FROM " + patternType + " WHERE JUGGLER = " + id;
+        ResultSet rs = getResultSet(sqlQuery);
+        List<Integer> ans = new ArrayList<>();
+        try {
+            if (rs == null) return null;
+            ans.add(rs.getInt("PATTERN"));
+            while (rs.next()) {
+                ans.add(rs.getInt("PATTERN"));
+            }
+            return ans;
+        }catch (SQLException e){
             return null;
         }
     }
