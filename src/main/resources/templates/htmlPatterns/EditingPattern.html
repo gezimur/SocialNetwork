@@ -7,32 +7,21 @@
 </head>
 <body class="body">
 <p class="mainBlock">
-    <span class=name">
+    <span class="name">
         <span>
-            <input type="text"
-                   name="name"
-                   form="editingPattern"
-                   placeholder="name"
-                   th:value="${nameOfPattern}" />
-        </span><br>
+            <input type="text" name="name" form="editingPattern" placeholder="name" th:value="${nameOfPattern}"><--!-->
+        </span>
         <a href="/admin_workspace">back</a>
     </span>
     <span class="bigBlock">
 		<span class="siteswap">
-            <input type="text"
-                   name="siteswap"
-                   form="editingPattern"
-                   placeholder="siteswap"
-                   th:value="${siteswap}" />
+            <input type="text" name="siteswap" form="editingPattern" placeholder="siteswap" th:value="${siteswap}"><--!-->
         </span>
 		<span class="description">
-            <input type="text"
-                   name="description"
-                   form="editingPattern"
-                   placeholder="description"
-                   th:value="${description}" />
+            <input type="text" name="description" form="editingPattern" placeholder="description" th:value="${description}"><--!-->
         </span>
 	</span>
+    <input type="submit" form="editingPattern">
 </p>
 <form id="editingPattern" th:action="'/editingPattern/id' + ${id}"></form>
 </body>
