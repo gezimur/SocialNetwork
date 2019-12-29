@@ -1,6 +1,5 @@
 package ru.gena.itmo.SocialNetwork.SocialNetwork;
 
-import javafx.util.Pair;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.Pattern;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.PatternsTree;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
