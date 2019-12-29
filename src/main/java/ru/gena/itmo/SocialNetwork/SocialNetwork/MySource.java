@@ -250,7 +250,10 @@ public class MySource {
     }
 
     public void deletePattern(int id) {
+
+
         String sqlQuery = "SELECT 1 FROM PATTERNSTREE WHERE PATTERN = " + id + " LIMIT 1;";
+
         boolean ans;
         ResultSet rs;
         try{

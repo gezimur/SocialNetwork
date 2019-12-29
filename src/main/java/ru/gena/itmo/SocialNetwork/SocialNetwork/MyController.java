@@ -269,7 +269,7 @@ public class MyController {
     private boolean checkUser(HttpSession session) {
         if (session == null) {
             return true;
-        } else if (session.getAttribute("id") != null){
+        } else if (session.getAttribute("id") != null && session.getAttribute("userStatus") != null){
             return "".equals(session.getAttribute("id").toString());
         }else{
             return true;
