@@ -56,7 +56,9 @@ public class Designer {
                 svg.append("\" stroke=\"black\"></line>\n");
                 if (!used[w]) {//проверяем посещали ли мы паттерн раньше
                     //пишем его название
-                    svg.append("<text x=\"");
+                    svg.append("<text id=\"");
+                    svg.append(w);
+                    svg.append("\" x=\"");
                     svg.append(x2 - name.length() / 2);
                     svg.append("%\" y=\"");
                     svg.append(y2 + ySpace / 2);
@@ -92,7 +94,7 @@ public class Designer {
     public static String textAnalysis(String text){
         int siteswapStart = text.indexOf('&');
         int siteswapEnd = text.indexOf('&', siteswapStart + 1);
-        if (siteswapStart != -1 && siteswapEnd != -1){
+        if (siteswapStart != -1 && siteswapEnd != -1 && siteswapEnd - siteswapStart > 1){
             String str = text.substring(siteswapStart + 1, siteswapEnd);
             ArrayList<Integer> siteswap = analysisSiteswap(str);
             if (siteswap != null){

@@ -249,6 +249,19 @@ public class MySource {
         }
     }
 
+    public void deletePattern(int id){
+        String sqlQuery = "DELETE FROM PATTERNS WHERE ID = " + id;
+        boolean ans = executeQuery(sqlQuery);
+        if (ans){
+            sqlQuery = "DELETE FROM PATTERNSTREE WHERE PATTERN = " + id;
+            ans = executeQuery(sqlQuery);
+        }
+        if (ans){
+            sqlQuery = "DELETE FROM PATTERNSTREE WHERE DESCENDANTS = " + id;
+            executeQuery(sqlQuery);
+        }
+    }
+
     private ResultSet getResultSet(String sqlQuery) {
         try {
             ResultSet rs = con

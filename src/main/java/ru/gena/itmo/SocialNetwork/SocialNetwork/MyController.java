@@ -142,14 +142,14 @@ public class MyController {
         }
 
         Pattern p = MySource.getInstance().getPattern(Integer.parseInt(id.replaceFirst("0", "")));
-
+        model.addAttribute("id", id);
         model.addAttribute("nameOfPattern", p.getPatternsName());
         model.addAttribute("siteswap",
                 Designer.textAnalysis("&" + p.getSiteswap() + "&"));
         model.addAttribute("description", p.getDescription());
         return  "htmlPatterns/EditingPattern";
     }
-
+// покрасить дерево javascript
     @RequestMapping("/deletePattern")
     public String deletePattern(
             HttpSession session,
@@ -157,6 +157,7 @@ public class MyController {
         if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
+        MySource.getInstance().deletePattern(Integer.parseInt(id.replaceFirst("0", "")));
         return  "redirect:" + nameOfMySite + "/admin_workspace";
     }
 
@@ -224,7 +225,7 @@ public class MyController {
         if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
-        if ("admin".equals(session.getAttribute("status"))){
+        if ("admin".equals(session.getAttribute("status").toString())){
             return "redirect:" + nameOfMySite + "/editingPattern/id" + id;
         }
         Pattern p = MySource.getInstance()
