@@ -231,18 +231,18 @@ public class MySource {
                     "'', " +
                     "'');");
             if (ans) {
-                if (ancestors == null) ancestors = "0";
-                if (descendants == null) descendants = "";
+                if ( "".equals(ancestors) ) ancestors = "0";
+                if ("".equals(descendants)) descendants = "";
                 String[] ancestorsArr = ancestors.split(" ");
                 String[] descendantsArr = descendants.split(" ");
                 for (String i : ancestorsArr){
                     if (ans) ans = executeQuery("INSERT INTO PATTERNSTREE VALUES( " +
-                            i + "," +
+                            i + ", " +
                             id + ");");
                 }
                 for (String i : descendantsArr){
                     if (ans) ans = executeQuery("INSERT INTO PATTERNSTREE VALUES( " +
-                            id + "," +
+                            id + ", " +
                             i + ");");
                 }
             }
@@ -250,7 +250,7 @@ public class MySource {
     }
 
     public void deletePattern(int id) {
-        String sqlQuery = "SELECT 1 FROM PATTERNSTREE WHERE PATTERN = '" + id + "' LIMIT 1;";
+        String sqlQuery = "SELECT 1 FROM PATTERNSTREE WHERE PATTERN = " + id + " LIMIT 1;";
         boolean ans;
         ResultSet rs;
         try{

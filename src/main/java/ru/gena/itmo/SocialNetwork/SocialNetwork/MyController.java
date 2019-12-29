@@ -225,7 +225,7 @@ public class MyController {
         if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
-        if ("admin".equals(session.getAttribute("status").toString())){
+        if ("admin".equals(session.getAttribute("userStatus").toString())){
             return "redirect:" + nameOfMySite + "/editingPattern/id" + id;
         }
         Pattern p = MySource.getInstance()
