@@ -224,8 +224,13 @@ public class MyController {
             {
                 script.append("req = new XMLHttpRequest();\n");
                 script.append("url = \"/saveChanges\";\n");
-                script.append("req.open('POST', url);\n");
-                script.append("req.send(patterns);\n}\n");
+                script.append("if (patterns.size != 0){\n");
+                    script.append("url += '?';\n");
+                    script.append("for(let i of patterns.keys()){\n");
+                        script.append("url += i + '=' patterns.get(i) + '&';\n");
+                    script.append("}\nurl += 'patSize=' + patterns.size;\n}\n");
+                script.append("req.open('GET', url);\n");
+                script.append("req.send();\n}\n");
             }
             bottomStyle = "display: block;";
         }else{
@@ -241,7 +246,7 @@ public class MyController {
     }
     @RequestMapping("/saveChanges")
     @ResponseBody()
-    public void saveChanges(@RequestBody HashMap<String, String> reqB){
+    public void saveChanges(@RequestBody String reqB){
         System.out.println("\n\n" + reqB + "\n\n");
     }
     @RequestMapping("/editing")
