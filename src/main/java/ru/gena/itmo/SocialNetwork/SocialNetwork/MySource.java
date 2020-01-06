@@ -7,7 +7,9 @@ import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MySource {
 
@@ -183,19 +185,47 @@ public class MySource {
         }
     }
 
-    public List<Integer> getPatterns(int id, String patternType){
-        String sqlQuery = "SELECT * FROM " + patternType + " WHERE JUGGLER = " + id;
+    public Map<Integer, Integer> getPatterns(int id){
+        String sqlQuery = "SELECT * FROM USERS_PATTERNS WHERE JUGGLER = " + id;
         ResultSet rs = getResultSet(sqlQuery);
-        List<Integer> ans = new ArrayList<>();
+        Map<Integer, Integer> ans = new HashMap<>();
         try {
             if (rs == null) return null;
-            ans.add(rs.getInt("PATTERN"));
+            ans.put(rs.getInt("PATTERN"), rs.getInt("STATUS"));
             while (rs.next()) {
-                ans.add(rs.getInt("PATTERN"));
+                ans.put(rs.getInt("PATTERN"), rs.getInt("STATUS"));
             }
             return ans;
         }catch (SQLException e){
             return null;
+        }
+    }
+
+    public void updatePatterns(int id, Map<Integer,Integer> newPatterns){
+        Map<Integer, Integer> lastPatterns = getPatterns(id);
+        for (int i : newPatterns.keySet()){
+            if (lastPatterns.containsKey(i)){
+                if ( !lastPatterns.get(i).equals(newPatterns.get(i)) ){
+                    String sqlQuery = "UPDATE USERS_PATTERNS SET STATUS = " + newPatterns.get(i) +
+                            " WHERE JUGGLER = " + id +
+                            " AND PATTERN = " + i;
+                    executeQuery(sqlQuery);
+                    //изменить содержание
+                }else if (newPatterns.get(i) == 0){
+                    String sqlQuery = "DELETE FROM USERS_PATTERNS" +
+                            " WHERE JUGGLER = " + id +
+                            " AND PATTERN = " + i;
+                    executeQuery(sqlQuery);
+                    //удалить запись
+                }
+            }else{
+                String sqlQuery = "INSERT INTO USERS_PATTERNS VALUES(" +
+                        id + ", " +
+                        i + ", " +
+                        newPatterns.get(i) + ");";
+                executeQuery(sqlQuery);
+                //вставить
+            }
         }
     }
 

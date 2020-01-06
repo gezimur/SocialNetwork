@@ -13,6 +13,9 @@ public class Preparer {
                 .executeQuery("DROP TABLE IF EXISTS USERS_CONVERSATIONS;");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping users"; }
         isTryingSuccess = instance
+                .executeQuery("DROP TABLE IF EXISTS USERS_PATTERNS;");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping users patterns"; }
+        isTryingSuccess = instance
                 .executeQuery("DROP TABLE IF EXISTS LEARNEDPATTERNS;");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with dropping learnedPatterns"; }
         isTryingSuccess = instance
@@ -163,29 +166,25 @@ public class Preparer {
         //===========================================================================
 
         isTryingSuccess = instance
-                .executeQuery("CREATE TABLE IF NOT EXISTS LEARNEDPATTERNS (" +
+                .executeQuery("CREATE TABLE IF NOT EXISTS USERS_PATTERNS (" +
                         "JUGGLER INTEGER, " +
                         "PATTERN INTEGER, " +
+                        "STATUS INTEGER, " +
                         "FOREIGN KEY (JUGGLER) REFERENCES USERS (ID), " +
                         "FOREIGN KEY (PATTERN) REFERENCES PATTERNS (ID));");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with learnedPatterns"; }
         isTryingSuccess = instance
-                .executeQuery("INSERT INTO LEARNEDPATTERNS VALUES (" +
+                .executeQuery("INSERT INTO USERS_PATTERNS VALUES (" +
                         "100001, " +
-                        "1);");
-        if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values_100001_1 into learnedPatterns"; }
+                        "1, " +
+                        "2 );");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values_100001_1_2 into users patterns"; }
         isTryingSuccess = instance
-                .executeQuery("CREATE TABLE IF NOT EXISTS PATTERNSINPROCESS (" +
-                        "JUGGLER INTEGER, " +
-                        "PATTERN INTEGER, " +
-                        "FOREIGN KEY (JUGGLER) REFERENCES USERS (ID), " +
-                        "FOREIGN KEY (PATTERN) REFERENCES PATTERNS (ID));");
-        if (!isTryingSuccess) { return "\n\n\n\nproblem with patternsInProcess"; }
-        isTryingSuccess = instance
-                .executeQuery("INSERT INTO PATTERNSINPROCESS VALUES (" +
+                .executeQuery("INSERT INTO USERS_PATTERNS VALUES (" +
                         "100001, " +
-                        "2);");
-        if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values_100001_2 into patternsInProcess"; }
+                        "2, " +
+                        "1 );");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values_100001_2_1 into users patterns"; }
         return null;
     }
 }

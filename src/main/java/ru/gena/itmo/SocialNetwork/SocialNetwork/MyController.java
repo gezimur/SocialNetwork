@@ -180,16 +180,11 @@ public class MyController {
         StringBuilder script = new StringBuilder();
         {
             script.append("\nlet patterns = new Map();\n");
-            List<Integer> l = MySource.getInstance().getPatterns(Integer.valueOf(id), "PATTERNSINPROCESS");
+            Map<Integer, Integer> l = MySource.getInstance().getPatterns(Integer.valueOf(id));
             if (l != null){
-                for (int i : l) {
-                    script.append("patterns.set('"); script.append(i); script.append("', 1);\n");
-                }
-            }
-            l = MySource.getInstance().getPatterns(Integer.valueOf(id), "LEARNEDPATTERNS");
-            if (l != null) {
-                for (int i : l) {
-                    script.append("patterns.set('"); script.append(i); script.append("', 2);\n");
+                for (int i : l.keySet()) {
+                    script.append("patterns.set('"); script.append(i); script.append("', ");
+                    script.append(l.get(i)); script.append(");\n");
                 }
             }
             script.append("for (let i of patterns.keys()){\n");
@@ -229,7 +224,7 @@ public class MyController {
                     script.append("url += '?';\n");
                     script.append("for(let i of patterns.keys()){\n");
                         script.append("url += i + '=' + patterns.get(i) + '&';\n");
-                    script.append("}\nurl += 'patSize=' + patterns.size;\n}\n");
+                    script.append("}\nurl += 'id=' + "); script.append(id); script.append(";\n}\n");
                 script.append("req.open('GET', url);\n");
                 script.append("req.send();\n}\n");
             }
@@ -247,8 +242,17 @@ public class MyController {
     }
     @RequestMapping("/saveChanges")
     @ResponseBody()
-    public void saveChanges(@RequestParam Map<String,String> allParams){
-        System.out.println("\n\n" + allParams.toString() + "\n\n");
+    public void saveChanges(@RequestParam Map<String, String> allParams){
+        if (allParams.containsKey("id")){
+            int id = Integer.valueOf(allParams.get("id"));
+            allParams.remove("id");
+            Map<Integer, Integer> newPatterns = new HashMap<>();
+            for (String k : allParams.keySet()){
+                newPatterns.put(Integer.valueOf(k), Integer.valueOf(allParams.get(k)));
+            }
+            MySource.getInstance().updatePatterns(id, newPatterns);
+            System.out.println("\n\n" + allParams.toString() + "\n\n");
+        }
     }
     @RequestMapping("/editing")
     public String editing(HttpSession session,
