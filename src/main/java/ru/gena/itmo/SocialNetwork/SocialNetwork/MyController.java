@@ -2,15 +2,14 @@ package ru.gena.itmo.SocialNetwork.SocialNetwork;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.Pattern;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -226,7 +225,7 @@ public class MyController {
                 script.append("req = new XMLHttpRequest();\n");
                 script.append("url = \"/saveChanges\";\n");
                 script.append("req.open('POST', url);\n");
-                script.append("req.send();\n}\n");
+                script.append("req.send(patterns);\n}\n");
             }
             bottomStyle = "display: block;";
         }else{
@@ -241,8 +240,9 @@ public class MyController {
         return "htmlPatterns/Profile";
     }
     @RequestMapping("/saveChanges")
-    public void saveChanges(){
-        System.out.println("\n\nYES\n\n");
+    @ResponseBody()
+    public void saveChanges(@RequestBody HashMap<String, String> reqB){
+        System.out.println("\n\n" + reqB + "\n\n");
     }
     @RequestMapping("/editing")
     public String editing(HttpSession session,

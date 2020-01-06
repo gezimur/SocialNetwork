@@ -64,7 +64,7 @@ public class Designer {
                     svg.append("\">");
                     svg.append(name);
                     svg.append("</a></text>\n");
-                    svg.append("<circle cx=\""); svg.append(x2 - name.length() / 2);
+                    svg.append("<circle cx=\""); svg.append(x2);
                     svg.append("%\" cy=\""); svg.append(y2 + ySpace);
                     svg.append("\" r=\"5\"></circle>\n");
                     svg.append("</g>\n");
