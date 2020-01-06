@@ -181,12 +181,16 @@ public class MyController {
         {
             script.append("\nlet patterns = new Map();\n");
             List<Integer> l = MySource.getInstance().getPatterns(Integer.valueOf(id), "PATTERNSINPROCESS");
-            for (int i : l) {
-                script.append("patterns.set('"); script.append(i); script.append("', 1);\n");
+            if (l != null){
+                for (int i : l) {
+                    script.append("patterns.set('"); script.append(i); script.append("', 1);\n");
+                }
             }
             l = MySource.getInstance().getPatterns(Integer.valueOf(id), "LEARNEDPATTERNS");
-            for (int i : l) {
-                script.append("patterns.set('"); script.append(i); script.append("', 2);\n");
+            if (l != null) {
+                for (int i : l) {
+                    script.append("patterns.set('"); script.append(i); script.append("', 2);\n");
+                }
             }
             script.append("for (let i of patterns.keys()){\n");
             script.append("if (patterns.get(i) == 1){\n");
@@ -217,12 +221,12 @@ public class MyController {
                     script.append("patterns.set(id, 0);\n");
                 script.append("}\n}\n");
             }
-            script.append("function sendRes(id){\n");
+            script.append("function sendRes(){\n");
             {
-                script.append("ans = '';\n");
-                script.append("for (let i of patterns.keys()){\n");
-                script.append("ans += i + ' ' + patterns.get(i) + ';';\n");
-                script.append("}\n alert(ans);\n}\n");
+                script.append("req = new XMLHttpRequest();\n");
+                script.append("url = \"/saveChanges\";\n");
+                script.append("req.open('POST', url);\n");
+                script.append("req.send();\n}\n");
             }
             bottomStyle = "display: block;";
         }else{
@@ -235,6 +239,10 @@ public class MyController {
                 Designer.createSVGtoPatternsTree(instance.getPatternsTree()));
 
         return "htmlPatterns/Profile";
+    }
+    @RequestMapping("/saveChanges")
+    public void saveChanges(){
+        System.out.println("\n\nYES\n\n");
     }
     @RequestMapping("/editing")
     public String editing(HttpSession session,

@@ -115,14 +115,14 @@ public class Preparer {
                 .executeQuery("INSERT INTO PATTERNS VALUES (" +
                         "1, " +
                         "'hand to hand throw', " +
-                        "'once 3', " +
+                        "'300', " +
                         "'just do it');");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values1 into patterns"; }
         isTryingSuccess = instance
                 .executeQuery("INSERT INTO PATTERNS VALUES (" +
                         "2, " +
                         "'throw up', " +
-                        "'once 4', " +
+                        "'4000', " +
                         "'just do it');");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values2 into patterns"; }
         isTryingSuccess = instance
