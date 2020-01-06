@@ -45,9 +45,7 @@ public class Designer {
                     y2 = tree.getLine(w).get(0).y;
                 }
                 //рисуем линию
-                svg.append("<line  onclick=\"rgst('");
-                svg.append(w);
-                svg.append("')\" x1=\"");
+                svg.append("<line x1=\"");
                 svg.append(v.get(0).x);
                 svg.append("%\" y1=\"");
                 svg.append(v.get(0).y + ySpace);
@@ -60,7 +58,7 @@ public class Designer {
                     //пишем его название
                     svg.append("<text id=\"");
                     svg.append(w);
-                    svg.append("\" x=\"");
+                    svg.append("\" onclick=\"patSt(this.id)\" x=\"");
                     svg.append(x2 - name.length() / 2);
                     svg.append("%\" y=\"");
                     svg.append(y2 + ySpace / 2);

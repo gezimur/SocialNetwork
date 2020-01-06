@@ -178,6 +178,7 @@ public class MyController {
                 + thisUser.getLastname());
         if (!id.equals(session.getAttribute("id"))) {
             model.addAttribute("changeFunction", "");
+            model.addAttribute("script", "");
         } else {
             model.addAttribute("changeFunction",
                     "<span class=\"smalBlock\"></span>\n" +
@@ -186,8 +187,8 @@ public class MyController {
                             "<input type=\"text\" name=\"surname\" form=\"editing\" placeholder=\"new surname\"><br>" +
                             "<input type=\"submit\" form=\"editing\" placeholder=\"change\">" +
                             "</span>\n");
-            model.addAttribute("script", "rgst(id){ var e = document.getElementById(id); e.style.backgroundColor = \"yellow\";}");
-        }
+            model.addAttribute("script", "");
+    }
         model.addAttribute("patternsTree",
                 Designer.createSVGtoPatternsTree(instance.getPatternsTree()));
 
