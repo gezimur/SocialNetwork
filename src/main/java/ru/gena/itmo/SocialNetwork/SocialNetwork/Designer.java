@@ -56,17 +56,18 @@ public class Designer {
                 svg.append("\" stroke=\"black\"></line>\n");
                 if (!used[w]) {//проверяем посещали ли мы паттерн раньше
                     //пишем его название
-                    svg.append("<text id=\"");
-                    svg.append(w);
-                    svg.append("\" onclick=\"patSt(this.id)\" x=\"");
-                    svg.append(x2 - name.length() / 2);
-                    svg.append("%\" y=\"");
-                    svg.append(y2 + ySpace / 2);
+                    svg.append("<g id=\""); svg.append(w); svg.append("\" onclick=\"patSt(this.id)\">\n");
+                    svg.append("<text x=\""); svg.append(x2 - name.length() / 2);
+                    svg.append("%\" y=\""); svg.append(y2 + ySpace / 2);
                     svg.append("\"><a href=\"/pattern/id");
                     svg.append(toNeddedForm("" + w));
                     svg.append("\">");
                     svg.append(name);
                     svg.append("</a></text>\n");
+                    svg.append("<circle cx=\""); svg.append(x2 - name.length() / 2);
+                    svg.append("%\" cy=\""); svg.append(y2 + ySpace);
+                    svg.append("\" r=\"5\"></circle>\n");
+                    svg.append("</g>\n");
                 }
                 used[w] = true;//отмечаем как посещенного
                 row = row + (n + 1) / elementsInRow;

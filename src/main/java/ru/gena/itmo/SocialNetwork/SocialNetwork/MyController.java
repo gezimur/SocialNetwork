@@ -185,7 +185,15 @@ public class MyController {
             changeFunction.append("<input type=\"text\" name=\"surname\" form=\"editing\" placeholder=\"new surname\"><br>");
             changeFunction.append("<input type=\"submit\" form=\"editing\" placeholder=\"change\"></span>\n");
 
-            script.append("let patterns = new Map();\n");
+            script.append("\nlet patterns = new Map();\n");
+            List<Integer> l = MySource.getInstance().getPatterns(Integer.valueOf(id), "PATTERNSINPROCESS");
+            for (int i : l) {
+                script.append("patterns.set('"); script.append(i); script.append("', 1);\n");
+            }
+            l = MySource.getInstance().getPatterns(Integer.valueOf(id), "LEARNEDPATTERNS");
+            for (int i : l) {
+                script.append("patterns.set('"); script.append(i); script.append("', 2);\n");
+            }
             script.append("for (let i of patterns.keys()){\n");
                 script.append("if (patterns.get(i) == 1){\n");
                     script.append("patSt(i);\n");
@@ -213,18 +221,6 @@ public class MyController {
 
         return "htmlPatterns/Profile";
     }
-    /*
-
-    rgst(e){
-        e.style.backgroundColor = "yellow";
-        //var f = "?id=" + id + "&pattern?=" + pattern;
-        //var url = "/addUsersPattern";
-        //var req = new XMLHttpRequest();
-        //req.open('POST', url, true);
-        //req.send(f);
-    }
-     */
-    //*/
     @RequestMapping("/editing")
     public String editing(HttpSession session,
                           @RequestParam(required = false) String name,
