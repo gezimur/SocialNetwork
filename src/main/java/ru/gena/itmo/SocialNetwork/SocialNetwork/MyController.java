@@ -178,13 +178,7 @@ public class MyController {
                 + thisUser.getLastname());
         StringBuilder changeFunction = new StringBuilder();
         StringBuilder script = new StringBuilder();
-        if (id.equals(session.getAttribute("id"))){
-            changeFunction.append("<span class=\"smalBlock\"></span>\n");
-            changeFunction.append("<span class=\"editingProfile\">");
-            changeFunction.append("<input type=\"text\" name=\"name\" form=\"editing\" placeholder=\"new name\"><br>");
-            changeFunction.append("<input type=\"text\" name=\"surname\" form=\"editing\" placeholder=\"new surname\"><br>");
-            changeFunction.append("<input type=\"submit\" form=\"editing\" placeholder=\"change\"></span>\n");
-
+        {
             script.append("\nlet patterns = new Map();\n");
             List<Integer> l = MySource.getInstance().getPatterns(Integer.valueOf(id), "PATTERNSINPROCESS");
             for (int i : l) {
@@ -195,12 +189,21 @@ public class MyController {
                 script.append("patterns.set('"); script.append(i); script.append("', 2);\n");
             }
             script.append("for (let i of patterns.keys()){\n");
-                script.append("if (patterns.get(i) == 1){\n");
-                    script.append("patSt(i);\n");
-                script.append("}else{\n");
-                    script.append("patSt(i);\npatSt(i);\n");
+            script.append("if (patterns.get(i) == 1){\n");
+            script.append("patSt(i);\n");
+            script.append("}else{\n");
+            script.append("patSt(i);\npatSt(i);\n");
             script.append("}\n}\n");
+        }
+        String bottomStyle = "";
+        if (id.equals(session.getAttribute("id"))){
+            changeFunction.append("<span class=\"smalBlock\"></span>\n");
+            changeFunction.append("<span class=\"editingProfile\">");
+            changeFunction.append("<input type=\"text\" name=\"name\" form=\"editing\" placeholder=\"new name\"><br>");
+            changeFunction.append("<input type=\"text\" name=\"surname\" form=\"editing\" placeholder=\"new surname\"><br>");
+            changeFunction.append("<input type=\"submit\" form=\"editing\" placeholder=\"change\"></span>\n");
             script.append("function patSt(id){\n");
+            {
                 script.append("e = document.getElementById(id);\n");
                 script.append("fill = e.getAttribute('fill')\n");
                 script.append("if (fill == 'black' || fill == null){\n");
@@ -213,9 +216,21 @@ public class MyController {
                     script.append("e.setAttribute('fill', 'black');\n");
                     script.append("patterns.set(id, 0);\n");
                 script.append("}\n}\n");
+            }
+            script.append("function sendRes(id){\n");
+            {
+                script.append("ans = '';\n");
+                script.append("for (let i of patterns.keys()){\n");
+                script.append("ans += i + ' ' + patterns.get(i) + ';';\n");
+                script.append("}\n alert(ans);\n}\n");
+            }
+            bottomStyle = "display: block;";
+        }else{
+            script.append("function patSt(id){}\n");
         }
         model.addAttribute("changeFunction", changeFunction);
         model.addAttribute("script", script);
+        model.addAttribute("bottomStyle", bottomStyle);
         model.addAttribute("patternsTree",
                 Designer.createSVGtoPatternsTree(instance.getPatternsTree()));
 

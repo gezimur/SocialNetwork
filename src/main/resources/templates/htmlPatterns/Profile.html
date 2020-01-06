@@ -6,25 +6,28 @@
 	<link rel="stylesheet" type="text/css" href="../css/maincss.css">
 </head>
 <style>
-.editingProfile{
-	display: none;
-	float: right;
-	width: 100px;
-	margin-right: -110px;
-}
-.smalBlock{
-	display: block;
-	float: right;
-	height: 10px;
-	width: 10px;
-	background-color: green;
-}
-.smalBlock:hover + .editingProfile{
-	display: block;
-}
-.editingProfile:hover{
-	display: block;
-}
+	.editingProfile{
+		display: none;
+		float: right;
+		width: 100px;
+		margin-right: -110px;
+	}
+	.smalBlock{
+		display: block;
+		float: right;
+		height: 10px;
+		width: 10px;
+		background-color: green;
+	}
+	.smalBlock:hover + .editingProfile{
+		display: block;
+	}
+	.editingProfile:hover{
+		display: block;
+	}
+	.bottomToSaveChanges{
+		display: none;
+	}
 </style>
 <body class="body">
 	<span class="blockWithLinks">
@@ -38,6 +41,7 @@
 		<span class="name" th:utext="'Juggler ' + ${name}"></span>
 		<span th:utext="${changeFunction}"></span>
 		<span class="bigBlock" th:utext="${patternsTree}"></span>
+		<button class="bottomToSaveChanges" th:style="${bottomStyle}">Save changes</button>
 	</p>
 	
 	<form id="editing" action="/editing"></form>
