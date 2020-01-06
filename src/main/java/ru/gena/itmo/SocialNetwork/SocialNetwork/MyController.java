@@ -227,7 +227,7 @@ public class MyController {
                 script.append("if (patterns.size != 0){\n");
                     script.append("url += '?';\n");
                     script.append("for(let i of patterns.keys()){\n");
-                        script.append("url += i + '=' patterns.get(i) + '&';\n");
+                        script.append("url += i + '=' + patterns.get(i) + '&';\n");
                     script.append("}\nurl += 'patSize=' + patterns.size;\n}\n");
                 script.append("req.open('GET', url);\n");
                 script.append("req.send();\n}\n");
