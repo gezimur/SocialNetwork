@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MyController {
@@ -246,8 +247,8 @@ public class MyController {
     }
     @RequestMapping("/saveChanges")
     @ResponseBody()
-    public void saveChanges(@RequestBody String reqB){
-        System.out.println("\n\n" + reqB + "\n\n");
+    public void saveChanges(@RequestParam Map<String,String> allParams){
+        System.out.println("\n\n" + allParams.toString() + "\n\n");
     }
     @RequestMapping("/editing")
     public String editing(HttpSession session,
