@@ -21,7 +21,8 @@
 			<input type="text" name="surname" form="search" placeholder="surname">
 			<input type="submit" form="search">
 		</span><br>
-		<span th:utext="${list_of_users}"></span>
+		<span id="textSpace" th:utext="${list_of_users}">
+		</span>
 	</span>
 </p>
 <form id="search" action="/search"></form>

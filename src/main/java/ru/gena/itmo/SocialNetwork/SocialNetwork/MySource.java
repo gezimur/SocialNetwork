@@ -113,13 +113,13 @@ public class MySource {
                 int p = (page * itemPerPage - 1 > 0)? page * itemPerPage - 1 : 0;
                 rs.absolute(p);
                 while(rs.next()){
-                    sb.append("<a href=\"/");
+                    sb.append("<span class=\"message\"><a href=\"/");
                     sb.append(objects);
                     sb.append("/id");
                     sb.append( d.toNeddedForm("" + rs.getInt("id")) );
                     sb.append("\">");
                     sb.append(rs.getString("name"));
-                    sb.append("</a><br>\n");
+                    sb.append("</a></span>\n");
                 }
                 return sb.toString();
             }catch (SQLException e){

@@ -30,7 +30,7 @@
 	sendMessage();
 	var timerToUpdate = setTimeout(uploadChanges, 3000);
 	function uploadChanges(){
-		sendForm(createMyForm());
+		sendForm(createMyForm(""));
 		clearTimeout(timerToUpdate);
 		timerToUpdate = setTimeout(uploadChanges, 3000);
 	}
