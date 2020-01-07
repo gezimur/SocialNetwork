@@ -283,8 +283,12 @@ public class MyController {
 
     @RequestMapping("/sendMessage")
     @ResponseBody()
-    public String sendMessage(@RequestParam Map<String, String> allParams){
-        System.out.println("\n\n" + allParams.toString() + "\n\n");
+    public String sendMessage(HttpSession session, @RequestParam Map<String, String> allParams){
+        if (checkUser(session)){
+            return "\n\nyou have bed session\n\n";
+        }
+        System.out.println("\n\n" + allParams.toString() + "\n\n"
+                + session.getAttribute("id") + "\n\n");
         return "Message ha-ha-ha";
     }
 

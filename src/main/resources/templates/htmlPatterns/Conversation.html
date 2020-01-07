@@ -44,14 +44,18 @@
 		var url = '/sendMessage';
 		req.open('POST', url);
 		req.send(form);
-		if (req.readyState === 4){
-			return req.responseText;
-		}
-		return form.toString();//only now============================
+		req.onreadystatechange = function(){
+			if (req.readyState === 4){
+				return req.responseText;
+			}else{
+				return "some problems in send form";
+			}
+		};
+		return form.message;//only now============================
 	}
 	function createMyForm(message){
 		var form = new FormData();
-		form.append("id", sessionStorage.getItem("id"));//only now=============================
+		form.append("id", window.sessionStorage.getItem("id"));//only now=============================
 		form.append("message", message);
 		return form;
 	}
