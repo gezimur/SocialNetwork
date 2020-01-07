@@ -289,7 +289,7 @@ public class MyController {
         }
         System.out.println("\n\n" + allParams.toString() + "\n\n"
                 + session.getAttribute("id") + "\n\n");
-        return "Message ha-ha-ha";
+        return Designer.textAnalysis(allParams.get("message"));
     }
 
     @RequestMapping("/pattern/id{id}")//
