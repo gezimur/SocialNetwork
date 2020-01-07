@@ -298,14 +298,14 @@ public class MyController {
         );
         List<Message> m = instance.getMessagesFromId(Integer.valueOf(allParams.get("lastId")));
         System.out.println("\n\n" + m.toString() + "\n\n");
-
-        StringBuilder ans = new StringBuilder(MySource.getInstance()
-                .getInformationOfUser(session.getAttribute("id").toString())
-                .getFirstname());
-        ans.append("/");
-        ans.append(Designer.textAnalysis(allParams.get("message")));
-        ans.append("/");
-        ans.append(allParams.get("lastId"));
+        StringBuilder ans = new StringBuilder();
+        for (Message i : m){
+            ans.append(i.getSender());
+            ans.append("/");
+            ans.append(Designer.textAnalysis(i.getText()));
+            ans.append(";");
+        }
+        ans.append(m.get(m.size() - 1).getId());
         return  ans.toString();
     }
 

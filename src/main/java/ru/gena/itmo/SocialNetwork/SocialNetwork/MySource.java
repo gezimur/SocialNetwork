@@ -177,7 +177,8 @@ public class MySource {
 
     public List<Message> getMessagesFromId(int id){
         try{
-            ResultSet rs = getResultSet("SELECT * FROM MESSAGES WHERE ID > " + id);
+            ResultSet rs = getResultSet("SELECT * FROM MESSAGES WHERE ID > " + id +
+                    " ORDER BY ID;");
             if (rs == null) return null;
             List<Message> ans = new ArrayList<>();
             ans.add(new Message(

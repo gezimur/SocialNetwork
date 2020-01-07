@@ -69,11 +69,20 @@ public class Preparer {
         isTryingSuccess = instance
                 .executeQuery("INSERT INTO USERS VALUES (" +
                         "100001, " +
-                        "'user', " +
+                        "'user1', " +
                         "'1', " +
                         "'user', " +
                         "'name', " +
                         "'surname');");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values 2"; }
+        isTryingSuccess = instance
+                .executeQuery("INSERT INTO USERS VALUES (" +
+                        "100002, " +
+                        "'user2', " +
+                        "'1', " +
+                        "'user', " +
+                        "'name2', " +
+                        "'surname2');");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values 2"; }
         isTryingSuccess = instance
                 .executeQuery("INSERT INTO CONVERSATIONS VALUES (" +
@@ -83,6 +92,11 @@ public class Preparer {
         isTryingSuccess = instance
                 .executeQuery("INSERT INTO USERS_CONVERSATIONS VALUES (" +
                         "100001, " +
+                        "1);");
+        if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values2"; }
+        isTryingSuccess = instance
+                .executeQuery("INSERT INTO USERS_CONVERSATIONS VALUES (" +
+                        "100002, " +
                         "1);");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values2"; }
         //===========================================================================
