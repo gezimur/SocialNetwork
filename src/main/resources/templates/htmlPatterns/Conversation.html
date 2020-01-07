@@ -43,19 +43,19 @@
 		var req = new XMLHttpRequest();
 		var url = '/sendMessage';
 		req.open('POST', url);
-		req.send(form);
-		req.onreadystatechange = function(){
+		var response = "some problems";
+		req.addEventListener("readystatechange", function(){
 			if (req.readyState === 4){
-				return req.responseText;
+				response = req.responseText;
 			}else{
-				return "some problems in send form";
+				response = "some problems in response";
 			}
-		};
-		return form.message;//only now============================
+		});
+		req.send(form);
+		return response;//only now============================
 	}
 	function createMyForm(message){
 		var form = new FormData();
-		form.append("id", window.sessionStorage.getItem("id"));//only now=============================
 		form.append("message", message);
 		return form;
 	}
