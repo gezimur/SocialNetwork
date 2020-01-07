@@ -297,16 +297,20 @@ public class MyController {
                 allParams.get("message")
         );
         List<Message> m = instance.getMessagesFromId(Integer.valueOf(allParams.get("lastId")));
-        System.out.println("\n\n" + m.toString() + "\n\n");
-        StringBuilder ans = new StringBuilder();
-        for (Message i : m){
-            ans.append(i.getSender());
-            ans.append("/");
-            ans.append(Designer.textAnalysis(i.getText()));
-            ans.append(";");
+        if (m != null) {
+            System.out.println("\n\n" + m.toString() + "\n\n");
+            StringBuilder ans = new StringBuilder();
+            for (Message i : m) {
+                ans.append(i.getSender());
+                ans.append("/");
+                ans.append(Designer.textAnalysis(i.getText()));
+                ans.append(";");
+            }
+            ans.append(m.get(m.size() - 1).getId());
+            return ans.toString();
+        }else{
+            return ";0";
         }
-        ans.append(m.get(m.size() - 1).getId());
-        return  ans.toString();
     }
 
     @RequestMapping("/pattern/id{id}")//
