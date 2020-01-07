@@ -291,11 +291,13 @@ public class MyController {
         }
         //надо сохранять сообщения
         MySource instance = MySource.getInstance();
-        instance.saveMessage(
-                allParams.get("conv"),
-                session.getAttribute("id").toString(),
-                allParams.get("message")
-        );
+        if (!"".equals(allParams.get("message"))) {
+            instance.saveMessage(
+                    allParams.get("conv"),
+                    session.getAttribute("id").toString(),
+                    allParams.get("message")
+            );
+        }
         List<Message> m = instance.getMessagesFromId(Integer.valueOf(allParams.get("lastId")));
         if (m != null) {
             StringBuilder ans = new StringBuilder();

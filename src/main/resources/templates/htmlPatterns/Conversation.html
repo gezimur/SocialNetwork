@@ -33,11 +33,18 @@
 		sendForm(form);
 	}
 	function updateTextSpace(response){
-		var span = document.createElement('span');
-		span.className = "message";
-		span.innerHTML = response + "<br>";
-		var textSpace = document.getElementById("textSpace");
-		textSpace.prepend(span);
+		var i = -1;
+		while (response.indexOf(";", i) < response.lastIndexOf(";")){
+			sender = response.substring(i + 1, response.indexOf("/", i));
+			message = response.substring(response.indexOf("/", i) + 1, response.indexOf(";", i));
+			var span = document.createElement('span');
+			span.className = "message";
+			span.innerHTML = "<strong>" + sender + ":</strong> " + message + "<br>";
+			var textSpace = document.getElementById("textSpace");
+			textSpace.prepend(span);
+
+			i = response.indexOf(";", i);
+		}
 	}
 	function sendForm(form){
 		var req = new XMLHttpRequest();
