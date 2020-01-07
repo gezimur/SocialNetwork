@@ -33,31 +33,23 @@
 		sendForm(form);
 	}
 	function updateTextSpace(response){
-		var i = 0;
-		while (response.indexOf(";", i) < response.lastIndexOf(";")){
-			sender = response.substring(i + 1, response.indexOf("/", i));
-			message = response.substring(response.indexOf("/", i) + 1, response.indexOf(";", i));
-			var span = document.createElement('span');
-			span.className = "message";
-			span.innerHTML = "<strong>" + sender + ":</strong> " + message + "<br>";
-			var textSpace = document.getElementById("textSpace");
-			textSpace.prepend(span);
-
-			i = response.indexOf(";", i);
-		}
+		var span = document.createElement('span');
+		span.className = "message";
+		span.innerHTML = "<strong>" + "lol" + ":</strong> " + response + "<br>";
+		var textSpace = document.getElementById("textSpace");
+		textSpace.prepend(span);
 	}
 	function sendForm(form){
 		var req = new XMLHttpRequest();
 		var url = '/sendMessage';
-		var response = "some problems";
 		req.addEventListener('load', function(e){
 			var data = e.target;
-			response = data.responseText;
-			lastId = response.substring(response.lastIndexOf(";") + 1);
-			updateTextSpace(response);
+			var response = data.responseText;
+			lastId = response.get(response.size() - 1);
+			updateTextSpace(response.get(0).getText());
 		});
 		req.open('POST', url);
-		req.responseType = 'text';
+		req.responseType = 'json';
 		req.send(form);
 	}
 	function createMyForm(message){

@@ -1,5 +1,7 @@
 package ru.gena.itmo.SocialNetwork.SocialNetwork;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -299,18 +301,12 @@ public class MyController {
             );
         }
         List<Message> m = instance.getMessagesFromId(Integer.valueOf(allParams.get("lastId")));
-        if (m != null) {
-            StringBuilder ans = new StringBuilder();
-            for (Message i : m) {
-                ans.append(i.getSender());
-                ans.append("/");
-                ans.append(Designer.textAnalysis(i.getText()));
-                ans.append(";");
-            }
-            ans.append(m.get(m.size() - 1).getId());
-            return ans.toString();
-        }else{
-            System.out.println("\n\n" + allParams.get("lastId") + "\n\n");
+        try {
+            String ans = new ObjectMapper().writeValueAsString(m);
+            System.out.println("\n\n" + ans + "\n\n");
+            return ans;
+        }catch(JsonProcessingException e){
+            e.printStackTrace();
             return ";0";
         }
     }
