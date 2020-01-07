@@ -46,7 +46,7 @@
 		req.addEventListener('load', function(e){
 			var data = e.target;
 			response = data.responseText;
-			lastId = 1 + response.substring(response.lastIndexOf(";") + 1);
+			lastId = response.substring(response.lastIndexOf(";") + 1);
 			updateTextSpace(response);
 		});
 		req.open('POST', url);

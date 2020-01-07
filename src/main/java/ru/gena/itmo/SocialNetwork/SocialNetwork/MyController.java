@@ -298,7 +298,6 @@ public class MyController {
         );
         List<Message> m = instance.getMessagesFromId(Integer.valueOf(allParams.get("lastId")));
         if (m != null) {
-            System.out.println("\n\n" + m.toString() + "\n\n");
             StringBuilder ans = new StringBuilder();
             for (Message i : m) {
                 ans.append(i.getSender());
@@ -309,6 +308,7 @@ public class MyController {
             ans.append(m.get(m.size() - 1).getId());
             return ans.toString();
         }else{
+            System.out.println("\n\n" + allParams.get("lastId") + "\n\n");
             return ";0";
         }
     }
