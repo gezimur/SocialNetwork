@@ -32,12 +32,14 @@
 		var form = createMyForm(message);
 		sendForm(form);
 	}
-	function updateTextSpace(response){
-		var span = document.createElement('span');
-		span.className = "message";
-		span.innerHTML = "<strong>" + "lol" + ":</strong> " + response + "<br>";
-		var textSpace = document.getElementById("textSpace");
-		textSpace.prepend(span);
+	function updateTextSpace(arr){
+		for (var i = 0; i < arr.length; i++){
+			var span = document.createElement('span');
+			span.className = "message";
+			span.innerHTML = "<strong>" + arr[i].sender + ":</strong> " + arr[i].text + "<br>";
+			var textSpace = document.getElementById("textSpace");
+			textSpace.prepend(span);
+		}
 	}
 	function sendForm(form){
 		var req = new XMLHttpRequest();
@@ -45,8 +47,9 @@
 		req.addEventListener('load', function(e){
 			var data = e.target;
 			var response = data.responseText;
-			lastId = response.get(response.size() - 1);
-			updateTextSpace(response.get(0).getText());
+			var arr = JSON.parse(response);
+			lastId = arr[arr.length - 1].id;
+			updateTextSpace(arr);
 		});
 		req.open('POST', url);
 		req.responseType = 'json';
