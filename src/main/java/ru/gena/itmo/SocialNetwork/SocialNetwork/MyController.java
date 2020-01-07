@@ -287,9 +287,14 @@ public class MyController {
         if (checkUser(session)){
             return "\n\nyou have bed session\n\n";
         }
-        System.out.println("\n\n" + allParams.toString() + "\n\n"
-                + session.getAttribute("id") + "\n\n");
-        return Designer.textAnalysis(allParams.get("message"));
+        //надо сохранять сообщения
+        System.out.println("\n\n" + allParams.toString() + "\n\n");
+        StringBuilder ans = new StringBuilder(MySource.getInstance().getInformationOfUser("id").getFirstname());
+        ans.append("/");
+        ans.append(Designer.textAnalysis(allParams.get("message")));
+        ans.append("/");
+        ans.append(allParams.get("lastId"));
+        return  ans.toString();
     }
 
     @RequestMapping("/pattern/id{id}")//

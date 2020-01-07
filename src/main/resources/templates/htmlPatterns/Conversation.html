@@ -26,6 +26,7 @@
 	</span>
 </p>
 <script>
+	var lastId = 0;
 	function sendMessage(){
 		var message = createMessage();
 		var form = createMyForm(message);
@@ -44,7 +45,7 @@
 		var response = "some problems";
 		req.addEventListener('load', function(e){
 			var data = e.target;
-			response = data.response;
+			response = data.responseText;
 			updateTextSpace(response);
 		});
 		req.open('POST', url);
@@ -54,6 +55,9 @@
 	function createMyForm(message){
 		var form = new FormData();
 		form.append("message", message);
+		var pathname = window.location.pathname;
+		form.append("conv", pathname.substring(pathname.lastIndexOf("/") + 3));
+		form.append("lastId", lastId);
 		return form;
 	}
 	function createMessage() {
