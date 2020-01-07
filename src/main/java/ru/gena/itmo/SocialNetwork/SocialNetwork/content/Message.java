@@ -4,7 +4,7 @@ public class Message {
     private int id;
     private int conversation;
     private int sender;
-    private String text;
+    public String text;
 
     public Message(int newId, int newConversation, int newSender, String newText){
         id = newId;
@@ -23,9 +23,5 @@ public class Message {
 
     public int getSender() {
         return sender;
-    }
-
-    public String getText() {
-        return text;
     }
 }

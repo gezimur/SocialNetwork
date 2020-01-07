@@ -99,7 +99,9 @@ public class Designer {
             String str = text.substring(siteswapStart + 1, siteswapEnd);
             ArrayList<Integer> siteswap = analysisSiteswap(str);
             if (siteswap != null){
-                return visualize(siteswap, str);
+                return text.substring(0, siteswapStart) +
+                        visualize(siteswap, str) +
+                        text.substring(siteswapEnd + 1);
             }else{
                 return "bad siteswap";
             }
