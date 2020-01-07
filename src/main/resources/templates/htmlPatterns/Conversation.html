@@ -20,6 +20,7 @@
     <span class="bigBlock">
 		<input id="textLine" type="text">
 		<button onclick="sendMessage()">send message</button>
+		<br>
 		<span id="textSpace">
 		</span>
 	</span>
@@ -28,13 +29,13 @@
 	function sendMessage(){
 		var message = createMessage();
 		var form = createMyForm(message);
-		var responce = sendForm(form);
-		updateTextSpace(responce);
+		var response = sendForm(form);
+		updateTextSpace(response);
 	}
-	function updateTextSpace(responce){
+	function updateTextSpace(response){
 		var span = document.createElement('span');
 		span.className = "message";
-		span.innerHTML = responce + "<br>";
+		span.innerHTML = response + "<br>";
 		var textSpace = document.getElementById("textSpace");
 		textSpace.prepend(span);
 	}
@@ -43,11 +44,14 @@
 		var url = '/sendMessage';
 		req.open('POST', url);
 		req.send(form);
-		return form.message;//only now============================
+		if (req.readyState === 4){
+			return req.responseText;
+		}
+		return form.toString();//only now============================
 	}
 	function createMyForm(message){
 		var form = new FormData();
-		form.append("id", "100001");//only now=============================
+		form.append("id", sessionStorage.getItem("id"));//only now=============================
 		form.append("message", message);
 		return form;
 	}
