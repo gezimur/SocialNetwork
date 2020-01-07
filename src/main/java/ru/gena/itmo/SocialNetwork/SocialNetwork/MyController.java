@@ -3,6 +3,7 @@ package ru.gena.itmo.SocialNetwork.SocialNetwork;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.gena.itmo.SocialNetwork.SocialNetwork.content.Message;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.Pattern;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
 
@@ -10,6 +11,7 @@ import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -288,8 +290,18 @@ public class MyController {
             return "\n\nyou have bed session\n\n";
         }
         //надо сохранять сообщения
-        System.out.println("\n\n" + allParams.toString() + "\n\n");
-        StringBuilder ans = new StringBuilder(MySource.getInstance().getInformationOfUser("id").getFirstname());
+        MySource instance = MySource.getInstance();
+        instance.saveMessage(
+                allParams.get("conv"),
+                session.getAttribute("id").toString(),
+                allParams.get("message")
+        );
+        List<Message> m = instance.getMessagesFromId(Integer.valueOf(allParams.get("lastId")));
+        System.out.println("\n\n" + m.toString() + "\n\n");
+
+        StringBuilder ans = new StringBuilder(MySource.getInstance()
+                .getInformationOfUser(session.getAttribute("id").toString())
+                .getFirstname());
         ans.append("/");
         ans.append(Designer.textAnalysis(allParams.get("message")));
         ans.append("/");

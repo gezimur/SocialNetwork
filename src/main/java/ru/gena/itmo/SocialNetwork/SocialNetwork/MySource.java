@@ -1,5 +1,6 @@
 package ru.gena.itmo.SocialNetwork.SocialNetwork;
 
+import ru.gena.itmo.SocialNetwork.SocialNetwork.content.Message;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.Pattern;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.PatternsTree;
 import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
@@ -156,6 +157,48 @@ public class MySource {
                     "'" + newUser.getLastname() + "');");
         }
         return false;
+    }
+
+    public void saveMessage(String conversation, String sender, String text){
+        int id = 0;
+        try{
+            id = getResultSet("SELECT MAX(ID) AS ID FROM MESSAGES")
+                    .getInt("ID") + 1;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        executeQuery("INSERT INTO MESSAGES VALUES(" +
+                id + ", " +
+                conversation + ", " +
+                sender + ", " +
+                "'" + text + "');");
+    }
+
+    public List<Message> getMessagesFromId(int id){
+        try{
+            ResultSet rs = getResultSet("SELECT * FROM MESSAGES WHERE ID > " + id);
+            if (rs == null) return null;
+            List<Message> ans = new ArrayList<>();
+            ans.add(new Message(
+                    rs.getInt("ID"),
+                    rs.getInt("CONVERSATION"),
+                    rs.getInt("SENDER"),
+                    rs.getString("TEXT")
+            ));
+            while (rs.next()){
+                ans.add(new Message(
+                        rs.getInt("ID"),
+                        rs.getInt("CONVERSATION"),
+                        rs.getInt("SENDER"),
+                        rs.getString("TEXT")
+                ));
+            }
+            return ans;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public PatternsTree getPatternsTree(){

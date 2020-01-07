@@ -46,7 +46,6 @@ public class Preparer {
                         "ID INTEGER PRIMARY KEY, " +
                         "CONVERSATION INTEGER, " +
                         "SENDER INTEGER, " +
-                        "SENDING DATE, " +
                         "TEXT VARCHAR(20), " +
                         "FOREIGN KEY (SENDER) REFERENCES USERS (ID), " +
                         "FOREIGN KEY (CONVERSATION) REFERENCES CONVERSATIONS (ID));");
