@@ -83,7 +83,7 @@ public class Preparer {
         if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values1"; }
         isTryingSuccess = instance
                 .executeQuery("INSERT INTO USERS_CONVERSATIONS VALUES (" +
-                        "100000, " +
+                        "100001, " +
                         "1);");
         if (!isTryingSuccess) { return "\n\n\n\nproblem with insert values2"; }
         //===========================================================================

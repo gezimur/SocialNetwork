@@ -10,7 +10,6 @@ import ru.gena.itmo.SocialNetwork.SocialNetwork.content.User;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -282,6 +281,13 @@ public class MyController {
         return "htmlPatterns/Conversation";
     }
 
+    @RequestMapping("/sendMessage")
+    @ResponseBody()
+    public String sendMessage(@RequestParam Map<String, String> allParams){
+        System.out.println("\n\n" + allParams.toString() + "\n\n");
+        return "Message ha-ha-ha";
+    }
+
     @RequestMapping("/pattern/id{id}")//
     public String pattern(HttpSession session,
                           @PathVariable String id,
@@ -325,8 +331,8 @@ public class MyController {
     }
 
     @RequestMapping("/singOut")
-    public String singOut(HttpServletRequest request){
-        request.getSession().setAttribute("id","");
+    public String singOut(HttpSession session){
+        session.setAttribute("id","");
         return "redirect:" + nameOfMySite + "/login";
     }
 

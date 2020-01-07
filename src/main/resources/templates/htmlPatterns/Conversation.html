@@ -17,7 +17,26 @@
 		<span>
             <span class="name">Conversation</span>
 		</span>
-    <span class="bigBlock"></span>
+    <span class="bigBlock">
+		<span id="textLine">
+		</span>
+		<button onclick="sendMessage()">send message</button>
+	</span>
 </p>
+<script>
+	function sendMessage(){
+		var form = new FormData();
+		form.append("id", "100001");
+		var req = new XMLHttpRequest();
+		var url = '/sendMessage';
+		req.open('POST', url);
+		req.send(form);
+		var span = document.createElement('span');
+		span.className = "message";
+		span.innerHTML = "You already have sent message";
+		var textLine = document.getElementById("textLine");
+		textLine.append(span);
+	}
+</script>
 </body>
 </html>
