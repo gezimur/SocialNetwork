@@ -33,7 +33,7 @@
 		sendForm(form);
 	}
 	function updateTextSpace(response){
-		var i = -1;
+		var i = 0;
 		while (response.indexOf(";", i) < response.lastIndexOf(";")){
 			sender = response.substring(i + 1, response.indexOf("/", i));
 			message = response.substring(response.indexOf("/", i) + 1, response.indexOf(";", i));
