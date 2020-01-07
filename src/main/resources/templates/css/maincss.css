@@ -54,9 +54,16 @@
 #textSpace{
 	background-color: #aabbdd;
 	width:80%;
+	min-width: 400px;
+	min-height: 600px;
 	font-size: 20px;
 	text-align: left;
 	margin: 0 auto;
+}
+.message{
+	float: none;
+	margin-left: 10px;
+	text-align: left;
 }
 svg{
 	width: 100%;

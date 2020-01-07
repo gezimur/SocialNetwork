@@ -28,19 +28,19 @@
 <script>
 	var lastId = 0;
 	sendMessage();
-	var timerToUpdate = setTimeout(sendMessage, 3000);
+	var timerToUpdate = setTimeout(createMyForm, 3000);
 	function sendMessage(){
 		var message = createMessage();
 		var form = createMyForm(message);
 		sendForm(form);
 		clearTimeout(timerToUpdate);
-		timerToUpdate = setTimeout(sendMessage, 3000);
+		timerToUpdate = setTimeout(createMyForm, 3000);
 	}
 	function updateTextSpace(arr){
 		for (var i = 0; i < arr.length; i++){
 			var span = document.createElement('span');
 			span.className = "message";
-			span.innerHTML = "<strong>" + arr[i].sender + ":</strong> " + arr[i].text + "<br>";
+			span.innerHTML = "<strong>" + arr[i].sender + ":</strong> " + arr[i].text;
 			var textSpace = document.getElementById("textSpace");
 			textSpace.prepend(span);
 		}
