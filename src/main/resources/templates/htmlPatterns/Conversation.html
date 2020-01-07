@@ -28,13 +28,18 @@
 <script>
 	var lastId = 0;
 	sendMessage();
-	var timerToUpdate = setTimeout(createMyForm, 3000);
+	var timerToUpdate = setTimeout(uploadChanges, 3000);
+	function uploadChanges(){
+		sendForm(createMyForm());
+		clearTimeout(timerToUpdate);
+		timerToUpdate = setTimeout(uploadChanges, 3000);
+	}
 	function sendMessage(){
 		var message = createMessage();
 		var form = createMyForm(message);
 		sendForm(form);
 		clearTimeout(timerToUpdate);
-		timerToUpdate = setTimeout(createMyForm, 3000);
+		timerToUpdate = setTimeout(uploadChanges, 3000);
 	}
 	function updateTextSpace(arr){
 		for (var i = 0; i < arr.length; i++){

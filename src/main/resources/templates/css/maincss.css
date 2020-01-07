@@ -52,18 +52,20 @@
 	font-size: 20px;
 }
 #textSpace{
+	display: block;
+	width: 80%;
+	min-height: 570px;
 	background-color: #aabbdd;
-	width:80%;
-	min-width: 400px;
-	min-height: 600px;
-	font-size: 20px;
 	text-align: left;
+	font-size: 20px;
 	margin: 0 auto;
 }
 .message{
+	display: block;
+	background-color: #99aacc;
 	float: none;
 	margin-left: 10px;
-	text-align: left;
+	margin-top: 10px;
 }
 svg{
 	width: 100%;
