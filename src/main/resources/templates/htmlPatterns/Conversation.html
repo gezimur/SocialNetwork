@@ -43,12 +43,12 @@
 		var req = new XMLHttpRequest();
 		var url = '/sendMessage';
 		var response = "some problems";
-		req.open('POST', url);
-		req.setRequestHeader('Content-Type', 'application/x-www-form-url');
 		req.addEventListener('load', function(e){
 			var data = e.target;
 			response = data.response;
 		});
+		req.open('POST', url);
+		req.responseType = 'text';
 		req.send(form);
 		return response;//only now============================
 	}
