@@ -18,24 +18,44 @@
             <span class="name">Conversation</span>
 		</span>
     <span class="bigBlock">
-		<span id="textLine">
-		</span>
+		<input id="textLine" type="text">
 		<button onclick="sendMessage()">send message</button>
+		<span id="textSpace">
+		</span>
 	</span>
 </p>
 <script>
 	function sendMessage(){
-		var form = new FormData();
-		form.append("id", "100001");
+		var message = createMessage();
+		var form = createMyForm(message);
+		var responce = sendForm(form);
+		updateTextSpace(responce);
+	}
+	function updateTextSpace(responce){
+		var span = document.createElement('span');
+		span.className = "message";
+		span.innerHTML = responce + "<br>";
+		var textSpace = document.getElementById("textSpace");
+		textSpace.prepend(span);
+	}
+	function sendForm(form){
 		var req = new XMLHttpRequest();
 		var url = '/sendMessage';
 		req.open('POST', url);
 		req.send(form);
-		var span = document.createElement('span');
-		span.className = "message";
-		span.innerHTML = "You already have sent message";
+		return form.message;//only now============================
+	}
+	function createMyForm(message){
+		var form = new FormData();
+		form.append("id", "100001");//only now=============================
+		form.append("message", message);
+		return form;
+	}
+	function createMessage() {
 		var textLine = document.getElementById("textLine");
-		textLine.append(span);
+		var message = textLine.value;
+		textLine.value = "";
+		return message;
 	}
 </script>
 </body>
