@@ -99,7 +99,7 @@ public class Designer {
             String str = text.substring(siteswapStart + 1, siteswapEnd);
             ArrayList<Integer> siteswap = analysisSiteswap(str);
             if (siteswap != null){
-                return visualize(siteswap);
+                return visualize(siteswap, str);
             }else{
                 return "bad siteswap";
             }
@@ -107,7 +107,7 @@ public class Designer {
         return text;
     }
 
-    private static String visualize(ArrayList<Integer> siteswap){
+    private static String visualize(ArrayList<Integer> siteswap, String name){
         StringBuilder animation = new StringBuilder("<style>\n");
         int maxThrow = siteswap.get(0);
         int numberOfBalls = siteswap.get(1);
@@ -120,15 +120,17 @@ public class Designer {
                     ballNumber,
                     siteswap,
                     pos,
-                    maxThrow);
+                    maxThrow,
+                    name);
             ballNumber++;
         }
         animation.append("</style>\n");
-        animation.append("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n" +
+        animation.append("<span class=\"siteswap\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n" +
                 "viewBox=\"0 0 500 500\" preserveAspectRatio=\"xMaxYMax none\">\n");
         ballNumber = 0;
         while (ballNumber < numberOfBalls) {
             animation.append("<circle cx=\"50%\" cy=\"90\" r=\"10\" fill=\"red\" style=\"\n animation: ball");
+            animation.append(name);
             animation.append(ballNumber);
             animation.append(" ");
             animation.append(neededTime.get(ballNumber));
@@ -137,16 +139,17 @@ public class Designer {
             animation.append("s infinite;\"></circle>\n");
             ballNumber++;
         }//*/
-        animation.append("</svg>\n");//*/
+        animation.append("</svg></span>\n");//*/
         return animation.toString();
     }
 
     private static int addBallAnimationAndReturnNewPos(StringBuilder anim,
-                               int ballNumber,
-                               List<Integer> siteswap,
-                               int pos,
-                               int maxThrow){
-        anim.append("\n@keyframes ball"); anim.append(ballNumber);
+                                                       int ballNumber,
+                                                       List<Integer> siteswap,
+                                                       int pos,
+                                                       int maxThrow,
+                                                       String name){
+        anim.append("\n@keyframes ball"); anim.append(name); anim.append(ballNumber);
         anim.append(" {\n");
         int x = (ballNumber % 2 == 0)? 100 : 400;
         int newPos = addKeyframesForOneCircle(anim,
