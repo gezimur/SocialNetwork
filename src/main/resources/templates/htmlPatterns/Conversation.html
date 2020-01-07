@@ -44,12 +44,9 @@
 		var url = '/sendMessage';
 		req.open('POST', url);
 		var response = "some problems";
-		req.addEventListener("readystatechange", function(){
-			if (req.readyState === 4){
-				response = req.responseText;
-			}else{
-				response = "some problems in response";
-			}
+		req.addEventListener('load', function(e){
+			var data = e.target;
+			response = data.response;
 		});
 		req.send(form);
 		return response;//only now============================
