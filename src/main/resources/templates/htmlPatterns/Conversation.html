@@ -29,8 +29,7 @@
 	function sendMessage(){
 		var message = createMessage();
 		var form = createMyForm(message);
-		var response = sendForm(form);
-		updateTextSpace(response);
+		sendForm(form);
 	}
 	function updateTextSpace(response){
 		var span = document.createElement('span');
@@ -46,11 +45,11 @@
 		req.addEventListener('load', function(e){
 			var data = e.target;
 			response = data.response;
+			updateTextSpace(response);
 		});
 		req.open('POST', url);
 		req.responseType = 'text';
 		req.send(form);
-		return response;//only now============================
 	}
 	function createMyForm(message){
 		var form = new FormData();
