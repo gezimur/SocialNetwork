@@ -197,7 +197,7 @@ public class MyController {
             script.append("patSt(i);\npatSt(i);\n");
             script.append("}\n}\n");
         }
-        String bottomStyle = "";
+        String buttonStyle = "";
         if (id.equals(session.getAttribute("id"))){
             changeFunction.append("<span class=\"smalBlock\"></span>\n");
             changeFunction.append("<span class=\"editingProfile\">");
@@ -231,13 +231,13 @@ public class MyController {
                 script.append("req.open('GET', url);\n");
                 script.append("req.send();\n}\n");
             }
-            bottomStyle = "display: block;";
+            buttonStyle = "display: block;";
         }else{
             script.append("function patSt(id){}\n");
         }
         model.addAttribute("changeFunction", changeFunction);
         model.addAttribute("script", script);
-        model.addAttribute("bottomStyle", bottomStyle);
+        model.addAttribute("buttonStyle", buttonStyle);
         model.addAttribute("patternsTree",
                 Designer.createSVGtoPatternsTree(instance.getPatternsTree()));
 
@@ -277,6 +277,26 @@ public class MyController {
         return "htmlPatterns/Conversations";
     }
 
+    @RequestMapping("/addUserConversation")
+    @ResponseBody()
+    public String addUserConversation(HttpSession session,
+                                    @RequestParam Map<String, String> allParams){
+        if (checkUser(session)){
+            System.out.println("\n\nyou have bed session\n\n");
+            return "you have bed session";
+        }
+        MySource instance = MySource.getInstance();
+        User user = instance.getInformationOfUser(session.getAttribute("id").toString());
+        if (user != null){
+            return instance.addRecordUsersConversation(user.getId(),
+                    allParams.get("invited"),
+                    allParams.get("conversation"));
+        }else{
+            System.out.println("\n\ncan not find user\n\n");
+            return "can not find you in our database";
+        }
+    }
+
     @RequestMapping("/conversation/id??????")
     public String conversation(HttpSession session){
         if (checkUser(session)){
@@ -287,9 +307,10 @@ public class MyController {
 
     @RequestMapping("/sendMessage")
     @ResponseBody()
-    public String sendMessage(HttpSession session, @RequestParam Map<String, String> allParams){
+    public String sendMessage(HttpSession session,
+                              @RequestParam Map<String, String> allParams){
         if (checkUser(session)){
-            return "\n\nyou have bed session\n\n";
+            return "you have bed session";
         }
         //надо сохранять сообщения
         MySource instance = MySource.getInstance();

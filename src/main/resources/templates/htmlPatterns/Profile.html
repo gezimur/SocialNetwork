@@ -41,7 +41,7 @@
 		<span class="name" th:utext="'Juggler ' + ${name}"></span>
 		<span th:utext="${changeFunction}"></span>
 		<span class="bigBlock" th:utext="${patternsTree}"></span>
-		<button class="buttomToSaveChanges" th:style="${bottomStyle}" onclick="sendRes();">Save changes</button>
+		<button class="buttomToSaveChanges" th:style="${buttonStyle}" onclick="sendRes();">Save changes</button>
 	</p>
 	
 	<form id="editing" action="/editing"></form>

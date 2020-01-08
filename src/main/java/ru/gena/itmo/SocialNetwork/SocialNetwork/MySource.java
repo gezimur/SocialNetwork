@@ -68,7 +68,7 @@ public class MySource {
         try {
             String sqlQuery = "SELECT * FROM USERS WHERE ID = " + id;
             ResultSet rs = con.createStatement().executeQuery(sqlQuery);
-            rs.next();
+            if (rs.next()) return null;
             return new User(
                     rs.getInt("id"),
                     "",
@@ -119,7 +119,14 @@ public class MySource {
                     sb.append( d.toNeddedForm("" + rs.getInt("id")) );
                     sb.append("\">");
                     sb.append(rs.getString("name"));
-                    sb.append("</a></span>\n");
+                    sb.append("</a></span><span class=\"invitation\">\n");
+                    sb.append("add to conv\n<input type=\"text\" style=\"width: 100px;\" ");
+                    if ("profile".equals(objects)){
+                        sb.append("placeholder=\"conv\">\n");
+                    }else{
+                        sb.append("placeholder=\"juggler\">\n");
+                    }
+                    sb.append("<button onclick=\"addUserConv()\">add</button>\n</span>\n");
                 }
                 return sb.toString();
             }catch (SQLException e){
@@ -128,6 +135,61 @@ public class MySource {
             }
         }else{
             return "Problems with getResultSet";
+        }
+    }
+
+    public String addRecordUsersConversation(int user, String invited, String convName){
+        try {
+            if (!findUserById(invited)){
+                String sqlQuery = "SELECT ID FROM USERS WHERE USERNAME = '" + invited + "' LIMIT 1;";
+                ResultSet rs = con.createStatement().executeQuery(sqlQuery);
+                if (!rs.next()){
+                    return "can not find invited";
+                }else{
+                    invited = String.valueOf(rs.getInt("ID"));
+                }
+            }
+            String sqlQuery = "SELECT ID FROM CONVERSATIONS WHERE NAME = " + convName + " LIMIT 1;";
+            ResultSet rs = con.createStatement().executeQuery(sqlQuery);
+            int idConv = -1;
+            if (!rs.next()) {
+                idConv = createConversation(convName);
+                executeQuery("INSERT INTO USER_CONVERSATIONS VALUES(" +
+                        user + ", " +
+                        idConv + ");");
+            }
+            idConv = (idConv == -1)? rs.getInt("ID") : idConv;
+            executeQuery("INSERT INTO USER_CONVERSATIONS VALUES(" +
+                    invited + ", " +
+                    idConv + ");");
+            return "OK";
+        }catch(SQLException e){
+            e.printStackTrace();
+            return "some problem";
+        }
+    }
+
+    private int createConversation(String convName){
+        int id = 0;
+        try{
+            id = getResultSet("SELECT MAX(ID) AS ID FROM CONVERSATIONS")
+                    .getInt("ID") + 1;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        executeQuery("INSERT INTO CONVERSATIONS VALUES(" +
+                id + ", " +
+                "'" + convName + "');");
+        return id;
+    }
+
+    private boolean findUserById(String id){
+        try{
+            String sqlQuery = "SELECT 1 FROM USERS WHERE ID = " + id + " LIMIT 1;";
+            ResultSet rs = con.createStatement().executeQuery(sqlQuery);
+            return rs.next();
+        }catch(SQLException e){
+            return false;
         }
     }
 
@@ -234,14 +296,15 @@ public class MySource {
         ResultSet rs = getResultSet(sqlQuery);
         Map<Integer, Integer> ans = new HashMap<>();
         try {
-            if (rs == null) return null;
+            if (rs == null) return new HashMap<>();
             ans.put(rs.getInt("PATTERN"), rs.getInt("STATUS"));
             while (rs.next()) {
                 ans.put(rs.getInt("PATTERN"), rs.getInt("STATUS"));
             }
             return ans;
         }catch (SQLException e){
-            return null;
+            e.printStackTrace();
+            return new HashMap<>();
         }
     }
 

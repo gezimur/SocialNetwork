@@ -18,10 +18,38 @@
             <span class="name">Conversations</span>
 		</span>
     <span class="bigBlock">
-		<span id="textSpace" th:utext="${list_of_conv}">
-
-		</span>
+		<span id="textSpace" th:utext="${list_of_conv}"></span>
 	</span>
 </p>
+<script>
+	function addUserConv(e){
+		var invited = e.previousSibling;
+		var conversation = e.parentNode.previousSibling;
+		var invitedName = invited.value;
+		invited.value = "";
+		var conversationName = conversation.innerText;
+		var form = createMyForm(invitedName, conversationName);
+		sendForm(form);
+	}
+	function sendForm(form){
+		var req = new XMLHttpRequest();
+		var url = '/addUserConversation';
+		var response = "some problems";
+		req.addEventListener('load', function(e){
+			var data = e.target;
+			response = data.responseText;
+			alert(response);
+		});
+		req.open('POST', url);
+		req.responseType = 'text';
+		req.send(form);
+	}
+	function createMyForm(invited, conversation){
+		var form = new FormData();
+		form.append("invited", invited);
+		form.append("conversation", conversation);
+		return form;
+	}
+</script>
 </body>
 </html>
