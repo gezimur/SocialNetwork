@@ -22,6 +22,14 @@
 	</span>
 </p>
 <script>
+	function deleteUserConv(e){
+		var conversation = e.parentNode.previousSibling;
+		var convId = conversation.href.substring(conversation.href.lastIndexOf("/") + 3)
+		var form = new FormData();
+		form.append("conversationId", convId);
+		var url = '/deleteUserConversation';
+		sendForm(form, url);
+	}
 	function addUserConv(e){
 		var invited = e.previousSibling;
 		var conversation = e.parentNode.previousSibling;
@@ -29,11 +37,11 @@
 		invited.value = "";
 		var conversationName = conversation.innerText;
 		var form = createMyForm(invitedName, conversationName);
-		sendForm(form);
-	}
-	function sendForm(form){
-		var req = new XMLHttpRequest();
 		var url = '/addUserConversation';
+		sendForm(form, url);
+	}
+	function sendForm(form, url){
+		var req = new XMLHttpRequest();
 		var response = "some problems";
 		req.addEventListener('load', function(e){
 			var data = e.target;

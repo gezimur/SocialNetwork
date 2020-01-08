@@ -282,7 +282,6 @@ public class MyController {
     public String addUserConversation(HttpSession session,
                                     @RequestParam Map<String, String> allParams){
         if (checkUser(session)){
-            System.out.println("\n\nyou have bed session\n\n");
             return "you have bed session";
         }
         MySource instance = MySource.getInstance();
@@ -292,7 +291,22 @@ public class MyController {
                     allParams.get("invited"),
                     allParams.get("conversation"));
         }else{
-            System.out.println("\n\ncan not find user\n\n");
+            return "can not find you in our database";
+        }
+    }
+//deleteUsersConversations
+    @RequestMapping("/deleteUserConversation")
+    @ResponseBody()
+    public String deleteUserConversation(HttpSession session,
+                                  @RequestParam String conversationId){
+        if (checkUser(session)){
+            return "you have bed session";
+        }
+        MySource instance = MySource.getInstance();
+        User user = instance.getInformationOfUser(session.getAttribute("id").toString());
+        if (user != null){
+            return instance.deleteUsersConversations(user.getId(), conversationId);
+        }else{
             return "can not find you in our database";
         }
     }

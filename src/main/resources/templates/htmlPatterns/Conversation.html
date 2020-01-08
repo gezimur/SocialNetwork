@@ -56,11 +56,10 @@
 		req.addEventListener('load', function(e){
 			var data = e.target;
 			var response = data.responseText;
-			if (response !== "[]"){
-				var arr = JSON.parse(response);
-				lastId = arr[arr.length - 1].id;
-				updateTextSpace(arr);
-			}
+			alert(response);
+			var arr = JSON.parse(response);
+			lastId = arr[arr.length - 1].id;
+			updateTextSpace(arr);
 		});
 		req.open('POST', url);
 		req.responseType = 'text';

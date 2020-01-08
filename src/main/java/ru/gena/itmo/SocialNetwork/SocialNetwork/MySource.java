@@ -121,12 +121,14 @@ public class MySource {
                     sb.append(rs.getString("name"));
                     sb.append("</a><span class=\"invitation\">\n");
                     sb.append("add to conv\n<input type=\"text\" style=\"width: 100px;\" ");
-                    if ("profile".equals(objects)){
-                        sb.append("placeholder=\"conv\">");
-                    }else{
+                    if ("conversation".equals(objects)){
                         sb.append("placeholder=\"juggler\">");
+                    }else{
+                        sb.append("placeholder=\"conv\">");
                     }
-                    sb.append("<button onclick=\"addUserConv(this)\">add</button>\n</span>\n</span>\n");
+                    sb.append("<button onclick=\"addUserConv(this)\">add</button>");
+                    if ("conversation".equals(objects)) sb.append("<button onclick=\"deleteUserConv(this)\">delete</button>");
+                    sb.append("\n</span>\n</span>\n");
                 }
                 return sb.toString();
             }catch (SQLException e){
@@ -167,6 +169,16 @@ public class MySource {
         }catch(SQLException e){
             e.printStackTrace();
             return "some problem";
+        }
+    }
+
+    public String deleteUsersConversations(int user, String conversation){
+        boolean res = executeQuery("DELETE FORM USERS_CONVERSATIONS " +
+                "WHERE CONVERSATION = " + conversation + " AND MEMBER = " + user);
+        if (res){
+            return "OK";
+        }else{
+            return "Problems";
         }
     }
 
