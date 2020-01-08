@@ -252,21 +252,22 @@ public class MySource {
 
     public List<Message> getMessagesFromId(int id){
         try{
-            ResultSet rs = getResultSet("SELECT * FROM MESSAGES WHERE ID > " + id +
+            ResultSet rs = getResultSet("SELECT M.ID, M.CONVERSATION, U.FIRSTNAME AS SENDER, M.TEXT" +
+                    " FROM MESSAGES M INNER JOIN USERS U ON U.ID = M.SENDER WHERE M.ID > " + id +
                     " ORDER BY ID;");
             if (rs == null) return null;
             List<Message> ans = new ArrayList<>();
             ans.add(new Message(
                     rs.getInt("ID"),
                     rs.getInt("CONVERSATION"),
-                    rs.getInt("SENDER"),
+                    rs.getString("SENDER"),
                     rs.getString("TEXT")
             ));
             while (rs.next()){
                 ans.add(new Message(
                         rs.getInt("ID"),
                         rs.getInt("CONVERSATION"),
-                        rs.getInt("SENDER"),
+                        rs.getString("SENDER"),
                         rs.getString("TEXT")
                 ));
             }
@@ -392,7 +393,7 @@ public class MySource {
     public void addPattern(String name, String descendants, String ancestors){
         int id = -1;
         try{
-            id = getResultSet("SELECT MAX(ID) AS ID FROM PATTERNS")
+            if (!findPatternByName(name)) id = getResultSet("SELECT MAX(ID) AS ID FROM PATTERNS")
                     .getInt("ID") + 1;
         }catch (SQLException e){ e.printStackTrace(); }
         if (id != -1) {
@@ -415,6 +416,16 @@ public class MySource {
                             "SELECT " + id + ", ID FROM PATTERNS WHERE PATTERNSNAME = '" + i + "';");
                 }
             }
+        }
+    }
+
+    private boolean findPatternByName(String name){
+        try{
+            String sqlQuery = "SELECT 1 FROM PATTERNS WHERE PATTERNSNAME = '" + name + "' LIMIT 1;";
+            ResultSet rs = con.createStatement().executeQuery(sqlQuery);
+            return rs.next();
+        }catch(SQLException e){
+            return false;
         }
     }
 

@@ -3,10 +3,10 @@ package ru.gena.itmo.SocialNetwork.SocialNetwork.content;
 public class Message {
     private int id;
     private int conversation;
-    private int sender;
+    private String sender;
     public String text;
 
-    public Message(int newId, int newConversation, int newSender, String newText){
+    public Message(int newId, int newConversation, String newSender, String newText){
         id = newId;
         conversation = newConversation;
         sender = newSender;
@@ -21,7 +21,7 @@ public class Message {
         return conversation;
     }
 
-    public int getSender() {
+    public String getSender() {
         return sender;
     }
 }
