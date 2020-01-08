@@ -340,7 +340,7 @@ public class MyController {
         }
         List<Message> m = instance.getMessagesFromId(Integer.valueOf(allParams.get("lastId")));
         try {
-            if (m.size() == 0) return "not";
+            if (m == null) return "not";
             for (Message i : m){
                 i.text = Designer.textAnalysis(i.text);
             }
