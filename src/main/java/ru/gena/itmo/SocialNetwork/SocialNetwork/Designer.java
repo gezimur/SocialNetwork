@@ -117,7 +117,7 @@ public class Designer {
         int ballNumber = 0;
         int pos = 2;
         while (ballNumber < numberOfBalls) {
-            neededTime.add(siteswap.get(pos));
+            neededTime.add( (siteswap.get(pos) % 2 == 0)? siteswap.get(pos) / 2: siteswap.get(pos));
             pos = addBallAnimationAndReturnNewPos(animation,
                     ballNumber,
                     siteswap,
