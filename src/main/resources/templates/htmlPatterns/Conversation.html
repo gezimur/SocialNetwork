@@ -56,7 +56,6 @@
 		req.addEventListener('load', function(e){
 			var data = e.target;
 			var response = data.responseText;
-			alert(response);
 			if (response !== "not"){
 				var arr = JSON.parse(response);
 				lastId = arr[arr.length - 1].id;

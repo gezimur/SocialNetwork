@@ -404,14 +404,14 @@ public class MySource {
             if (ans) {
                 if ( "".equals(ancestors) ) ancestors = "rootPattern";
                 if ("".equals(descendants)) descendants = "";
-                String[] ancestorsArr = ancestors.split(" ");
-                String[] descendantsArr = descendants.split(" ");
+                String[] ancestorsArr = ancestors.split(",");
+                String[] descendantsArr = descendants.split(",");
                 for (String i : ancestorsArr){
                     if (ans) ans = executeQuery("INSERT INTO PATTERNSTREE " +
                             "SELECT ID, " + id + " FROM PATTERNS WHERE PATTERNSNAME = '" + i + "';");
                 }
                 for (String i : descendantsArr){
-                    if (ans) ans = executeQuery("INSERT INTO PATTERNSTREE VALUES( " +
+                    if (ans) ans = executeQuery("INSERT INTO PATTERNSTREE " +
                             "SELECT " + id + ", ID FROM PATTERNS WHERE PATTERNSNAME = '" + i + "';");
                 }
             }
@@ -425,7 +425,7 @@ public class MySource {
         boolean ans;
         ResultSet rs;
         try{
-            sqlQuery = "SELECT ID FROM PATTERNS WHERE PATTERNSNAME = " + name;
+            sqlQuery = "SELECT ID FROM PATTERNS WHERE PATTERNSNAME = '" + name + "'";
             id = getResultSet(sqlQuery).getInt("id");
 
             sqlQuery = "SELECT 1 FROM PATTERNSTREE WHERE PATTERN = " + id + " LIMIT 1;";
