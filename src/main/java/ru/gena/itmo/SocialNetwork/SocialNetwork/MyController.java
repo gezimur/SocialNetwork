@@ -219,10 +219,7 @@ public class MyController {
             changeFunction.append("<input type=\"text\" name=\"name\" form=\"editing\" placeholder=\"new name\"><br>");
             changeFunction.append("<input type=\"text\" name=\"surname\" form=\"editing\" placeholder=\"new surname\"><br>");
             changeFunction.append("<input type=\"submit\" form=\"editing\" placeholder=\"change\"></span>\n");
-            script.append("function patSt(id){\n");
-            {
-                script.append("fillFunc(id)");
-            }
+            script.append("function patSt(id){\nfillFunc(id)\n}\n");
             script.append("function sendRes(){\n");
             {
                 script.append("req = new XMLHttpRequest();\n");
