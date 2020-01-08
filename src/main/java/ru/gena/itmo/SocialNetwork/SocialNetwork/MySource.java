@@ -420,14 +420,17 @@ public class MySource {
         }
     }
 
-    public void deletePattern(int id) {
+    public void deletePattern(String name) {
+        int id = 0;
 
-
-        String sqlQuery = "SELECT 1 FROM PATTERNSTREE WHERE PATTERN = " + id + " LIMIT 1;";
-
+        String sqlQuery;
         boolean ans;
         ResultSet rs;
         try{
+            sqlQuery = "SELECT ID FROM PATTERNS WHERE NAME = " + name;
+            id = getResultSet(sqlQuery).getInt("id");
+
+            sqlQuery = "SELECT 1 FROM PATTERNSTREE WHERE PATTERN = " + id + " LIMIT 1;";
             rs = con.createStatement().executeQuery(sqlQuery);
             ans = !rs.next();
         }catch (SQLException e){

@@ -158,11 +158,11 @@ public class MyController {
     @RequestMapping("/deletePattern")
     public String deletePattern(
             HttpSession session,
-            @RequestParam(required = false) String id){
+            @RequestParam(required = false) String name){
         if (checkUser(session)){
             return "redirect:" + nameOfMySite +"/login";
         }
-        MySource.getInstance().deletePattern(Integer.parseInt(id.replaceFirst("0", "")));
+        MySource.getInstance().deletePattern(name);
         return  "redirect:" + nameOfMySite + "/admin_workspace";
     }
 
@@ -216,9 +216,11 @@ public class MyController {
         if (id.equals(session.getAttribute("id"))){
             changeFunction.append("<span class=\"smalBlock\"></span>\n");
             changeFunction.append("<span class=\"editingProfile\">");
-            changeFunction.append("<input type=\"text\" name=\"name\" form=\"editing\" placeholder=\"new name\"><br>");
-            changeFunction.append("<input type=\"text\" name=\"surname\" form=\"editing\" placeholder=\"new surname\"><br>");
-            changeFunction.append("<input type=\"submit\" form=\"editing\" placeholder=\"change\"></span>\n");
+            changeFunction.append("<input type=\"text\" name=\"name\" form=\"editing\" placeholder=\"new name\" value=\"");
+            changeFunction.append(thisUser.getFirstname());
+            changeFunction.append("\"><br><input type=\"text\" name=\"surname\" form=\"editing\" placeholder=\"new surname\" value=\"");
+            changeFunction.append(thisUser.getLastname());
+            changeFunction.append("\"><br><input type=\"submit\" form=\"editing\" placeholder=\"change\"></span>\n");
             script.append("function patSt(id){\nfillFunc(id)\n}\n");
             script.append("function sendRes(){\n");
             {
@@ -338,7 +340,7 @@ public class MyController {
         }
         List<Message> m = instance.getMessagesFromId(Integer.valueOf(allParams.get("lastId")));
         try {
-            if (m.size() == 0) return "";
+            if (m.size() == 0) return "not";
             for (Message i : m){
                 i.text = Designer.textAnalysis(i.text);
             }
