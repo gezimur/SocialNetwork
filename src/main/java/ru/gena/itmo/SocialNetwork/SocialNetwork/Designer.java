@@ -192,8 +192,8 @@ public class Designer {
                     keyframe,
                     step,
                     x,
-                    siteswap.get(pos) * siteswap.get(pos),
-                    maxThrow * maxThrow);
+                    siteswap.get(pos),
+                    maxThrow);
             x = (siteswap.get(pos) % 2 == 0)? x : 500 - x;
             keyframe += (int)(2* step * siteswap.get(pos));
             time += siteswap.get(pos);
@@ -214,7 +214,7 @@ public class Designer {
         anim.append("\ncx:"); anim.append(x);
         anim.append(";\ncy:"); anim.append(y);
         anim.append(";\nanimation-timing-function: ease-out;\n}\n");
-        y = 450 - 400 / maxThrow * throwType;
+        y = 450 - 400 / (maxThrow * maxThrow) * (throwType * throwType);
         keyframe += (int)(step * throwType);
         anim.append(keyframe);
         anim.append("% {");
