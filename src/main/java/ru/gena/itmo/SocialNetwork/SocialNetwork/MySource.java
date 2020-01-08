@@ -122,9 +122,9 @@ public class MySource {
                     sb.append("</a><span class=\"invitation\">\n");
                     sb.append("add to conv\n<input type=\"text\" style=\"width: 100px;\" ");
                     if ("profile".equals(objects)){
-                        sb.append("placeholder=\"conv\">\n");
+                        sb.append("placeholder=\"conv\">");
                     }else{
-                        sb.append("placeholder=\"juggler\">\n");
+                        sb.append("placeholder=\"juggler\">");
                     }
                     sb.append("<button onclick=\"addUserConv(this)\">add</button>\n</span>\n</span>\n");
                 }
@@ -150,7 +150,7 @@ public class MySource {
                     invited = String.valueOf(rs.getInt("ID"));
                 }
             }
-            String sqlQuery = "SELECT ID FROM CONVERSATIONS WHERE NAME = " + convName + " LIMIT 1;";
+            String sqlQuery = "SELECT ID FROM CONVERSATIONS WHERE NAME = '" + convName + "' LIMIT 1;";
             ResultSet rs = con.createStatement().executeQuery(sqlQuery);
             int idConv = -1;
             if (!rs.next()) {
