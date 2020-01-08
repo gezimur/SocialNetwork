@@ -252,7 +252,7 @@ public class MySource {
 
     public List<Message> getMessagesFromId(int id){
         try{
-            ResultSet rs = getResultSet("SELECT M.ID, M.CONVERSATION, U.FIRSTNAME AS SENDER, M.TEXT" +
+            ResultSet rs = getResultSet("SELECT M.ID, M.CONVERSATION, CONCAT(U.FIRSTNAME, ' ', U.LASTNAME) AS SENDER, M.TEXT" +
                     " FROM MESSAGES M INNER JOIN USERS U ON U.ID = M.SENDER WHERE M.ID > " + id +
                     " ORDER BY ID;");
             if (rs == null) return null;

@@ -188,7 +188,12 @@ public class Designer {
         int time = 0;
         pos++;
         while (time < neededTime){//еще нужен последний кадр и повтор если не возвращается в исходную руку
-            addKeyframesToOneThrow(anim, keyframe, step, x, siteswap.get(pos), maxThrow);
+            addKeyframesToOneThrow(anim,
+                    keyframe,
+                    step,
+                    x,
+                    siteswap.get(pos) * siteswap.get(pos),
+                    maxThrow * maxThrow);
             x = (siteswap.get(pos) % 2 == 0)? x : 500 - x;
             keyframe += (int)(2* step * siteswap.get(pos));
             time += siteswap.get(pos);
