@@ -68,7 +68,7 @@ public class MySource {
         try {
             String sqlQuery = "SELECT * FROM USERS WHERE ID = " + id;
             ResultSet rs = con.createStatement().executeQuery(sqlQuery);
-            if (rs.next()) return null;
+            if (!rs.next()) return null;
             return new User(
                     rs.getInt("id"),
                     "",
@@ -119,14 +119,14 @@ public class MySource {
                     sb.append( d.toNeddedForm("" + rs.getInt("id")) );
                     sb.append("\">");
                     sb.append(rs.getString("name"));
-                    sb.append("</a></span><span class=\"invitation\">\n");
+                    sb.append("</a><span class=\"invitation\">\n");
                     sb.append("add to conv\n<input type=\"text\" style=\"width: 100px;\" ");
                     if ("profile".equals(objects)){
                         sb.append("placeholder=\"conv\">\n");
                     }else{
                         sb.append("placeholder=\"juggler\">\n");
                     }
-                    sb.append("<button onclick=\"addUserConv()\">add</button>\n</span>\n");
+                    sb.append("<button onclick=\"addUserConv(this)\">add</button>\n</span>\n</span>\n");
                 }
                 return sb.toString();
             }catch (SQLException e){
