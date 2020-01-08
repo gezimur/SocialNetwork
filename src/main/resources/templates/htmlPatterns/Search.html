@@ -30,7 +30,7 @@
 	function addUserConv(e){
 		var invited = e.parentNode.previousSibling;
 		var conversation = e.previousSibling;
-		var invitedId = invited.href.substring(invited.value.lastIndexOf("/") + 3);
+		var invitedId = invited.href.substring(invited.href.lastIndexOf("/") + 3);
 		var conversationName = conversation.value;
 		conversation.value = "";
 		var form = createMyForm(invitedId, conversationName);

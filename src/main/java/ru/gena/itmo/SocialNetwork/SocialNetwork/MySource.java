@@ -144,6 +144,7 @@ public class MySource {
                 String sqlQuery = "SELECT ID FROM USERS WHERE USERNAME = '" + invited + "' LIMIT 1;";
                 ResultSet rs = con.createStatement().executeQuery(sqlQuery);
                 if (!rs.next()){
+                    System.out.println(invited);
                     return "can not find invited";
                 }else{
                     invited = String.valueOf(rs.getInt("ID"));
