@@ -155,12 +155,12 @@ public class MySource {
             int idConv = -1;
             if (!rs.next()) {
                 idConv = createConversation(convName);
-                executeQuery("INSERT INTO USER_CONVERSATIONS VALUES(" +
+                executeQuery("INSERT INTO USERS_CONVERSATIONS VALUES(" +
                         user + ", " +
                         idConv + ");");
             }
             idConv = (idConv == -1)? rs.getInt("ID") : idConv;
-            executeQuery("INSERT INTO USER_CONVERSATIONS VALUES(" +
+            executeQuery("INSERT INTO USERS_CONVERSATIONS VALUES(" +
                     invited + ", " +
                     idConv + ");");
             return "OK";
