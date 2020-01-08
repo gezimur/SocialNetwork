@@ -57,9 +57,11 @@
 			var data = e.target;
 			var response = data.responseText;
 			alert(response);
-			var arr = JSON.parse(response);
-			lastId = arr[arr.length - 1].id;
-			updateTextSpace(arr);
+			if (response !== ""){
+				var arr = JSON.parse(response);
+				lastId = arr[arr.length - 1].id;
+				updateTextSpace(arr);
+			}
 		});
 		req.open('POST', url);
 		req.responseType = 'text';

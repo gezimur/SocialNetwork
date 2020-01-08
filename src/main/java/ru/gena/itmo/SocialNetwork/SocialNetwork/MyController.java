@@ -192,9 +192,24 @@ public class MyController {
             }
             script.append("for (let i of patterns.keys()){\n");
             script.append("if (patterns.get(i) == 1){\n");
-            script.append("patSt(i);\n");
+            script.append("fillFunc(i);\n");
             script.append("}else{\n");
-            script.append("patSt(i);\npatSt(i);\n");
+            script.append("fillFunc(i);\nfillFunc(i);\n");
+            script.append("}\n}\n");
+        }
+        script.append("function fillFunc(id){\n");
+        {
+            script.append("e = document.getElementById(id);\n");
+            script.append("fill = e.getAttribute('fill')\n");
+            script.append("if (fill == 'black' || fill == null){\n");
+                script.append("e.setAttribute('fill', 'orange');\n");
+                script.append("patterns.set(id, 1);\n");
+            script.append("}else if (fill == 'orange'){\n");
+                script.append("e.setAttribute('fill', 'red');\n");
+                script.append("patterns.set(id, 2);\n");
+            script.append("}else{\n");
+                script.append("e.setAttribute('fill', 'black');\n");
+                script.append("patterns.set(id, 0);\n");
             script.append("}\n}\n");
         }
         String buttonStyle = "";
@@ -206,18 +221,7 @@ public class MyController {
             changeFunction.append("<input type=\"submit\" form=\"editing\" placeholder=\"change\"></span>\n");
             script.append("function patSt(id){\n");
             {
-                script.append("e = document.getElementById(id);\n");
-                script.append("fill = e.getAttribute('fill')\n");
-                script.append("if (fill == 'black' || fill == null){\n");
-                    script.append("e.setAttribute('fill', 'orange');\n");
-                    script.append("patterns.set(id, 1);\n");
-                script.append("}else if (fill == 'orange'){\n");
-                    script.append("e.setAttribute('fill', 'red');\n");
-                    script.append("patterns.set(id, 2);\n");
-                script.append("}else{\n");
-                    script.append("e.setAttribute('fill', 'black');\n");
-                    script.append("patterns.set(id, 0);\n");
-                script.append("}\n}\n");
+                script.append("fillFunc(id)");
             }
             script.append("function sendRes(){\n");
             {
@@ -337,6 +341,7 @@ public class MyController {
         }
         List<Message> m = instance.getMessagesFromId(Integer.valueOf(allParams.get("lastId")));
         try {
+            if (m.size() == 0) return "";
             for (Message i : m){
                 i.text = Designer.textAnalysis(i.text);
             }

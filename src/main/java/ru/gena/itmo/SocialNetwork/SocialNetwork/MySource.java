@@ -173,7 +173,7 @@ public class MySource {
     }
 
     public String deleteUsersConversations(int user, String conversation){
-        boolean res = executeQuery("DELETE FORM USERS_CONVERSATIONS " +
+        boolean res = executeQuery("DELETE FROM USERS_CONVERSATIONS " +
                 "WHERE CONVERSATION = " + conversation + " AND MEMBER = " + user);
         if (res){
             return "OK";
