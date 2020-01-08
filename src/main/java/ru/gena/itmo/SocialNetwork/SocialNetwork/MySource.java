@@ -402,19 +402,17 @@ public class MySource {
                     "'', " +
                     "'');");
             if (ans) {
-                if ( "".equals(ancestors) ) ancestors = "0";
+                if ( "".equals(ancestors) ) ancestors = "rootPattern";
                 if ("".equals(descendants)) descendants = "";
                 String[] ancestorsArr = ancestors.split(" ");
                 String[] descendantsArr = descendants.split(" ");
                 for (String i : ancestorsArr){
-                    if (ans) ans = executeQuery("INSERT INTO PATTERNSTREE VALUES( " +
-                            i + ", " +
-                            id + ");");
+                    if (ans) ans = executeQuery("INSERT INTO PATTERNSTREE " +
+                            "SELECT ID, " + id + " FROM PATTERNS WHERE NAME = '" + i + "';");
                 }
                 for (String i : descendantsArr){
                     if (ans) ans = executeQuery("INSERT INTO PATTERNSTREE VALUES( " +
-                            id + ", " +
-                            i + ");");
+                            "SELECT " + id + ", ID FROM PATTERNS WHERE NAME = '" + i + "';");
                 }
             }
         }
