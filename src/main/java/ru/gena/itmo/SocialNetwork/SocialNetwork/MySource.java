@@ -28,8 +28,8 @@ public class MySource {
         try{
             con = DriverManager.getConnection(
                     dbUrl,
-                    "rergtqommbarxw",
-                    "cd5ee47b2176482b064ea9f7d236d9b2abde303fadabc470d64566d16e9716d2");
+                    "awqglpomtqtcei",
+                    "5c73d96a41ae52d9f6aefd5b83f6985a31fd7a983d1f8acfacf008de67ae1484");
             //new Preparer().preparer();
             //admin la-la-la
         }catch (SQLException e){
